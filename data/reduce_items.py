@@ -10,15 +10,19 @@ champs = map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
                    89, 90, 91, 92, 96, 98, 99, 101, 102, 103, 104, 105, 106, 107, 110, 111, 112, 113, 114, 115, 117,
                    119, 120, 121, 122, 126, 127, 131, 133, 134, 143, 150, 154, 157, 161, 201, 222, 236, 238, 245,
                    254, 266, 267, 268, 412, 421, 429, 432])
-lanes = ["MID", "MIDDLE", "TOP", "JUNGLE", "BOT", "BOTTOM"]
+lanes = ["MIDDLE", "TOP", "JUNGLE", "BOTTOM"]
 roles = ["DUO", "NONE", "SOLO", "DUO_CARRY", "DUO_SUPPORT"]
 spells = map(str, [1, 2, 3, 4, 6, 7, 11, 12, 13, 14, 21])
 spell_list = ['spell' + spell for spell in spells]  # for easier manipulation in production data
 tiers = ["CHALLENGER", "MASTER", "DIAMOND", "PLATINUM", "GOLD", "SILVER", "BRONZE", "UNRANKED"]
+champ_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
+               'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills', 'deaths',
          'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 
 # Group terms to know operation that needs to be performed on them
+champ_group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt',
+                           'kills', 'deaths', 'assists'] + lanes + roles + tiers
 group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
                      'deaths', 'assists', 'timestamp'] + lanes + roles + tiers
 
@@ -68,14 +72,15 @@ if __name__ == "__main__":
         champ_json = dict()
         for champ in champs:
             champ_json[champ] = dict()
-            champ_json[champ]['summary'] = Counter()
+            champ_json[champ]['summary'] = dict()
+            champ_json[champ]['summary']['count'] = item_total[champ]
+            for term in champ_terms:
+                champ_json[champ]['summary'][term] = item_total['_'.join([champ, term])]
             for ap_item in ap_items:
                 champ_json[champ][ap_item] = dict()
                 champ_json[champ][ap_item]['count'] = item_total['_'.join([ap_item, champ])]
                 for term in terms:
                     champ_json[champ][ap_item][term] = item_total['_'.join([ap_item, champ, term])]
-                champ_json[champ]['summary'].update(champ_json[champ][ap_item])
-            champ_json[champ]['summary']['count'] = item_total[champ]
             total_ap_players += item_total[champ]
             with open('json/champions/' + champ + '_' + patch + '.json', 'w') as f:
                 json.dump(champ_json[champ], f)
@@ -111,7 +116,7 @@ if __name__ == "__main__":
             site_champ = champ_json[champ]
             site_champ_summary_count = site_champ['summary']['count']
             site_champ['summary']['pickRate'] = site_champ_summary_count / total_ap_players
-            for g_term in group_count_terms:
+            for g_term in champ_group_count_terms:
                 site_champ['summary'][g_term] /= site_champ_summary_count
             for spell_element in spell_list:
                 site_champ['summary'][spell_element] /= (site_champ_summary_count * 2)
