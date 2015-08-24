@@ -76,8 +76,8 @@ if __name__ == "__main__":
                 champ_json[champ]['summary'].update(champ_json[champ][ap_item])
             champ_json[champ]['summary']['count'] = item_total[champ]
             total_ap_players += item_total[champ]
-            # with open('json/champions/' + champ + '_' + patch + '.json', 'w') as f:
-            #     json.dump(champ_json[champ], f)
+            with open('json/champions/' + champ + '_' + patch + '.json', 'w') as f:
+                json.dump(champ_json[champ], f)
 
         # Create item values for the website
         for ap_item in ap_items:
