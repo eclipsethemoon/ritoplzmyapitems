@@ -45,19 +45,18 @@ if __name__ == "__main__":
         # Create item-centric data
         for ap_item in ap_items:
             item_json = dict()
-            item_json[ap_item] = []
+            item_json[ap_item] = dict()
+            item_json[ap_item]['summary'] = Counter()
             for champ in champs:
-                '_'.join([ap_item, champ, term])
-
-            with open('json/items/' + ap_item + '/' + patch + '.json') as f:
+                item_json[ap_item][champ] = dict()
+                for term in terms:
+                    item_json[ap_item][champ][term] = item_total['_'.join([ap_item, champ, term])]
+                item_json[ap_item]['summary'].update(item_json[ap_item][champ])
+            with open('json/items/' + ap_item + '_' + patch + '.json') as f:
+                json.dump(item_json[ap_item], f)
 
 
     # Create item and champion specific data
-
-    for ap_item in ap_items:
-        for champ in champs:
-            for term in terms:
-
 
     # # Create item-specific
     # for ap_item in ap_items:

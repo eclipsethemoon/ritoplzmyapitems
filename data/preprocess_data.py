@@ -65,7 +65,7 @@ def read_json_file(p, m, r):
                 if 'events' in frame:
                     events = frame['events']
                     purchase_events = filter(lambda event: event['eventType'] == 'ITEM_PURCHASED', events)
-                    ap_event = filter(lambda event: event['itemId'] in ap_items, purchase_events)
+                    ap_event = filter(lambda event: event['itemId'] in map(int, ap_items), purchase_events)
                     if ap_event:
                         ap_purchases.extend(ap_event)
 
@@ -98,11 +98,11 @@ def read_json_file(p, m, r):
                 # Accumulate data into relevant dictionarys for items, champions, and builds
                 # Note: We only care about the first time of an item (e.g. no 6 deathcap build)
                 items = []
-                relevant_items[player['championId']] += 1
-                for idx, item in enumerate(player['items']):
+                champion = str(player['championId'])
+                relevant_items[champion] += 1
+                for idx, item in enumerate(map(str, player['items'])):
                     if item not in items:
                         items.append(item)
-                        champion = player['championId']
                         relevant_items[item] += 1
                         relevant_items['_'.join([item, champion])] += 1
                         if player['winner']:
@@ -110,8 +110,8 @@ def read_json_file(p, m, r):
                         relevant_items['_'.join([item, champion, player['highestAchievedSeasonTier']])] += 1
                         relevant_items['_'.join([item, champion, player['lane']])] += 1
                         relevant_items['_'.join([item, champion, player['role']])] += 1
-                        relevant_items['_'.join([item, champion, 'spell' + player['spell1Id']])] += 1
-                        relevant_items['_'.join([item, champion, 'spell' + player['spell2Id']])] += 1
+                        relevant_items['_'.join([item, champion, 'spell' + str(player['spell1Id'])])] += 1
+                        relevant_items['_'.join([item, champion, 'spell' + str(player['spell2Id'])])] += 1
                         relevant_items['_'.join([item, champion, 'magicDamageDealt'])] += player['magicDamageDealt']
                         relevant_items['_'.join([item, champion, 'magicDamageDealtToChampions'])] += \
                             player['magicDamageDealtToChampions']
