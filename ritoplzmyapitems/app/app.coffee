@@ -1,6 +1,8 @@
 angular.module 'ritoplzmyapitems', [
+  'ngAnimate',
   'ngRoute',
-  'templates'
+  'templates',
+  'ui.bootstrap'
 ]
 .config ($routeProvider) ->
   $routeProvider.when('/',
