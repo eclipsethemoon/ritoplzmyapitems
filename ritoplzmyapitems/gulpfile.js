@@ -22,7 +22,7 @@ gulp.task('templates', function() {
   // build/template.js
   gulp.src([
       '!./app/index.jade',
-      '!./app.index.html',
+      '!./app/index.html',
       './app/**/*.html',
       './app/**/*.jade'
   ]).pipe(gulpif(/[.]jade$/, jade().on('error', gutil.log)))

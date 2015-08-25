@@ -8,9 +8,9 @@ angular.module 'ritoplzmyapitems', [
   $routeProvider.when('/',
     templateUrl: 'main/main.html'
     controller: 'MainCtrl'
-  ).when('/champions',
-    templateUrl: 'champions/champion-list.htm'
-    controller: 'ChampionListCtrl'
+  ).when('/scatter',
+    templateUrl: 'scatter/scatter.html'
+    controller: 'ScatterCtrl'
   ).when('/champion/:champion',
     templateUrl: 'champions/champion-detail.htm'
     controller: 'ChampionDetailCtrl'
