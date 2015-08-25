@@ -1,13 +1,15 @@
 angular.module('ritoplzmyapitems').controller 'ScatterCtrl', [
   '$scope'
-  'lastfm'
-  ($scope, lastfm) ->
+  'itemService'
+  ($scope, itemService) ->
 #    Code is based on http://www.delimited.io/blog/2014/7/16/d3-directives-in-angularjs
     $scope.tagsize = 'reach'
     $scope.toptags = []
     $scope.currtag = ''
     $scope.artists = []
-    lastfm.topTags().success (res) ->
+    itemService.itemChartData('3025', '').then (res) ->
+      console.log res
+    itemService.topTags().success (res) ->
       if res.error
         throw new Error(res.message)
       else
