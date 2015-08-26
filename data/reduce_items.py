@@ -22,9 +22,9 @@ terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTime
 
 # Group terms to know operation that needs to be performed on them
 champ_group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt',
-                           'kills', 'deaths', 'assists'] + lanes + roles + tiers
+                           'kills', 'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
-                     'deaths', 'assists', 'timestamp'] + lanes + roles + tiers
+                     'deaths', 'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 
 
 # Accumulate data from each region
@@ -92,8 +92,6 @@ if __name__ == "__main__":
             site_item['summary']['pickRate'] = site_item_summary_count / total_ap_players
             for g_term in group_count_terms:
                 site_item['summary'][g_term] /= site_item_summary_count
-            for spell_element in spell_list:
-                site_item['summary'][spell_element] /= (site_item_summary_count * 2)
             # Repeat summary steps to each champ
             for champ in champs:
                 site_item_champ_count = site_item[champ]['count']
@@ -101,13 +99,9 @@ if __name__ == "__main__":
                 if site_item_champ_count == 0:  # This shouldn't be needed since it defaults to 0, but just in case
                     for g_term in group_count_terms:
                         site_item[champ][g_term] = 0
-                    for spell_element in spell_list:
-                        site_item[champ][spell_element] = 0
                 else:
                     for g_term in group_count_terms:
                         site_item[champ][g_term] /= site_item_champ_count
-                    for spell_element in spell_list:
-                        site_item[champ][spell_element] /= (site_item_champ_count * 2)
             with open('json/production/' + ap_item + '_' + patch + '.json', 'w') as f:
                 json.dump(site_item, f)
 
@@ -118,8 +112,6 @@ if __name__ == "__main__":
             site_champ['summary']['pickRate'] = site_champ_summary_count / total_ap_players
             for g_term in champ_group_count_terms:
                 site_champ['summary'][g_term] /= site_champ_summary_count
-            for spell_element in spell_list:
-                site_champ['summary'][spell_element] /= (site_champ_summary_count * 2)
             # Repeat summary steps to each champ
             for ap_item in ap_items:
                 site_champ_item_count = site_champ[ap_item]['count']
@@ -127,12 +119,8 @@ if __name__ == "__main__":
                 if site_champ_item_count == 0:  # This shouldn't be needed since it defaults to 0, but just in case
                     for g_term in group_count_terms:
                         site_champ[ap_item][g_term] = 0
-                    for spell_element in spell_list:
-                        site_champ[ap_item][spell_element] = 0
                 else:
                     for g_term in group_count_terms:
                         site_champ[ap_item][g_term] /= site_champ_item_count
-                    for spell_element in spell_list:
-                        site_champ[ap_item][spell_element] /= (site_champ_item_count * 2)
             with open('json/production/' + champ + '_' + patch + '.json', 'w') as f:
                 json.dump(site_champ, f)

@@ -1,6 +1,6 @@
 angular.module('ritoplzmyapitems').directive 'toptagChart', [
-  'itemService'
-  (itemService) ->
+  'championItemService'
+  (championItemService) ->
 
     link = ($scope, $el, $attrs) ->
       diameter = 500
@@ -36,7 +36,7 @@ angular.module('ritoplzmyapitems').directive 'toptagChart', [
         ).style('fill', '#547980').on 'click', (d) ->
           svg.selectAll('circle').style 'fill', '#547980'
           d3.select(this).style 'fill', '#9DE0AD'
-          itemService.topArtists(d.name).success (res) ->
+          championItemService.topArtists(d.name).success (res) ->
             if res.error
               throw new Error(res.message)
             else
