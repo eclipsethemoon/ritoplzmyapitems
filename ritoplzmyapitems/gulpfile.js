@@ -70,10 +70,11 @@ gulp.task('libJS', function() {
 gulp.task('libCSS',
   function() {
   // concatenate vendor css into build/lib.css
-  gulp.src(['!./bower_components/**/*.min.css',
-      './bower_components/**/*.css'])
-      .pipe(concat('lib.css'))
-      .pipe(gulp.dest('./build'));
+  gulp.src([
+      '!./bower_components/**/*.min.css',
+      './bower_components/**/*.css'
+  ]).pipe(concat('lib.css'))
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('index', function() {

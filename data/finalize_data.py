@@ -36,18 +36,19 @@ if __name__ == "__main__":
             league_champs[champ] = json.loads(res.content)
 
     # Create the JSON for the item-summary/front page
-    items = dict()
+    items = []
     for ap_item in ap_items:
-        items[ap_item] = dict()
-        items[ap_item]['id'] = ap_item
-        items[ap_item]['plaintext'] = league_items[ap_item]['plaintext']
-        items[ap_item]['description'] = league_items[ap_item]['description']
-        items[ap_item]['name'] = league_items[ap_item]['name']
+        ap_item_dict = dict()
+        ap_item_dict['id'] = ap_item
+        ap_item_dict['plaintext'] = league_items[ap_item]['plaintext']
+        ap_item_dict['description'] = league_items[ap_item]['description']
+        ap_item_dict['name'] = league_items[ap_item]['name']
         for patch in patches:
-            items[ap_item][patch] = dict()
+            ap_item_dict[patch] = dict()
             with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
                 item_stats = json.load(f)
-                items[ap_item][patch] = item_stats['summary']
+                ap_item_dict[patch] = item_stats['summary']
+        items.append(ap_item_dict.copy())
     with open('json/data/items.json', 'w') as f:
         json.dump(items, f)
 
@@ -73,18 +74,19 @@ if __name__ == "__main__":
             json.dump(champ_items, f)
 
     # Create the JSON for the champion-summary/front page
-    champions = dict()
+    champions = []
     for champ in champs:
-        champions[champ] = dict()
-        champions[champ]['id'] = champ
-        champions[champ]['key'] = league_champs[champ]['key']
-        champions[champ]['name'] = league_champs[champ]['name']
-        champions[champ]['title'] = league_champs[champ]['title']
+        champ_dict = dict()
+        champ_dict['id'] = champ
+        champ_dict['key'] = league_champs[champ]['key']
+        champ_dict['name'] = league_champs[champ]['name']
+        champ_dict['title'] = league_champs[champ]['title']
         for patch in patches:
-            champions[champ][patch] = dict()
+            champ_dict[patch] = dict()
             with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:
                 champ_stats = json.load(f)
-                champions[champ][patch] = champ_stats['summary']
+                champ_dict[patch] = champ_stats['summary']
+        champions.append(champ_dict.copy())
     with open('json/data/champions.json', 'w') as f:
         json.dump(champions, f)
 

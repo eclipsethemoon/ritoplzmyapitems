@@ -11,9 +11,6 @@ angular.module 'ritoplzmyapitems', [
   ).when('/scatter',
     templateUrl: 'scatter/scatter.html'
     controller: 'ScatterCtrl'
-  ).when('/champion/:champion',
-    templateUrl: 'champions/champion-detail.htm'
-    controller: 'ChampionDetailCtrl'
   ).when('/info',
     templateUrl: 'info/info.htm'
     controller: 'InfoCtrl'
