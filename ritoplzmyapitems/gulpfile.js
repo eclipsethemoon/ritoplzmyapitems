@@ -47,12 +47,8 @@ gulp.task('appCSS', function() {
         })
         .on('error', gutil.log))
     )
-    .pipe(
-      concat('app.css')
-    )
-    .pipe(
-      gulp.dest('./build')
-    )
+    .pipe(concat('app.css'))
+    .pipe(gulp.dest('./build'))
 });
 
 gulp.task('libJS', function() {
@@ -64,7 +60,7 @@ gulp.task('libJS', function() {
     './bower_components/angular-route/angular-route.js',
     './bower_components/d3/d3.js'
   ]).pipe(concat('lib.js'))
-      .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('libCSS',

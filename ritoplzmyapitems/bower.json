@@ -21,6 +21,7 @@
   "dependencies": {
     "angular-animate": "~1.4.4",
     "angular-bootstrap": "~0.13.3",
+    "bootstrap-css-only": "~3.3.5",
     "d3": "~3.5.6"
   }
 }

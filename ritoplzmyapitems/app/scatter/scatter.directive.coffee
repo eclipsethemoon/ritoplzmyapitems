@@ -3,7 +3,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
     restrict: 'EA'
     scope:
       data: '='
-      label: '@'
+      filter: '='
       onClick: '&'
     link: (scope, element) ->
       svg = d3.select(element[0]).append('svg').attr('width', '100%')
@@ -13,15 +13,19 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       scope.$watch (->
         angular.element(window)[0].innerWidth
       ), ->
-        scope.render scope.data
+        scope.render scope.data, scope.filter
 
       # watch for data changes and re-render
       scope.$watch 'data', ((newVals, oldVals) ->
-        scope.render newVals
+        scope.render newVals, scope.filter
+      ), true
+
+      scope.$watch 'filter', ((newVals, oldVals) ->
+        scope.render scope.data, newVals
       ), true
 
       # define render function
-      scope.render = (data) ->
+      scope.render = (data, filter) ->
         svg.selectAll('*').remove()  # remove all previous items before render
         # setup variables
         width = d3.select(element[0])[0][0].offsetWidth - 20  # 20 is for margins and can be changed
@@ -30,7 +34,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
 
         # Setup the x-axis
         xScale = d3.scale.linear().range([0, width])
-        xValue = (d) -> d['5.11']['winner'] * 100
+        xValue = (d) -> d['5.11'][filter] * 100
         xScale.domain [d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]
         xMap = (d) -> xScale xValue(d)
         xAxis = d3.svg.axis().scale(xScale).orient('bottom')
@@ -40,7 +44,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
 
         # Setup the y-axis
         yScale = d3.scale.linear().range([height, 0])
-        yValue = (d) -> d['5.14']['winner'] * 100
+        yValue = (d) -> d['5.14'][filter] * 100
         yScale.domain [d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]
         yMap = (d) -> yScale yValue(d)
         yAxis = d3.svg.axis().scale(yScale).orient('left')
@@ -55,8 +59,12 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           .attr("x", xMap).attr("y", yMap).attr("width", 16).attr("height", 16)
           .on('mouseover', (d) ->
             tooltip.transition().duration(200).style 'opacity', .9
-            tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')')
-              .style('left', d3.event.pageX + 5 + 'px').style 'top', d3.event.pageY - 28 + 'px'
+            if filter == 'timestamp'
+              tooltip.html(d['name'] + '<br/> (' + xValue(d) / 60000 + ', ' + yValue(d) / 60000 + ')')
+                .style('left', d3.event.pageX + 5 + 'px').style 'top', d3.event.pageY - 28 + 'px'
+            else
+              tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')')
+                .style('left', d3.event.pageX + 5 + 'px').style 'top', d3.event.pageY - 28 + 'px'
           ).on 'mouseout', (d) ->
             tooltip.transition().duration(500).style 'opacity', 0
 ]

@@ -137,6 +137,7 @@ angular.module('ritoplzmyapitems').controller('ScatterCtrl', [
       return alert(item.name);
     };
     $scope.apItems = [];
+    $scope.filterRadio = 'winner';
     return championItemService.getDataFor('items').success(function(res) {
       if (res.error) {
         throw new Error(res.message);
@@ -153,7 +154,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
       restrict: 'EA',
       scope: {
         data: '=',
-        label: '@',
+        filter: '=',
         onClick: '&'
       },
       link: function(scope, element) {
@@ -165,12 +166,15 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
         scope.$watch((function() {
           return angular.element(window)[0].innerWidth;
         }), function() {
-          return scope.render(scope.data);
+          return scope.render(scope.data, scope.filter);
         });
         scope.$watch('data', (function(newVals, oldVals) {
-          return scope.render(newVals);
+          return scope.render(newVals, scope.filter);
         }), true);
-        return scope.render = function(data) {
+        scope.$watch('filter', (function(newVals, oldVals) {
+          return scope.render(scope.data, newVals);
+        }), true);
+        return scope.render = function(data, filter) {
           var height, tooltip, width, xAxis, xMap, xScale, xValue, yAxis, yMap, yScale, yValue;
           svg.selectAll('*').remove();
           width = d3.select(element[0])[0][0].offsetWidth - 20;
@@ -178,7 +182,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           svg.attr('height', height);
           xScale = d3.scale.linear().range([0, width]);
           xValue = function(d) {
-            return d['5.11']['winner'] * 100;
+            return d['5.11'][filter] * 100;
           };
           xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
           xMap = function(d) {
@@ -188,7 +192,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis).append('text').attr('class', 'label').attr('x', width).attr('y', -6).style('text-anchor', 'end').text('Pre-AP Item Changes');
           yScale = d3.scale.linear().range([height, 0]);
           yValue = function(d) {
-            return d['5.14']['winner'] * 100;
+            return d['5.14'][filter] * 100;
           };
           yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
           yMap = function(d) {
@@ -201,7 +205,11 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
             return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
           }).attr("x", xMap).attr("y", yMap).attr("width", 16).attr("height", 16).on('mouseover', function(d) {
             tooltip.transition().duration(200).style('opacity', .9);
-            return tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
+            if (filter === 'timestamp') {
+              return tooltip.html(d['name'] + '<br/> (' + xValue(d) / 60000 + ', ' + yValue(d) / 60000 + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
+            } else {
+              return tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
+            }
           }).on('mouseout', function(d) {
             return tooltip.transition().duration(500).style('opacity', 0);
           });

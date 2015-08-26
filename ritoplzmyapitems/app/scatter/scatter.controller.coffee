@@ -6,6 +6,8 @@ angular.module('ritoplzmyapitems').controller 'ScatterCtrl', [
       alert item.name
 
     $scope.apItems = []
+    $scope.filterRadio = 'winner'
+
     championItemService.getDataFor('items').success (res) ->
       if res.error
         throw new Error(res.message)
