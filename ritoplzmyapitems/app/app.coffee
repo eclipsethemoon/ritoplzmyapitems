@@ -8,6 +8,9 @@ angular.module 'ritoplzmyapitems', [
   $routeProvider.when('/',
     templateUrl: 'main/main.html'
     controller: 'MainCtrl'
+  ).when('/carousel',
+    templateUrl: 'carousel/carousel.html'
+    controller: 'CarouselCtrl'
   ).when('/scatter',
     templateUrl: 'scatter/scatter.html'
     controller: 'ScatterCtrl'

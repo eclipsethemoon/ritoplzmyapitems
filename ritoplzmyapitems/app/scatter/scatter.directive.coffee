@@ -29,7 +29,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
         svg.selectAll('*').remove()  # remove all previous items before render
         # setup variables
         width = d3.select(element[0])[0][0].offsetWidth - 20  # 20 is for margins and can be changed
-        height = 480
+        height = 360;  # 20 is for margins and can be changed
         svg.attr 'height', height
 
         # Setup the x-axis
@@ -51,6 +51,9 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
         svg.append('g').attr('class', 'y axis').call(yAxis).append('text').attr('class', 'label')
           .attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end')
           .text 'Post-AP Item Changes'
+
+        # TODO: Draw reference y = x line
+        svg.append('line').attr('x1', 0).attr('x2', 100).attr('y1',0).attr('y2', 100).attr('color', 'black')
 
         # Draw dots
         tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0)
