@@ -23,7 +23,7 @@ if __name__ == "__main__":
     for ap_item in ap_items:
         league_items[ap_item] = dict()
         res = requests.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/item/' +
-                           ap_item + '?api_key=' + config['dev_api_key'])
+                           ap_item + '?itemData=tags&api_key=' + config['dev_api_key'])
         if res.status_code == 200:
             league_items[ap_item] = json.loads(res.content)
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     for champ in champs:
         league_champs[champ] = dict()
         res = requests.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/' +
-                           champ + '?api_key=' + config['dev_api_key'])
+                           champ + '?champData=tags&api_key=' + config['dev_api_key'])
         if res.status_code == 200:
             league_champs[champ] = json.loads(res.content)
 
@@ -43,6 +43,7 @@ if __name__ == "__main__":
         ap_item_dict['plaintext'] = league_items[ap_item]['plaintext']
         ap_item_dict['description'] = league_items[ap_item]['description']
         ap_item_dict['name'] = league_items[ap_item]['name']
+        ap_item_dict['tags'] = league_items[ap_item]['tags']
         for patch in patches:
             ap_item_dict[patch] = dict()
             with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
@@ -59,12 +60,14 @@ if __name__ == "__main__":
         champ_items['key'] = league_champs[champ]['key']
         champ_items['name'] = league_champs[champ]['name']
         champ_items['title'] = league_champs[champ]['title']
+        champ_items['tags'] = league_champs[champ]['tags']
         for ap_item in ap_items:
             champ_items[ap_item] = dict()
             champ_items[ap_item]['id'] = ap_item
             champ_items[ap_item]['plaintext'] = league_items[ap_item]['plaintext']
             champ_items[ap_item]['description'] = league_items[ap_item]['description']
             champ_items[ap_item]['name'] = league_items[ap_item]['name']
+            champ_items[ap_item]['tags'] = league_items[ap_item]['tags']
             for patch in patches:
                 champ_items[ap_item][patch] = dict()
                 with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
@@ -81,6 +84,7 @@ if __name__ == "__main__":
         champ_dict['key'] = league_champs[champ]['key']
         champ_dict['name'] = league_champs[champ]['name']
         champ_dict['title'] = league_champs[champ]['title']
+        champ_dict['tags'] = league_champs[champ]['tags']
         for patch in patches:
             champ_dict[patch] = dict()
             with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:
@@ -97,12 +101,14 @@ if __name__ == "__main__":
         item_champs['plaintext'] = league_items[ap_item]['plaintext']
         item_champs['description'] = league_items[ap_item]['description']
         item_champs['name'] = league_items[ap_item]['name']
+        item_champs['tags'] = league_items[ap_item]['tags']
         for champ in champs:
             item_champs[champ] = dict()
             item_champs[champ]['id'] = champ
             item_champs[champ]['key'] = league_champs[champ]['key']
             item_champs[champ]['name'] = league_champs[champ]['name']
             item_champs[champ]['title'] = league_champs[champ]['title']
+            item_champs[champ]['tags'] = league_champs[champ]['tags']
             for patch in patches:
                 item_champs[champ][patch] = dict()
                 with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:

@@ -1,8 +1,18 @@
 .body
     .champTitle
-        img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/Aatrox.png ', alt='Aatrox')
+        img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/{{championSelected.key}}.png ', alt='{{championSelected.name}}')
         .imgLabel
-            h2 Aatrox
-            h3 The Darkin Blade
-            h4 Fighter, Tank
-    //d3-donut(data='apItems', filter='filterRadio', on-click='d3OnClick(item)')
+            h2 {{championSelected.name}}
+            h3 {{championSelected.title}}
+            h4 {{championSelected.tags}}
+    .itemsRow
+        h4 Most Common
+    .itemsRow
+        h4 Most Winning
+    .itemCompositionRow
+        h4 Overall item Composition
+        d3-donut(data='populations')
+    .itemsRow
+        h4 Most similar to
+    .itemsRow
+        h4 so try out these items:

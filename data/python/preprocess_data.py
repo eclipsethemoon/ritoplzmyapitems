@@ -23,6 +23,7 @@ def initialize_relevant_items():
         relevant_items['_'.join([champ, 'winner'])] = 0
         relevant_items['_'.join([champ, 'magicDamageDealt'])] = 0
         relevant_items['_'.join([champ, 'magicDamageDealtToChampions'])] = 0
+        relevant_items['_'.join([champ, 'totalHeal'])] = 0
         relevant_items['_'.join([champ, 'totalTimeCrowdControlDealt'])] = 0
         relevant_items['_'.join([champ, 'kills'])] = 0
         relevant_items['_'.join([champ, 'deaths'])] = 0
@@ -42,6 +43,7 @@ def initialize_relevant_items():
             relevant_items['_'.join([item, champ, 'winner'])] = 0
             relevant_items['_'.join([item, champ, 'magicDamageDealt'])] = 0
             relevant_items['_'.join([item, champ, 'magicDamageDealtToChampions'])] = 0
+            relevant_items['_'.join([item, champ, 'totalHeal'])] = 0
             relevant_items['_'.join([item, champ, 'totalTimeCrowdControlDealt'])] = 0
             relevant_items['_'.join([item, champ, 'kills'])] = 0
             relevant_items['_'.join([item, champ, 'deaths'])] = 0
@@ -103,6 +105,7 @@ def read_json_file(p, m, r):
                 player['assists'] = participant_data['stats']['assists']
                 player['magicDamageDealt'] = participant_data['stats']['magicDamageDealt']
                 player['magicDamageDealtToChampions'] = participant_data['stats']['magicDamageDealtToChampions']
+                player['totalHeal'] = participant_data['stats']['totalHeal']
                 player['totalTimeCrowdControlDealt'] = participant_data['stats']['totalTimeCrowdControlDealt']
                 player['items'] = [ap_purchase['itemId'] for ap_purchase in ap_purchases
                                    if ap_purchase['participantId'] == participant]
@@ -128,6 +131,7 @@ def read_json_file(p, m, r):
                 relevant_items['_'.join([champion, 'magicDamageDealt'])] += player['magicDamageDealt']
                 relevant_items['_'.join([champion, 'magicDamageDealtToChampions'])] += \
                     player['magicDamageDealtToChampions']
+                relevant_items['_'.join([champion, 'totalHeal'])] += player['totalHeal']
                 relevant_items['_'.join([champion, 'totalTimeCrowdControlDealt'])] += \
                     player['totalTimeCrowdControlDealt']
                 relevant_items['_'.join([champion, 'kills'])] += player['kills']
@@ -150,6 +154,7 @@ def read_json_file(p, m, r):
                         relevant_items['_'.join([item, champion, 'magicDamageDealt'])] += player['magicDamageDealt']
                         relevant_items['_'.join([item, champion, 'magicDamageDealtToChampions'])] += \
                             player['magicDamageDealtToChampions']
+                        relevant_items['_'.join([item, champion, 'totalHeal'])] += player['totalHeal']
                         relevant_items['_'.join([item, champion, 'totalTimeCrowdControlDealt'])] += \
                             player['totalTimeCrowdControlDealt']
                         relevant_items['_'.join([item, champion, 'kills'])] += player['kills']

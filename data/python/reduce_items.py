@@ -17,14 +17,16 @@ spell_list = ['spell' + spell for spell in spells]  # for easier manipulation in
 tiers = ["CHALLENGER", "MASTER", "DIAMOND", "PLATINUM", "GOLD", "SILVER", "BRONZE", "UNRANKED"]
 champ_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
                'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
-terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills', 'deaths',
-         'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
+terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal', 'totalTimeCrowdControlDealt',
+         'kills', 'deaths', 'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 
 # Group terms to know operation that needs to be performed on them
-champ_group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt',
-                           'kills', 'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
-group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
-                     'deaths', 'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
+champ_group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal',
+                           'totalTimeCrowdControlDealt', 'kills', 'deaths', 'assists'] + lanes + roles + tiers + \
+                          ['spell' + spell for spell in spells]
+group_count_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal',
+                     'totalTimeCrowdControlDealt', 'kills', 'deaths', 'assists', 'timestamp'] + lanes + roles + \
+                    tiers + ['spell' + spell for spell in spells]
 
 
 # Accumulate data from each region

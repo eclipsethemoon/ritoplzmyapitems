@@ -4,6 +4,8 @@ angular.module('ritoplzmyapitems').controller 'MainCtrl', [
   'championItemService'
   ($scope, $http, championItemService) ->
 
+    $scope.championSelected = ''
+
     championItemService.getDataFor('items').success (res) ->
       if res.error
         throw new Error(res.message)
