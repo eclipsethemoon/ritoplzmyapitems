@@ -9,20 +9,24 @@ script(type='text/ng-template', id='championTemplate.html').
     <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
     </a>
 
-.header
-    | RitoPlz! My
-    input.form-control(type='text', ng-model='itemSelected', placeholder='AP Items', typeahead='apItem as apItem.name for apItem in apItems | filter:{name:$viewValue}', typeahead-template-url='itemTemplate.html')
-    | for
-    input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='championTemplate.html')
-    ul.nav.navbar-nav.navbar-right
-        li
-            button.btn.btn-default(type='button', ng-click="open('lg')") REPLACEME w/ Info Icon
 .container-fluid
     .row
-        .col-sm-3.col-md-2.sidebar
-        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+        h1 RitoPlz! My
+        input.form-control(type='text', ng-model='itemSelected', placeholder='AP Items', typeahead='apItem as apItem.name for apItem in apItems | filter:{name:$viewValue}', typeahead-template-url='itemTemplate.html')
+        h1 for
+        input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='championTemplate.html')
+        ul.nav.navbar-nav.navbar-right
+            li
+                button.btn.btn-default(type='button', ng-click="open('lg')") REPLACEME w/ Info Icon
+    .row
+        .background-image
+        .col-sm-3.col-md-4.col-lg-4.sidebar
+            .sidePane(ng-include=" 'detail/detail.html' ", ng-controller="DetailCtrl")
+        .col-sm-9.col-md-8.col-lg-8.main
             // TODO: These two panes should only take 50% of the remaining space after the title and footer
-            .mainPane(ng-include=" 'scatter/scatter.html' ", ng-controller="ScatterCtrl")
-            .mainPane(ng-include=" 'carousel/carousel.html' ", ng-controller="CarouselCtrl")
-.footer
-    | RitoPlzMyAPItems isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+            .row
+                .mainPane(ng-include=" 'scatter/scatter.html' ", ng-controller="ScatterCtrl")
+            .row
+                .mainPane(ng-include=" 'carousel/carousel.html' ", ng-controller="CarouselCtrl")
+    .row.footer
+        | RitoPlzMyAPItems isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.

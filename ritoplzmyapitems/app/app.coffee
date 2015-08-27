@@ -11,6 +11,9 @@ angular.module 'ritoplzmyapitems', [
   ).when('/carousel',
     templateUrl: 'carousel/carousel.html'
     controller: 'CarouselCtrl'
+  ).when('/detail',
+    templateUrl: 'detail/detail.html'
+    controller: 'DetailCtrl'
   ).when('/scatter',
     templateUrl: 'scatter/scatter.html'
     controller: 'ScatterCtrl'
