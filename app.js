@@ -2,6 +2,12 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.boo
   return $routeProvider.when('/', {
     templateUrl: 'main/main.html',
     controller: 'MainCtrl'
+  }).when('/carousel', {
+    templateUrl: 'carousel/carousel.html',
+    controller: 'CarouselCtrl'
+  }).when('/detail', {
+    templateUrl: 'detail/detail.html',
+    controller: 'DetailCtrl'
   }).when('/scatter', {
     templateUrl: 'scatter/scatter.html',
     controller: 'ScatterCtrl'
@@ -12,6 +18,104 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.boo
     redirectTo: '/'
   });
 });
+
+angular.module('ritoplzmyapitems').controller('CarouselCtrl', [
+  '$scope', function($scope) {
+    var i, slides, _results;
+    $scope.myInterval = 5000;
+    $scope.noWrapSlides = false;
+    slides = $scope.slides = [];
+    $scope.addSlide = function() {
+      var newWidth;
+      newWidth = 600 + slides.length + 1;
+      return slides.push({
+        image: '//placekitten.com/' + newWidth + '/300',
+        text: ['More', 'Extra', 'Lots of', 'Surplus', 'Phat'][slides.length % 5] + ' ' + ['Cats', 'Kittys', 'Felines', 'Cutes', 'Schwifty'][slides.length % 5]
+      });
+    };
+    i = 0;
+    _results = [];
+    while (i < 5) {
+      $scope.addSlide();
+      _results.push(i++);
+    }
+    return _results;
+  }
+]);
+
+angular.module('ritoplzmyapitems').controller('DetailCtrl', ['$scope', function($scope) {}]);
+
+angular.module('ritoplzmyapitems').directive('d3Donut', [
+  function() {
+    return {
+      restrict: 'EA',
+      scope: {
+        data: '=',
+        filter: '=',
+        onClick: '&'
+      },
+      link: function(scope, element) {
+        var svg;
+        svg = d3.select(element[0]).append('svg').attr('width', '100%');
+        window.onresize = function() {
+          return scope.$apply();
+        };
+        scope.$watch((function() {
+          return angular.element(window)[0].innerWidth;
+        }), function() {
+          return scope.render(scope.data, scope.filter);
+        });
+        scope.$watch('data', (function(newVals, oldVals) {
+          return scope.render(newVals, scope.filter);
+        }), true);
+        scope.$watch('filter', (function(newVals, oldVals) {
+          return scope.render(scope.data, newVals);
+        }), true);
+        return scope.render = function(data, filter) {
+          var height, tooltip, width, xAxis, xMap, xScale, xValue, yAxis, yMap, yScale, yValue;
+          svg.selectAll('*').remove();
+          width = d3.select(element[0])[0][0].offsetWidth - 20;
+          height = 300;
+          svg.attr('height', height);
+          xScale = d3.scale.linear().range([0, width]);
+          xValue = function(d) {
+            return d['5.11'][filter] * 100;
+          };
+          xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
+          xMap = function(d) {
+            return xScale(xValue(d));
+          };
+          xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+          svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis).append('text').attr('class', 'label').attr('x', width).attr('y', -6).style('text-anchor', 'end').text('Pre-AP Item Changes');
+          yScale = d3.scale.linear().range([height, 0]);
+          yValue = function(d) {
+            return d['5.14'][filter] * 100;
+          };
+          yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
+          yMap = function(d) {
+            return yScale(yValue(d));
+          };
+          yAxis = d3.svg.axis().scale(yScale).orient('left');
+          svg.append('g').attr('class', 'y axis').call(yAxis).append('text').attr('class', 'label').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text('Post-AP Item Changes');
+          svg.append('line').attr('x1', 0).attr('x2', 100).attr('y1', 0).attr('y2', 100).attr('color', 'black');
+          tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0);
+          return svg.selectAll('.dot').data(data).enter().append('image').attr('xlink:href', function(d) {
+            return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
+          }).attr("x", xMap).attr("y", yMap).attr("width", 16).attr("height", 16).on('mouseover', function(d) {
+            tooltip.transition().duration(200).style('opacity', .9);
+            if (filter === 'timestamp') {
+              return tooltip.html(d['name'] + '<br/> (' + xValue(d) / 60000 + ', ' + yValue(d) / 60000 + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
+            } else {
+              return tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
+            }
+          }).on('mouseout', function(d) {
+            return tooltip.transition().duration(500).style('opacity', 0);
+          });
+        };
+      }
+    };
+  }
+]);
 
 angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modalInstance, items) {
   $scope.items = items;
@@ -27,106 +131,20 @@ angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $moda
 });
 
 angular.module('ritoplzmyapitems').controller('MainCtrl', [
-  '$scope', '$http', function($scope, $http) {
-    var canvas_height, canvas_width, dataset, i, maxRange, newNumber1, newNumber2, numDataPoints, padding, svg, xAxis, xScale, yAxis, yScale;
-    $scope.templates = [
-      {
-        name: 'template1.html',
-        url: 'scatter/template.html'
-      }, {
-        name: 'template2.html',
-        url: 'detail/template.html'
+  '$scope', '$http', 'championItemService', function($scope, $http, championItemService) {
+    championItemService.getDataFor('items').success(function(res) {
+      if (res.error) {
+        throw new Error(res.message);
+      } else {
+        return $scope.apItems = res;
       }
-    ];
-    $scope.template = $scope.templates[0];
-    $scope.items = ['item1', 'item2', 'item3'];
-    $scope.open = function(size) {
-      var modalInstance;
-      modalInstance = $modal.open({
-        animation: $scope.animationsEnabled,
-        templateUrl: 'info/info.html',
-        controller: 'InfoCtrl',
-        size: size,
-        resolve: {
-          items: function() {
-            return $scope.items;
-          }
-        }
-      });
-      return modalInstance.result.then((function(selectedItem) {
-        return $scope.selected = selectedItem;
-      }), function() {
-        return $log.info('Modal dismissed at: ' + new Date);
-      });
-    };
-    dataset = [];
-    numDataPoints = 15;
-    maxRange = Math.random() * 1000;
-    i = 0;
-    while (i < numDataPoints) {
-      newNumber1 = Math.floor(Math.random() * maxRange);
-      newNumber2 = Math.floor(Math.random() * maxRange);
-      dataset.push([newNumber1, newNumber2]);
-      i++;
-    }
-    canvas_width = 500;
-    canvas_height = 300;
-    padding = 30;
-    xScale = d3.scale.linear().domain([
-      0, d3.max(dataset, function(d) {
-        return d[0];
-      })
-    ]).range([padding, canvas_width - (padding * 2)]);
-    yScale = d3.scale.linear().domain([
-      0, d3.max(dataset, function(d) {
-        return d[1];
-      })
-    ]).range([canvas_height - padding, padding]);
-    xAxis = d3.svg.axis().scale(xScale).orient('bottom').ticks(5);
-    yAxis = d3.svg.axis().scale(yScale).orient('left').ticks(5);
-    svg = d3.select('h3').append('svg').attr('width', canvas_width).attr('height', canvas_height);
-    svg.selectAll('circle').data(dataset).enter().append('circle').attr('cx', function(d) {
-      return xScale(d[0]);
-    }).attr('cy', function(d) {
-      return yScale(d[1]);
-    }).attr('r', 2);
-    svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + (canvas_height - padding) + ')').call(xAxis);
-    svg.append('g').attr('class', 'y axis').attr('transform', 'translate(' + padding + ',0)').call(yAxis);
-    return d3.select('h4').on('click', function() {
-      var numValues;
-      numValues = dataset.length;
-      maxRange = Math.random() * 1000;
-      dataset = [];
-      i = 0;
-      while (i < numValues) {
-        newNumber1 = Math.floor(Math.random() * maxRange);
-        newNumber2 = Math.floor(Math.random() * maxRange);
-        dataset.push([newNumber1, newNumber2]);
-        i++;
+    });
+    return championItemService.getDataFor('champions').success(function(res) {
+      if (res.error) {
+        throw new Error(res.message);
+      } else {
+        return $scope.champions = res;
       }
-      xScale.domain([
-        0, d3.max(dataset, function(d) {
-          return d[0];
-        })
-      ]);
-      yScale.domain([
-        0, d3.max(dataset, function(d) {
-          return d[1];
-        })
-      ]);
-      svg.selectAll('circle').data(dataset).transition().duration(1000).each('start', function() {
-        return d3.select(this).attr('fill', 'red').attr('r', 5);
-      }).delay(function(d, i) {
-        return i / dataset.length * 500;
-      }).attr('cx', function(d) {
-        return xScale(d[0]);
-      }).attr('cy', function(d) {
-        return yScale(d[1]);
-      }).each('end', function() {
-        return d3.select(this).transition().duration(500).attr('fill', 'black').attr('r', 2);
-      });
-      svg.select('.x.axis').transition().duration(1000).call(xAxis);
-      return svg.select('.y.axis').transition().duration(100).call(yAxis);
     });
   }
 ]);
@@ -178,7 +196,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           var height, tooltip, width, xAxis, xMap, xScale, xValue, yAxis, yMap, yScale, yValue;
           svg.selectAll('*').remove();
           width = d3.select(element[0])[0][0].offsetWidth - 20;
-          height = 480;
+          height = 300;
           svg.attr('height', height);
           xScale = d3.scale.linear().range([0, width]);
           xValue = function(d) {
@@ -200,6 +218,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           };
           yAxis = d3.svg.axis().scale(yScale).orient('left');
           svg.append('g').attr('class', 'y axis').call(yAxis).append('text').attr('class', 'label').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text('Post-AP Item Changes');
+          svg.append('line').attr('x1', 0).attr('x2', 100).attr('y1', 0).attr('y2', 100).attr('color', 'black');
           tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0);
           return svg.selectAll('.dot').data(data).enter().append('image').attr('xlink:href', function(d) {
             return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
