@@ -62,7 +62,7 @@ def initialize_relevant_items():
 
 def read_json_file(p, m, r):
     print('Current file: ' + '_'.join([r, m, p]))
-    with open('json/' + '_'.join([r, m, p]) + '.json', 'r') as f:
+    with open('../raw/' + '_'.join([r, m, p]) + '.json', 'r') as f:
         relevant_items = initialize_relevant_items()      # Item-centric data
         for line in f:
             data = json.loads(line)

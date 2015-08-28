@@ -15,8 +15,8 @@ roles = ["DUO", "NONE", "SOLO", "DUO_CARRY", "DUO_SUPPORT"]
 spells = map(str, [1, 2, 3, 4, 6, 7, 11, 12, 13, 14, 21])
 spell_list = ['spell' + spell for spell in spells]  # for easier manipulation in production data
 tiers = ["CHALLENGER", "MASTER", "DIAMOND", "PLATINUM", "GOLD", "SILVER", "BRONZE", "UNRANKED"]
-champ_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalTimeCrowdControlDealt', 'kills',
-               'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
+champ_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal', 'totalTimeCrowdControlDealt',
+               'kills', 'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal', 'totalTimeCrowdControlDealt',
          'kills', 'deaths', 'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 

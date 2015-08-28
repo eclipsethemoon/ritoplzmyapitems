@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 item_stats = json.load(f)
                 ap_item_dict[patch] = item_stats['summary']
         items.append(ap_item_dict.copy())
-    with open('json/data/items.json', 'w') as f:
+    with open('../items.json', 'w') as f:
         json.dump(items, f)
 
     # Create the JSON for items in a champion page
@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
                     item_stats = json.load(f)
                     champ_items[ap_item][patch] = item_stats[champ]
-        with open('json/data/' + champ + '.json', 'w') as f:
+        with open('../' + champ + '.json', 'w') as f:
             json.dump(champ_items, f)
 
     # Create the JSON for the champion-summary/front page
@@ -91,7 +91,7 @@ if __name__ == "__main__":
                 champ_stats = json.load(f)
                 champ_dict[patch] = champ_stats['summary']
         champions.append(champ_dict.copy())
-    with open('json/data/champions.json', 'w') as f:
+    with open('../champions.json', 'w') as f:
         json.dump(champions, f)
 
     # Create the JSON for champions in an item page
@@ -114,5 +114,5 @@ if __name__ == "__main__":
                 with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:
                     champ_stats = json.load(f)
                     item_champs[champ][patch] = champ_stats[ap_item]
-        with open('json/data/' + ap_item + '.json', 'w') as f:
+        with open('../' + ap_item + '.json', 'w') as f:
             json.dump(item_champs, f)

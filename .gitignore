@@ -65,5 +65,6 @@ data/AP_ITEM_DATASET.zip
 data/5.11
 data/5.14
 data/conf/application.yml
+data/python/conf/application.yml
 data/json/*.11.json
 data/json/*.14.json
