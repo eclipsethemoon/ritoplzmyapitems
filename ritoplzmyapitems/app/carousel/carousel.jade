@@ -1,7 +1,0 @@
-div(style='height: 305px')
-    carousel(interval='myInterval', no-wrap='noWrapSlides')
-        slide(ng-repeat='slide in slides', active='slide.active')
-            //Replace with set of 3-5 bootcards
-            img(ng-src='{{slide.image}}', style='margin:auto;')
-            .carousel-caption
-                p {{slide.text}}

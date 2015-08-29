@@ -1,33 +1,24 @@
 angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
-  '$scope'
-  ($scope) ->
+  '$scope',
+  'championItemService'
+  ($scope, championItemService) ->
     $scope.populations = []
 
     $scope.$watch 'championSelected', ((newVals, oldVals) ->
       if(typeof newVals =='object')
-        # Replace with scope.championSelected service call
-        $scope.populations = [
-          age : '<5'
-          population : 2704659
-        ,
-          age : '5-13'
-          population : 4499890
-        ,
-          age : '14-17'
-          population : 2159981
-        ,
-          age : '18-24'
-          population : 3853788
-        ,
-          age : '25-44'
-          population : 14106543
-        ,
-          age : '45-64'
-          population : 8819342
-        ,
-          age : '>64'
-          population : 612463
-        ]
+        championItemService.getDataFor(newVals.id).success (res) ->
+          item_types = res.item_types['5.14']
+          $scope.item_types = []
+          total_items = 0
+          for k,v of item_types
+            total_items += v
+          other_value = 0
+          for k,v of item_types
+            if v > total_items * 0.05
+              $scope.item_types.push {type: k, count: v}
+            else
+              other_value += v
+          $scope.item_types.push {type: 'Other', count: other_value}
     ), true
 
 ]

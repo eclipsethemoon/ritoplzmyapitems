@@ -18,13 +18,16 @@ header
         li(ng-include=" 'info/info.html' ", ng-controller="InfoCtrl")
 .container-fluid
     .row
-        .col-sm-3.col-md-4.col-lg-4.sidebar
+        .col-sm-3.col-md-3.col-lg-3.sidebar
             .sidePane(ng-include=" 'detail/detail.html' ", ng-controller="DetailCtrl")
-        .col-sm-9.col-md-8.col-lg-8.main
+        .col-sm-9.col-md-9.col-lg-9.main
             // TODO: These two panes should only take 50% of the remaining space after the title and footer
             .row
                 .mainPane(ng-include=" 'scatter/scatter.html' ", ng-controller="ScatterCtrl")
             .row
-                .mainPane(ng-include=" 'carousel/carousel.html' ", ng-controller="CarouselCtrl")
+                .col-sm-3.col-md-3.col-lg-3.nlr_pane
+                    .card(ng-include="")
+                .col-sm-3.col-md-3.col-lg-3.rylai_pane
+                .col-sm-3.col-md-3.col-lg-3.will_pane
 footer
     | RitoPlzMyAPItems isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
