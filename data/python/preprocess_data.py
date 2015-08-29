@@ -36,6 +36,20 @@ def initialize_relevant_items():
             relevant_items['_'.join([champ, role])] = 0
         for spell in spells:
             relevant_items['_'.join([champ, 'spell' + spell])] = 0
+
+        # Relevant items
+        relevant_items['_'.join([champ, 'rylaiLiandry_count'])] = 0
+        relevant_items['_'.join([champ, 'rylaiLiandry_winner'])] = 0
+        relevant_items['_'.join([champ, 'rylaiLiandry_magicDamageDealt'])] = 0
+        relevant_items['_'.join([champ, 'rylaiLiandry_magicDamageDealtToChampions'])] = 0
+        relevant_items['_'.join([champ, 'rylaiLiandry_totalTimeCrowdControlDealt'])] = 0
+        relevant_items['_'.join([champ, 'nlr_count'])] = 0
+        relevant_items['_'.join([champ, 'nlr_winner'])] = 0
+        relevant_items['_'.join([champ, 'nlr_timestamp'])] = 0
+        relevant_items['_'.join([champ, 'fiendish_count'])] = 0
+        relevant_items['_'.join([champ, 'fiendish_winner'])] = 0
+        relevant_items['_'.join([champ, 'fiendish_timestamp'])] = 0
+
     for item in ap_items:
         relevant_items[item] = 0
         for champ in champs:
@@ -114,7 +128,7 @@ def read_json_file(p, m, r):
                 player['winner'] = participant_data['stats']['winner']
                 relevant['participants'].append(player)
 
-                # Accumulate data into relevant dictionarys for items, champions, and builds
+                # Accumulate data into relevant dictionaries for items, champions, and builds
                 # Note: We only care about the first time of an item (e.g. no 6 deathcap build)
                 items = []
                 champion = str(player['championId'])
@@ -137,6 +151,39 @@ def read_json_file(p, m, r):
                 relevant_items['_'.join([champion, 'kills'])] += player['kills']
                 relevant_items['_'.join([champion, 'deaths'])] += player['deaths']
                 relevant_items['_'.join([champion, 'assists'])] += player['assists']
+
+                # Create info specific to certain AP item changes (WotA, Rylai+Liandy, NLR vs Fiendish)
+                # First, check if player has both Rylai's and Liandry's
+                if all(x in player['items'] for x in [3116, 3151]):
+                    relevant_items['_'.join([champion, 'rylaiLiandry_count'])] += 1
+                    if player['winner']:
+                        relevant_items['_'.join([champion, 'rylaiLiandry_winner'])] += 1
+                    relevant_items['_'.join([champion, 'rylaiLiandry_magicDamageDealt'])] += player['magicDamageDealt']
+                    relevant_items['_'.join([champion, 'rylaiLiandry_magicDamageDealtToChampions'])] += \
+                        player['magicDamageDealtToChampions']
+                    relevant_items['_'.join([champion, 'rylaiLiandry_totalTimeCrowdControlDealt'])] += \
+                        player['totalTimeCrowdControlDealt']
+
+                # Now check for NLR or Fiendish (to Unholy or Morello) and grab details if applicable
+                nlr_index = 999
+                fiendish_index = 999
+                if any(x in player['items'] for x in [3165, 3174]) and 3108 in player['items']:
+                    fiendish_index = player['items'].index(3108)
+                if 1058 in player['items']:
+                    nlr_index = player['items'].index(1058)
+                if nlr_index != 999 or fiendish_index != 999:
+                    if fiendish_index < nlr_index:
+                        relevant_items['_'.join([champion, 'fiendish_count'])] += 1
+                        if player['winner']:
+                            relevant_items['_'.join([champion, 'fiendish_winner'])] += 1
+                        relevant_items['_'.join([champion, 'fiendish_timestamp'])] += \
+                            player['timestamps'][fiendish_index]
+                    else:
+                        relevant_items['_'.join([champion, 'nlr_count'])] += 1
+                        if player['winner']:
+                            relevant_items['_'.join([champion, 'nlr_winner'])] += 1
+                        relevant_items['_'.join([champion, 'nlr_timestamp'])] += \
+                            player['timestamps'][nlr_index]
 
                 # Create item-specific information
                 for idx, item in enumerate(map(str, player['items'])):

@@ -20,12 +20,16 @@ if __name__ == "__main__":
         config = yaml.load(f)
 
     league_items = dict()
+    item_types = set()
     for ap_item in ap_items:
         league_items[ap_item] = dict()
         res = requests.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/item/' +
                            ap_item + '?itemData=tags&api_key=' + config['dev_api_key'])
         if res.status_code == 200:
             league_items[ap_item] = json.loads(res.content)
+            item_types.update(league_items[ap_item]['tags'])
+        else:
+            print('NOT 200 APPEARED')
 
     league_champs = dict()
     for champ in champs:
@@ -34,6 +38,8 @@ if __name__ == "__main__":
                            champ + '?champData=stats,tags&api_key=' + config['dev_api_key'])
         if res.status_code == 200:
             league_champs[champ] = json.loads(res.content)
+        else:
+            print('NOT 200 APPEARED')
 
     # Create the JSON for the item-summary/front page
     items = []
@@ -62,6 +68,11 @@ if __name__ == "__main__":
         champ_items['title'] = league_champs[champ]['title']
         champ_items['stats'] = league_champs[champ]['stats']
         champ_items['tags'] = league_champs[champ]['tags']
+        champ_items['item_types'] = dict()
+        for patch in patches:
+            champ_items['item_types'][patch] = dict()
+            for item_type in item_types:
+                champ_items['item_types'][patch][item_type] = 0
         for ap_item in ap_items:
             champ_items[ap_item] = dict()
             champ_items[ap_item]['id'] = ap_item
@@ -74,6 +85,8 @@ if __name__ == "__main__":
                 with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
                     item_stats = json.load(f)
                     champ_items[ap_item][patch] = item_stats[champ]
+                    for tag in champ_items[ap_item]['tags']:
+                        champ_items['item_types'][patch][tag] += item_stats[champ]['count']
         with open('../' + champ + '.json', 'w') as f:
             json.dump(champ_items, f)
 

@@ -16,7 +16,10 @@ spells = map(str, [1, 2, 3, 4, 6, 7, 11, 12, 13, 14, 21])
 spell_list = ['spell' + spell for spell in spells]  # for easier manipulation in production data
 tiers = ["CHALLENGER", "MASTER", "DIAMOND", "PLATINUM", "GOLD", "SILVER", "BRONZE", "UNRANKED"]
 champ_terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal', 'totalTimeCrowdControlDealt',
-               'kills', 'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
+               'kills', 'deaths', 'assists'] + lanes + roles + tiers + ['spell' + spell for spell in spells] + \
+              ['rylaiLiandry_count', 'rylaiLiandry_winner', 'rylaiLiandry_magicDamageDealt',
+               'rylaiLiandry_magicDamageDealtToChampions', 'rylaiLiandry_totalTimeCrowdControlDealt'] + \
+              ['nlr_count', 'nlr_winner', 'nlr_timestamp', 'fiendish_count', 'fiendish_winner', 'fiendish_timestamp']
 terms = ['winner', 'magicDamageDealt', 'magicDamageDealtToChampions', 'totalHeal', 'totalTimeCrowdControlDealt',
          'kills', 'deaths', 'assists', 'timestamp'] + lanes + roles + tiers + ['spell' + spell for spell in spells]
 
@@ -112,9 +115,34 @@ if __name__ == "__main__":
             site_champ = champ_json[champ]
             site_champ_summary_count = site_champ['summary']['count']
             site_champ['summary']['pickRate'] = site_champ_summary_count / total_ap_players
+
+            # Format RylaiLiandry terms
+            rylaiLiandryCount = site_champ['summary']['rylaiLiandry_count']
+            site_champ['summary']['rylaiLiandry_pickRate'] = rylaiLiandryCount / site_champ_summary_count
+            if rylaiLiandryCount != 0:
+                site_champ['summary']['rylaiLiandry_winner'] /= rylaiLiandryCount
+                site_champ['summary']['rylaiLiandry_magicDamageDealt'] /= rylaiLiandryCount
+                site_champ['summary']['rylaiLiandry_magicDamageDealtToChampions'] /= rylaiLiandryCount
+                site_champ['summary']['rylaiLiandry_totalTimeCrowdControlDealt'] /= rylaiLiandryCount
+
+            # Format NLR and Fiendish terms
+            nlrCount = site_champ['summary']['nlr_count']
+            fiendishCount = site_champ['summary']['fiendish_count']
+            site_champ['summary']['nlr_pickRate'] = nlrCount / site_champ_summary_count
+            site_champ['summary']['fiendish_pickRate'] = fiendishCount / site_champ_summary_count
+            if nlrCount != 0:
+                site_champ['summary']['nlr_winner'] /= nlrCount
+                site_champ['summary']['nlr_timestamp'] /= nlrCount
+            if fiendishCount != 0:
+                site_champ['summary']['fiendish_winner'] /= fiendishCount
+                site_champ['summary']['fiendish_timestamp'] /= fiendishCount
+
+            # Average the rest of the terms related to the champ
             for g_term in champ_group_count_terms:
                 site_champ['summary'][g_term] /= site_champ_summary_count
-            # Repeat summary steps to each champ
+
+            ap_item_count_json = dict()
+            ap_item_winner_json = dict()
             for ap_item in ap_items:
                 site_champ_item_count = site_champ[ap_item]['count']
                 site_champ[ap_item]['pickRate'] = site_champ_item_count / site_champ_summary_count
@@ -124,5 +152,13 @@ if __name__ == "__main__":
                 else:
                     for g_term in group_count_terms:
                         site_champ[ap_item][g_term] /= site_champ_item_count
+                ap_item_count_json[ap_item] = site_champ[ap_item]['pickRate']
+                ap_item_winner_json[ap_item] = site_champ[ap_item]['winner']
+
+            # Add array of sorted items with highest pick and winrate
+            site_champ['summary']['most_common_items'] = \
+                sorted(ap_item_count_json, key=ap_item_count_json.get, reverse=True)
+            site_champ['summary']['most_winner_items'] = \
+                sorted(ap_item_winner_json, key=ap_item_winner_json.get, reverse=True)
             with open('json/production/' + champ + '_' + patch + '.json', 'w') as f:
                 json.dump(site_champ, f)
