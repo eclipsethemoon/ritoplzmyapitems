@@ -1,27 +1,27 @@
 .body
     .row
-        img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/{{championSelected.key}}.png ', alt='{{championSelected.name}}')
-        .imgLabel
+        .col-lg-4.champ-icon
+            img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/{{championSelected.key}}.png ', alt='{{championSelected.name}}')
+        .col-lg-8
             h2 {{championSelected.name}}
             h3 {{championSelected.title}}
             h4 {{championSelected.tags}}
     .row
         h4 Most Common
-        .col-lg-12
-            .list-item(ng-repeat='(key, value) in most_common | limitTo: 3')
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
-                .list-item-count {{ value['pickRate'] }}
-                .list-item-count {{ value['winner'] }}
+        .list-item.ng-scope(ng-repeat='(key, value) in most_common | limitTo: 3')
+            img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
+            .list-item-count.ng-binding {{ value['pickRate'] }}
+            .list-item-count.ng-binding {{ value['winner'] }}
     .row
         h4 Most Winning
-        .col-lg-12
-            .list-item(ng-repeat='(key, value) in most_winner | limitTo: 3')
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
-                .list-item-count {{ value['pickRate'] }}
-                .list-item-count {{ value['winner'] }}
+        .list-item.ng-scope(ng-repeat='(key, value) in most_winner | limitTo: 3')
+            img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
+            .list-item-count.ng-binding {{ value['pickRate'] }}
+            .list-item-count.ng-binding {{ value['winner'] }}
     .row
         h4 Overall item Composition
-        d3-donut(data='item_types')
+        .col-lg-10
+            d3-donut(data='item_types')
     .row
         h4 Recommended Items:
         .list-item(ng-repeat='(key, value) in recommended | limitTo: 3')
