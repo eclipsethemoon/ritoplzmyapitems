@@ -31,7 +31,7 @@ if __name__ == "__main__":
     for champ in champs:
         league_champs[champ] = dict()
         res = requests.get('https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/' +
-                           champ + '?champData=tags&api_key=' + config['dev_api_key'])
+                           champ + '?champData=stats,tags&api_key=' + config['dev_api_key'])
         if res.status_code == 200:
             league_champs[champ] = json.loads(res.content)
 
@@ -60,6 +60,7 @@ if __name__ == "__main__":
         champ_items['key'] = league_champs[champ]['key']
         champ_items['name'] = league_champs[champ]['name']
         champ_items['title'] = league_champs[champ]['title']
+        champ_items['stats'] = league_champs[champ]['stats']
         champ_items['tags'] = league_champs[champ]['tags']
         for ap_item in ap_items:
             champ_items[ap_item] = dict()
@@ -84,6 +85,7 @@ if __name__ == "__main__":
         champ_dict['key'] = league_champs[champ]['key']
         champ_dict['name'] = league_champs[champ]['name']
         champ_dict['title'] = league_champs[champ]['title']
+        champ_dict['stats'] = league_champs[champ]['stats']
         champ_dict['tags'] = league_champs[champ]['tags']
         for patch in patches:
             champ_dict[patch] = dict()
