@@ -29,5 +29,11 @@ angular.module('ritoplzmyapitems').controller 'ScatterCtrl', [
               if k in $scope.allAPItems
                 apItems.push v
             $scope.apItems = apItems
+      else
+        championItemService.getDataFor('items').success (res) ->
+          if res.error
+            throw new Error(res.message)
+          else
+            $scope.apItems = res
     )
 ]

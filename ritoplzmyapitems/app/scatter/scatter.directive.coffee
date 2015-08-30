@@ -6,11 +6,11 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       filter: '='
       onClick: '&'
     link: (scope, element) ->
-      margin = {top: 10, right: 10, bottom: 10, left: 50}
+      margin = {top: 10, right: 0, bottom: 10, left: 50}
       width = element[0].parentElement.clientWidth - margin.left - margin.right
       height = 300 - margin.top - margin.bottom
 
-      x = d3.scale.ordinal().rangeRoundBands([0, width], .2)
+      x = d3.scale.ordinal().rangeRoundBands([0, width], .3)
       y = d3.scale.linear().range([height, 0])
       xAxis = d3.svg.axis().scale(x)
       yAxis = d3.svg.axis().scale(y).orient('left')
@@ -63,7 +63,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           # Create the x-axis
           svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + y(0) + ")").call xAxis
           svg.select('.xAxis').selectAll('text').remove()
-          iconWidth = (width - 50) / data.length
+          iconWidth = x.rangeBand()
           svg.select('.xAxis').selectAll('.tick').data(data).append('svg:image').attr('xlink:href', (d) ->
             'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png'
           ).attr('width', iconWidth).attr('height', iconWidth)
