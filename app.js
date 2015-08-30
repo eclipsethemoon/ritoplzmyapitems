@@ -1,4 +1,4 @@
-angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.bootstrap']).config(function($routeProvider) {
+angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'pageslide-directive', 'templates', 'ui.bootstrap']).config(function($routeProvider) {
   return $routeProvider.when('/', {
     templateUrl: 'main/main.html',
     controller: 'MainCtrl'
@@ -23,11 +23,22 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
 
 angular.module('ritoplzmyapitems').controller('DetailCtrl', [
   '$scope', 'championItemService', function($scope, championItemService) {
+    $scope.checked = false;
     $scope.intermediates = ['1026', '1052', '1058', '3057', '3108', '3113', '3136', '3145', '3191'];
+    $scope.championTags = {
+      'Assassin': '657',
+      'Fighter': '658',
+      'Mage': '659',
+      'Marksman': '660',
+      'Support': '661',
+      'Tank': '662'
+    };
     return $scope.$watch('championSelected', (function(newVal, oldVal) {
+      $scope.checked = false;
       if (typeof newVal === 'object') {
         return championItemService.getDataFor(newVal.id).success(function(res) {
           var champion_json, item_id, item_types, k, other_value, recommended_items, total_items, v, _i, _j, _len, _len1, _ref, _ref1;
+          $scope.checked = true;
           item_types = res.item_types['5.14'];
           $scope.item_types = [];
           total_items = 0;
@@ -58,6 +69,7 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
             if (__indexOf.call($scope.intermediates, item_id) < 0) {
               $scope.most_common.push({
                 item: item_id,
+                name: res[item_id]['name'],
                 pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
                 pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
                 winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0,
@@ -72,6 +84,7 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
             if ((__indexOf.call($scope.intermediates, item_id) < 0) && (res[item_id]['5.14']['pickRate'] >= 0.005)) {
               $scope.most_winner.push({
                 item: item_id,
+                name: res[item_id]['name'],
                 pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
                 pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
                 winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0,
@@ -97,6 +110,7 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
               if ((__indexOf.call(most_common, item_id) < 0) && (__indexOf.call(most_winner, item_id) < 0)) {
                 _results.push($scope.recommended.push({
                   item: item_id,
+                  name: champion_json[item_id]['name'],
                   pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
                   pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0,
                   winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0,
@@ -337,7 +351,6 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
             }).attr('width', x.rangeBand());
             svg.append('g').attr('class', 'yAxis').call(yAxis);
             svg.select('.yAxis').selectAll('text').text(function(d) {
-              console.log(d);
               if (feature === 'timestamp') {
                 return (d / 1000).toFixed(2);
               } else {

@@ -1,31 +1,198 @@
-
-h2,
-h3,
-h4 {
-  padding: 0px;
-  margin: 0px;
+body {
+  position: absolute;
+  color: #555;
 }
-.champ-icon img {
-  width: 80px;
-  height: 80px;
+.fillWidth {
+  width: 100%;
+  text-align: center;
 }
-.donut {
-  width: 60%;
-  height: 60%;
+.fillCenter {
+  margin: auto;
 }
-.list-item {
-  display: inline-block;
+.smalltext {
+  color: white;
+  font-family: verdana;
+  font-size: 11px;
+}
+.floatright {
+  float: right;
+}
+.floatleft {
+  float: left;
+}
+.clear {
+  clear: both;
+}
+.scroller::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.scroller::-webkit-scrollbar-track {
+  background: white;
+}
+.scroller::-webkit-scrollbar-thumb {
+  background: #ddd;
+  visibility: hidden;
+}
+.scroller:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+.scroller {
+  overflow: auto;
+  color: #444;
+  height: 100%;
+}
+.padding10 {
+  padding: 10px;
+}
+.btn-group .btn {
+  background: #000;
+  color: #fff;
+  font-size: 20px;
+  margin: 10px 25px 10px 25px;
+  text-align: center;
+  border: 0;
+  transition: all 0.3s ease 0s;
+  font-variant: small-caps;
+}
+.btn-group .active {
+  background: #fff;
+  color: #00c6ff;
+}
+.btn-group .btn.active:hover {
+  color: #00c6ff;
+}
+.btn-group .btn:hover,
+.btn-group  > .btn:first-child:hover {
+  background: #fff;
+  color: #000;
+}
+#footer {
   position: relative;
-  margin: 5px 4px;
+  bottom: 0;
+  width: 100%;
+  background-color: #000;
+  color: #00c6ff;
+  margin-top: 200px;
+  margin-bottom: 0px;
+  padding: 50px;
 }
-.list-item img {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 3px;
+#footer > div {
+  max-width: 900px;
+  width: 50%;
+  margin: 0 auto;
+  color: #00c6ff;
+}
+#contentWrapper {
+  border-top: solid black 5px;
+  position: relative;
+  background-repeat: no-repeat;
+}
+#header {
+  height: 0px;
+  padding-left: 950px;
+  padding-top: 50px;
+  margin: auto;
+}
+.wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+.wrap img {
+  width: 100%;
+  height: auto;
   display: block;
 }
-.list-item-count {
-  font-size: 13px;
+.wrap:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  background-color: inherit;
+  padding-bottom: 5%;
+  right: 90%;
+  -ms-transform-origin: 100% 100%;
+  -webkit-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  -ms-transform: skewX(45deg);
+  -webkit-transform: skewX(45deg);
+  transform: skewX(45deg);
+}
+.wrap:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  background-color: inherit;
+  padding-bottom: 5%;
+  left: 40%;
+  -ms-transform-origin: 0 100%;
+  -webkit-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+  -ms-transform: skewX(-45deg);
+  -webkit-transform: skewX(-45deg);
+  transform: skewX(-45deg);
+}
+
+.championHeader {
+  color: #ffffff;
+  width: 100%;
+  background-color: #000000;
+  position: relative;
+}
+.championHeader .content {
+  margin-left: 20px;
+}
+.championHeader .name {
+  font-size: 1.9em;
+  font-weight: 300;
+  display: block;
+}
+.championHeader .title {
+  color: #999;
+  font-size: 0.9em;
+}
+.championHeader .classes {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.championHeader .classes .tagsWrapper {
+  display: inline-block;
+}
+.championHeader .icon,
+.championHeader .content {
+  vertical-align: middle;
+  display: inline-block;
+}
+.categoryWrapper {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 20px 10px 15px 10px;
+}
+.categoryItem {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30%;
+}
+.categoryItem span {
+  display: block;
+}
+.championContent h3 {
+  color: #afdefa;
+  font-size: 1.2em;
+  padding: 20px;
+  margin: 0;
+  font-weight: 300;
+  background-color: #0d77b6;
+}
+.championContent span {
+  display: block;
   text-align: center;
 }
 
