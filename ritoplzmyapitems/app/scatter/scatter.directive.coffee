@@ -18,7 +18,6 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height)
         .append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
-
       # on window resize, re-render d3 canvas
       window.onresize = -> scope.$apply()
       scope.$watch (->
@@ -69,7 +68,9 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
 
           # Create the x-axis
           iconWidth = x.rangeBand()
-          svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + Math.min(y(0), height - (iconWidth / 2)) + ")").call xAxis
+          svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," +
+            Math.max((iconWidth / 2), Math.min(y(0), height - (iconWidth / 2))) + ")"
+          ).call xAxis
           svg.select('.xAxis').selectAll('text').remove()
           svg.select('.xAxis').selectAll('.tick').data(data).append('svg:image').attr('xlink:href', (d) ->
             'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png'
