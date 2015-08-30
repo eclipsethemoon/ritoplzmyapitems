@@ -9,6 +9,7 @@ angular.module('ritoplzmyapitems').controller 'InfoCtrl', ($scope, $modal, $log)
     modalInstance = $modal.open(
       templateUrl: 'info/info.html'
       controller: 'ModalInstanceCtrl'
+      size: 'lg'
       resolve: items: ->
         $scope.items
     )
