@@ -6,26 +6,18 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
       filter: '='
       onClick: '&'
     link: (scope, element) ->
-      width = element.parent()[0].offsetWidth - 20  # 20 is for margins and can be changed
-      height = width;  # 20 is for margins and can be changed
+      width = 350  # Set to the same size as pageslide
+      height = width;
       radius = width / 2;
 
       # Setup SVG details
-      arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 70)
+      arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 50)
       pie = d3.layout.pie().sort(null).value((d) -> d.count)
       svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height).append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
       svg.attr 'height', height
 
-      color = d3.scale.ordinal().range([
-        '#98abc5'
-        '#8a89a6'
-        '#7b6888'
-        '#6b486b'
-        '#a05d56'
-        '#d0743c'
-        '#ff8c00'
-      ])
+      color = d3.scale.ordinal().range(d3.scale.category10().range())
 
       # on window resize, re-render d3 canvas
       window.onresize = -> scope.$apply()
@@ -48,6 +40,16 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
           tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0)
           g = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc')
           g.append('path').attr('d', arc).style('fill', (d) -> color d.data.type)
-          g.append('text').attr('transform', (d) -> 'translate(' + arc.centroid(d) + ')')
-            .attr('dy', '.35em').style('text-anchor', 'middle').text((d) -> d.data.type)
+
+          svg.append("text").datum(data).attr("x", 0 ).attr("y", 0 - radius/15 ).attr("class", "text-type-tooltip")
+            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+          svg.append("text").datum(data).attr("x", 0 ).attr("y", 0 + radius/15 ).attr("class", "text-percent-tooltip")
+            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+          g.on 'mouseover', (d) ->
+            circle_text = Math.round(Math.abs(d.startAngle - d.endAngle) * 100 / (2 * Math.PI))
+            svg.select('text.text-type-tooltip').attr('fill', color d.data.type).text(d.data.type)
+            svg.select('text.text-percent-tooltip').attr('fill', color d.data.type).text(circle_text + '%')
+          g.on 'mouseout', (d) ->
+            svg.select('text.text-type-tooltip').text ''
+            svg.select('text.text-percent-tooltip').text ''
 ]

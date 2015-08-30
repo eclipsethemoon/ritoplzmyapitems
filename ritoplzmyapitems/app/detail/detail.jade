@@ -15,22 +15,22 @@ pageslide(ps-side='left' ps-open='checked', ps-squeeze='true', ps-key-listener='
                 .categoryWrapper
                     .categoryItem(ng-repeat='(key, value) in most_common | limitTo: 3')
                         img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
-                        span {{ value['pickRate'] }}
+                        span {{ value['pickRate'] }}%
                     span (By Purchase Rate)
             .championContent
                 h3 Most Successful Items
                 .categoryWrapper
                     .categoryItem(ng-repeat='(key, value) in most_winner | limitTo: 3')
                         img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
-                        span {{ value['winner'] }}
+                        span {{ value['winner'] }}%
                     span (By Win Rate)
             .championContent
                 h3 Recommended Items
                 .categoryWrapper
                     .categoryItem(ng-repeat='(key, value) in recommended | limitTo: 3')
                         img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
-                        span {{ value['winner'] }}
-                    span (By Purchase Rate x Win Rate)
+                        span {{ value['winner'] }}%
+                    span (By Win Rate)
             .championContent
                 h3 Item Composition
                 d3-donut(data='item_types')

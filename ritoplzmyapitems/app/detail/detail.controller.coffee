@@ -22,12 +22,12 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
           # Setup the pie chart that shows item composition
           item_types = res.item_types['5.14']
           $scope.item_types = []
-          total_items = 0
+          $scope.total_item_types = 0
           for k,v of item_types
-            total_items += v
+            $scope.total_item_types += v
           other_value = 0
           for k,v of item_types
-            if v > total_items * 0.05
+            if v > $scope.total_item_types * 0.05
               $scope.item_types.push {type: k, count: v}
             else
               other_value += v
