@@ -178,14 +178,12 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
 
 angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
   $scope.items = ['item1', 'item2', 'item3'];
-  $scope.animationsEnabled = true;
-  $scope.open = function(size) {
+  return $scope.open = function() {
     var modalInstance;
     modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'myModalContent.html',
+      templateUrl: 'info/info.html',
       controller: 'ModalInstanceCtrl',
-      size: size,
+      size: 'lg',
       resolve: {
         items: function() {
           return $scope.items;
@@ -198,9 +196,6 @@ angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $moda
       return $log.info('Modal dismissed at: ' + new Date);
     });
   };
-  return $scope.toggleAnimation = function() {
-    return $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
 });
 
 angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
@@ -208,7 +203,9 @@ angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($sco
   $scope.selected = {
     item: $scope.items[0]
   };
-  $scope.ok = $modalInstance.close($scope.selected.item);
+  $scope.ok = function() {
+    return $modalInstance.close($scope.selected.item);
+  };
   return $scope.cancel = function() {
     return $modalInstance.dismiss('cancel');
   };
