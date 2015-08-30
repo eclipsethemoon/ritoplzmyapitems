@@ -11,7 +11,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       height = 300 - margin.top - margin.bottom
 
       x = d3.scale.ordinal().rangeRoundBands([0, width], .2)
-      y = d3.scale.linear().range([0, height])
+      y = d3.scale.linear().range([height, 0])
       xAxis = d3.svg.axis().scale(x)
       yAxis = d3.svg.axis().scale(y).orient('left')
 
@@ -27,18 +27,15 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
 
       # watch for data changes and re-render
       scope.$watch 'data', ((newVals, oldVals) ->
-        console.log 'NEW DATA'
         scope.render newVals, scope.filter
       ), true
 
       scope.$watch 'filter', ((newVals, oldVals) ->
-        console.log 'NEW FILTER'
         scope.render scope.data, newVals
       ), true
 
       # define render function
       scope.render = (data, feature) ->
-        console.log data
         if data.length
           svg.selectAll('*').remove()  # remove all previous items before render
           x.domain data.map((d) -> d['id'])
@@ -48,9 +45,9 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           ).attr('x', (d) ->
             x d['id']
           ).attr('y', (d) ->
-            y Math.min(0, (d['5.14'][feature] - d['5.11'][feature]))
+            y Math.max(0, (d['5.14'][feature] - d['5.11'][feature]))
           ).attr('height', (d) ->
-            Math.abs y(d['5.14'][feature] - d['5.11'][feature]) - y(0)
+            Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0))
           ).attr 'width', x.rangeBand()
           svg.append('g').attr('class', 'yAxis').call yAxis
           svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + y(0) + ")").call xAxis

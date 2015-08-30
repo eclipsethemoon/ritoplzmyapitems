@@ -6,8 +6,9 @@ angular.module('ritoplzmyapitems').controller 'ScatterCtrl', [
       alert item.name
 
     $scope.apItems = []
-    $scope.allAPItems = [1026, 1052, 1058, 3001, 3003, 3023, 3025, 3027, 3041, 3057, 3060, 3078, 3089, 3100, 3108,
-                         3113, 3115, 3116, 3124, 3135, 3136, 3145, 3146, 3151, 3152, 3157, 3165, 3174, 3191, 3285, 3504]
+    $scope.allAPItems = ['1026', '1052', '1058', '3001', '3003', '3023', '3025', '3027', '3041', '3057', '3060', '3078',
+                         '3089', '3100', '3108', '3113', '3115', '3116', '3124', '3135', '3136', '3145', '3146', '3151',
+                         '3152', '3157', '3165', '3174', '3191', '3285', '3504']
     $scope.filterRadio = 'winner'
 
     championItemService.getDataFor('items').success (res) ->
@@ -23,12 +24,9 @@ angular.module('ritoplzmyapitems').controller 'ScatterCtrl', [
           if res.error
             throw new Error(res.message)
           else
-            console.log 'NEW CHAMPION SELECTED'
             apItems = []
             for k, v of res
-              console.log k
               if k in $scope.allAPItems
-                console.log v
                 apItems.push v
             $scope.apItems = apItems
     )
