@@ -55,7 +55,6 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           # Create the y-axis
           svg.append('g').attr('class', 'yAxis').call yAxis
           svg.select('.yAxis').selectAll('text').text (d) ->
-            console.log d
             if feature == 'timestamp'
               (d / 1000).toFixed(2)
             else

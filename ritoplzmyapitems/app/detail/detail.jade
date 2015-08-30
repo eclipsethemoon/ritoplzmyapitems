@@ -1,30 +1,36 @@
-.body
-    .row
-        .col-lg-4.champ-icon
-            img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/{{championSelected.key}}.png ', alt='{{championSelected.name}}')
-        .col-lg-8
-            h2 {{championSelected.name}}
-            h3 {{championSelected.title}}
-            h4 {{championSelected.tags}}
-    .row
-        h4 Most Common
-        .list-item.ng-scope(ng-repeat='(key, value) in most_common | limitTo: 3')
-            img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
-            .list-item-count.ng-binding {{ value['pickRate'] }}
-            .list-item-count.ng-binding {{ value['winner'] }}
-    .row
-        h4 Most Winning
-        .list-item.ng-scope(ng-repeat='(key, value) in most_winner | limitTo: 3')
-            img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
-            .list-item-count.ng-binding {{ value['pickRate'] }}
-            .list-item-count.ng-binding {{ value['winner'] }}
-    .row
-        h4 Overall item Composition
-        .col-lg-10
-            d3-donut(data='item_types')
-    .row
-        h4 Recommended Items:
-        .list-item(ng-repeat='(key, value) in recommended | limitTo: 3')
-            img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}")
-            .list-item-count {{ value['pickRate'] }}
-            .list-item-count {{ value['winner'] }}
+pageslide(ps-side='left' ps-open='checked', ps-squeeze='true', ps-key-listener='true', ps-size='350px')
+    div
+        .championHeader
+            .icon
+                img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/{{championSelected.key}}.png ', alt='{{championSelected.name}}')
+            .content
+                span.name {{championSelected.name}}
+                span.title {{championSelected.title}}
+            .classes
+                .tagsWrapper(ng-repeat='tag in championSelected.tags')
+                    img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/profileicon/' + championTags[tag] + '.png' }}", height='30', width='30', data-toggle='tooltip', data-placement='top', title='{{tag}}')
+        .championContentWrapper.scroller
+            .championContent
+                h3 Most Common Items
+                .categoryWrapper
+                    .categoryItem(ng-repeat='(key, value) in most_common | limitTo: 3')
+                        img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
+                        span {{ value['pickRate'] }}
+                    span (By Purchase Rate)
+            .championContent
+                h3 Most Successful Items
+                .categoryWrapper
+                    .categoryItem(ng-repeat='(key, value) in most_winner | limitTo: 3')
+                        img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
+                        span {{ value['winner'] }}
+                    span (By Win Rate)
+            .championContent
+                h3 Recommended Items
+                .categoryWrapper
+                    .categoryItem(ng-repeat='(key, value) in recommended | limitTo: 3')
+                        img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/' + value['item'] + '.png' }}", data-toggle='tooltip', data-placement='top', title='{{value.name}}')
+                        span {{ value['winner'] }}
+                    span (By Purchase Rate x Win Rate)
+            .championContent
+                h3 Item Composition
+                d3-donut(data='item_types')

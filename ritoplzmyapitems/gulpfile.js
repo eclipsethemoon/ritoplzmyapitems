@@ -57,6 +57,7 @@ gulp.task('libJS', function() {
     './bower_components/angular/angular.js',
     './bower_components/angular-animate/angular-animate.js',
     './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+    './bower_components/angular-pageslide-directive/dist/angular-pageslide-directive.js',
     './bower_components/angular-route/angular-route.js',
     './bower_components/d3/d3.js'
   ]).pipe(concat('lib.js'))

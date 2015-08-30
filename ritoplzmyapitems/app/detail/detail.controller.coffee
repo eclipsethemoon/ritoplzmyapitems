@@ -2,11 +2,23 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
   '$scope',
   'championItemService'
   ($scope, championItemService) ->
+    $scope.checked = false
     $scope.intermediates = ['1026', '1052', '1058', '3057', '3108', '3113', '3136', '3145', '3191']
+    $scope.championTags =
+      'Assassin': '657'
+      'Fighter': '658'
+      'Mage': '659'
+      'Marksman': '660'
+      'Support': '661'
+      'Tank': '662'
+
     $scope.$watch 'championSelected', ((newVal, oldVal) ->
+      $scope.checked = false
       if(typeof newVal =='object')
         # Get champion specific data
         championItemService.getDataFor(newVal.id).success (res) ->
+          $scope.checked = true
+
           # Setup the pie chart that shows item composition
           item_types = res.item_types['5.14']
           $scope.item_types = []
@@ -27,6 +39,7 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
             if item_id not in $scope.intermediates
               $scope.most_common.push
                 item: item_id
+                name: res[item_id]['name']
                 pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0
                 pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0
                 winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
@@ -38,6 +51,7 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
             if (item_id not in $scope.intermediates) and (res[item_id]['5.14']['pickRate'] >= 0.005)
               $scope.most_winner.push
                 item: item_id
+                name: res[item_id]['name']
                 pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0
                 pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0
                 winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
@@ -56,6 +70,7 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
               if (item_id not in most_common) and (item_id not in most_winner)
                 $scope.recommended.push
                   item: item_id
+                  name: champion_json[item_id]['name']
                   pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0
                   pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0
                   winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0

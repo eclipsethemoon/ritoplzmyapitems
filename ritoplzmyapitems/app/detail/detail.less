@@ -1,27 +1,59 @@
-h2, h3, h4 {
-  padding: 0px;
-  margin: 0px;
-}
-.champ-icon img {
-  width: 80px;
-  height: 80px;
-}
-.donut {
-  width: 60%;
-  height: 60%;
-}
-.list-item {
-  display: inline-block;
+.championHeader {
+  color: #ffffff;
+  width: 100%;
+  background-color: #000000;
   position: relative;
-  margin: 5px 4px;
+  .content {
+    margin-left: 20px;
+  }
+  .name {
+    font-size: 1.9em;
+    font-weight: 300;
+    display: block;
+  }
+  .title {
+    color: #999;
+    font-size: 0.9em;
+  }
+  .classes {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    .tagsWrapper {
+      display: inline-block;
+    }
+  }
 }
-.list-item img {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 3px;
-  display: block;
+.championHeader .icon, .championHeader .content {
+  vertical-align: middle;
+  display: inline-block;
 }
-.list-item-count {
-  font-size: 13px;
+.categoryWrapper {
   text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 20px 10px 15px 10px;
 }
+.categoryItem {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30%;
+  span {
+    display: block;
+  }
+}
+.championContent {
+  h3 {
+    color: #afdefa;
+    font-size: 1.2em;
+    padding: 20px;
+    margin: 0;
+    font-weight: 300;
+    background-color: #0d77b6;
+  }
+  span {
+    display: block;
+    text-align: center;
+  }
+}
+

@@ -1,6 +1,7 @@
 angular.module 'ritoplzmyapitems', [
   'ngAnimate',
   'ngRoute',
+  'pageslide-directive',
   'templates',
   'ui.bootstrap'
 ]
