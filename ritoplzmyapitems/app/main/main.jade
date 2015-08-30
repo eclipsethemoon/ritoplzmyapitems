@@ -15,7 +15,8 @@ header
     h1 RitoPlz! My AP Items for
     input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='championTemplate.html')
     ul.nav.navbar-nav.navbar-right
-        li(ng-include=" 'info/info.html' ", ng-controller="InfoCtrl")
+        button.btn(ng-click='open()', ng-controller="InfoCtrl") Open me!
+        //li(ng-include=" 'info/info.html' ", ng-controller="InfoCtrl")
 .container-fluid
     .row
         .col-sm-3.col-md-3.col-lg-3.sidebar

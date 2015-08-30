@@ -1,29 +1,41 @@
-script(type='text/ng-template', id='myModalContent.html').
-    <div class="modal-header">
-    <h3 class="modal-title">I'm a modal!</h3>
-    </div>
-    <div class="modal-body">
-    <ul>
-    <li ng-repeat="item in items">
-    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-    </li>
-    </ul>
-    Selected: <b>{{ selected.item }}</b>
-    </div>
-    <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-    </div>
-
-button.btn.btn-default(type='button', ng-click="open('lg')") REPLACEME w/ Info Icon
-
-//Must answer the following:
-//  1. How to use this website?
-//  2. How were numbers calculated?
-//  3. How did we come up with 'Recommended Items'
-//  4. Why are pickRate/winner numbers so strange? (all leagues not just >= gold)
-//  5. Why do we see non-AP champs (Jinx)?
-//  6. I disagree with xxxx number...
-//  7. Any planned improvements?
-//  8. Why are you showing these 4 questions below the items chart?
-//  9. Where's Seraph's Embrace?
+.modal-content
+    .modal-header
+        button.close(type='button', ng-click='cancel()') ×
+        h4.modal-title Rito Plz! My AP Items!
+    .modal-body
+        p This website looks into how the AP (ability power) item changes in Patch 5.13 have affected games. If you're looking for how the patch changes have affected a certain champion or AP items, we can help!
+        br
+        p Without selecting a champion, we show how the patch has affected each AP item. We also take a look at some questions that were asked when the patch first came out.
+        p If you select a champion, we'll tell you how each AP item relates to you now. We also give you some recommendations based on similar champions along with items that you'll most likely find on your champion or items that win you games.
+        accordion(close-others='false')
+            accordion-group(heading='How did you calculate these numbers? These numbers seem strange...')
+                p To get our data, we downloaded the list of match ids in the second category of the Riot API Challenge (https://developer.riotgames.com/discussion/announcements/show/2lxEyIcE). We made REST calls on each match id to get information for 375,740 matches. Although this is less than the expected 400k matches, this is a large enough dataset to do our analysis.
+                p After getting the raw data, we did a whole of mapping and averaged between the groups to get the data. The terms you see are usually the average, but we should clarify the pick rate and win rate:
+                ul
+                  li Pick rate = || item is bought for the first time || / || number of champions in the dataset ||
+                  li Pick rate(champion) = || item is bought for the first time || / || number of times the champion is played ||
+                  li Win rate = || item is bought for the first time in a winning game || / || item is bought for the first time ||
+                  li Win rate(champion) = || item is bought for the first time on champion in a winning game || / || item is bought for the first time on champion ||
+                p We're pretty confident in our calculations, but if you're certain. Feel free to open a ticket in Github (https://github.com/issenec/ritoplzmyapitems) and we'll take a look!
+            accordion-group(heading='How did you come up with the Recommended Items? Machine learning?')
+                p test
+            accordion-group(heading="Why is there a section specifically for Nashor's tooth, etc.?")
+                p When the AP items patch (5.13) came out, there seemed to be more utility to each AP items, but it was all theoretical. A lot of questions came up in the patch notes and in the forums, but four questions really stood out:
+                ul
+                    li Early Nashor's tooth's attack speed to ability power ratio meant the item only made sense on certain champions: only Kayle. Does the new Nashor's tooth just as niche?
+                    li Do you heal more from the new Will of the Ancients?
+                    li Watching LCS, Kog'maw was scary if he got both Rylai's Crystal Scepter and Liandry's Torment. How insane is the synergy between the two items?
+                    li To quote Pwyff and Scarizard: "[...] Picking up a Codex + Book on your first back can be about comparable to going for that 1200 gold NLR. ARE THESE CHOICES MEANINGFUL? You tell us."
+                p These questions were very interesting and would vary for each champion. So we decided to give them their own section.
+            accordion-group(heading='Why do we see non-AP champs (e.g. Jinx)?')
+                // TODO: Consider putting a row of non-AP champion icons here
+                p We don't judge your choice of champions. Personally, you're a little too spicy for us, but if you want to do an AP Jinx, go for it! Don't let your dreams be dreams!
+            accordion-group(heading="Where is Seraph's Embrace? What about other AP items?")
+                // TODO: Consider putting a picture of Seraph's Embrace here
+                p Seraph's Embrace is special because you automatically get this item once you cast your spells after a certain amount. As a result, we can look at the statistics for Seraph's Embrace by looking at its base item: Archangel's Staff. In the future, we will want to look at the statistics when Seraph's Embrace is completed versus when it is not. However, we chose to ignore Seraph's Embrace since the only change was +20 ability power, but the path to get there was the same after you got Archangel's Staff.
+            accordion-group(heading='Any improvements you plan on making?')
+                p There's definitely tons of things we can do. As mentioned in the previous section, one potential addition would be statistics for Seraph's Embrace.
+                p Another useful addition would be statistics for item combinations. We chose to ignore this because item purchase order would add some data complexity. This wouldn't be impossible: we have access to computers that can handle the data. However, due to the time constraints of this API challenge, we opted to do this analysis in the future.
+                p In terms of the current data, we could and probably should have filtered based on leagues or the number of games recorded for a champion-item combo. There were games where the combination was "spicy" (looking at you AP Jinx players). However, it's a little interesting to see picks for non-AP champions so we did not do this filtering despite the possibility that our app would be more useful without the "spicy" games.
+                p One interesting possibility is to look at each region. We were given access to data separated by regions. We chose not to take this into account, but it would be fun to see the meta across each region.
+                p Finally, if we were given ARAM (All-Random-All-Mid) data, we would love to do our analysis on it. How many times have you gone first-item Needlessly Large Rod?
