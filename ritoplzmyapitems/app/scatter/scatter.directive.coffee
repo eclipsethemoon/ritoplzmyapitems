@@ -4,19 +4,20 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
     scope:
       data: '='
       filter: '='
-      onClick: '&'
+      pushed: '='
     link: (scope, element) ->
-      margin = {top: 10, right: 0, bottom: 10, left: 50}
+      margin = {top: 10, right: 10, bottom: 10, left: 50}
       width = element[0].parentElement.clientWidth - margin.left - margin.right
-      height = 300 - margin.top - margin.bottom
+      height = 400 - margin.top - margin.bottom
 
-      x = d3.scale.ordinal().rangeRoundBands([0, width], .3)
+      x = d3.scale.ordinal().rangeRoundBands([0, width - 30], .3)
       y = d3.scale.linear().range([height, 0])
       xAxis = d3.svg.axis().scale(x)
       yAxis = d3.svg.axis().scale(y).orient('left')
 
       svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height)
         .append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
 
       # on window resize, re-render d3 canvas
       window.onresize = -> scope.$apply()
@@ -37,6 +38,12 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       # define render function
       scope.render = (data, feature) ->
         if data.length
+          tipOffset = if scope.pushed == 'items' then 0 else -350
+          tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html((d) ->
+            '<strong>' + d['name'] + '</strong>'
+          )
+          svg.call tip
+
           svg.selectAll('*').remove()  # remove all previous items before render
           x.domain data.map((d) -> d['id'])
           y.domain(d3.extent(data, (d) -> d['5.14'][feature] - d['5.11'][feature]))
@@ -50,7 +57,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
             y Math.max(0, (d['5.14'][feature] - d['5.11'][feature]))
           ).attr('height', (d) ->
             Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0))
-          ).attr 'width', x.rangeBand()
+          ).attr('width', x.rangeBand()).on('mouseover', tip.show).on('mouseout', tip.hide)
 
           # Create the y-axis
           svg.append('g').attr('class', 'yAxis').call yAxis
@@ -61,27 +68,11 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
               Math.round(d * 100)
 
           # Create the x-axis
-          svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + y(0) + ")").call xAxis
-          svg.select('.xAxis').selectAll('text').remove()
           iconWidth = x.rangeBand()
+          svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + Math.min(y(0), height - (iconWidth / 2)) + ")").call xAxis
+          svg.select('.xAxis').selectAll('text').remove()
           svg.select('.xAxis').selectAll('.tick').data(data).append('svg:image').attr('xlink:href', (d) ->
             'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png'
-          ).attr('width', iconWidth).attr('height', iconWidth)
-           .attr('x', -iconWidth / 2).attr('y', -iconWidth / 2)
-
-# Draw dots
-#        tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0)
-#        svg.selectAll('.dot').data(data).enter().append('image')
-#          .attr('xlink:href', (d) -> 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png')
-#          .attr("x", xMap).attr("y", yMap).attr("width", 16).attr("height", 16)
-#          .on('mouseover', (d) ->
-#            tooltip.transition().duration(200).style 'opacity', .9
-#            if filter == 'timestamp'
-#              tooltip.html(d['name'] + '<br/> (' + xValue(d) / 60000 + ', ' + yValue(d) / 60000 + ')')
-#                .style('left', d3.event.pageX + 5 + 'px').style 'top', d3.event.pageY - 28 + 'px'
-#            else
-#              tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')')
-#                .style('left', d3.event.pageX + 5 + 'px').style 'top', d3.event.pageY - 28 + 'px'
-#          ).on 'mouseout', (d) ->
-#            tooltip.transition().duration(500).style 'opacity', 0
+          ).attr('width', iconWidth).attr('height', iconWidth).attr('x', -iconWidth / 2).attr('y', -iconWidth / 2)
+          .on('mouseover', tip.show).on('mouseout', tip.hide)
 ]

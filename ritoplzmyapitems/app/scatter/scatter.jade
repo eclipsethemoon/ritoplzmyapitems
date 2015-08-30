@@ -1,9 +1,8 @@
 .btn-group
     label.btn.btn-primary(ng-model='filterRadio', btn-radio="'winner'") Win %
     label.btn.btn-primary(ng-model='filterRadio', btn-radio="'pickRate'") Pick %
-    //Hide this one once we can determine if champ or item is selected
     label.btn.btn-primary(ng-model='filterRadio', btn-radio="'timestamp'") Time Completed
-d3-scatter(data='apItems', filter='filterRadio', on-click='d3OnClick(item)')
+d3-scatter(data='apItems', filter='filterRadio', pushed='champFocus')
 
 
 
