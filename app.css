@@ -59,24 +59,29 @@ footer {
   color: #ffffff;
 }
 
-svg {
-  border: 2px solid rgba(100, 100, 100, 0.5);
-  background-color: rgba(45, 45, 45, 0.5);
+.bar.positive {
+  fill: steelblue;
 }
-text {
-  font-size: 12px;
-  pointer-events: none;
-  fill: #fff;
+.bar.negative {
+  fill: brown;
 }
-.number {
-  font-size: 32px;
-  fill: #000;
-  opacity: .8;
+.xAxis text {
+  font: 10px sans-serif;
 }
-.axis path,
-.axis line {
+.xAxis path,
+.xAxis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+.yAxis text {
+  font: 10px sans-serif;
+  color: #000;
+}
+.yAxis path,
+.yAxis line {
   fill: none;
   stroke: #000;
+  shape-rendering: crispEdges;
 }
 
 .list-group-item img {

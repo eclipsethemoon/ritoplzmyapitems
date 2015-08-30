@@ -19,44 +19,6 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.boo
   });
 });
 
-angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
-  $scope.items = ['item1', 'item2', 'item3'];
-  $scope.animationsEnabled = true;
-  $scope.open = function(size) {
-    var modalInstance;
-    modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function() {
-          return $scope.items;
-        }
-      }
-    });
-    return modalInstance.result.then((function(selectedItem) {
-      return $scope.selected = selectedItem;
-    }), function() {
-      return $log.info('Modal dismissed at: ' + new Date);
-    });
-  };
-  return $scope.toggleAnimation = function() {
-    return $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
-});
-
-angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-  $scope.ok = $modalInstance.close($scope.selected.item);
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
-  };
-});
-
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 angular.module('ritoplzmyapitems').controller('DetailCtrl', [
@@ -186,18 +148,68 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
         }), true);
         return scope.render = function(data) {
           var g, tooltip;
-          svg.selectAll('*').remove();
-          tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0);
-          g = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc');
-          g.append('path').attr('d', arc).style('fill', function(d) {
-            return color(d.data.type);
-          });
-          return g.append('text').attr('transform', function(d) {
-            return 'translate(' + arc.centroid(d) + ')';
-          }).attr('dy', '.35em').style('text-anchor', 'middle').text(function(d) {
-            return d.data.type;
-          });
+          if (data) {
+            svg.selectAll('*').remove();
+            tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0);
+            g = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc');
+            g.append('path').attr('d', arc).style('fill', function(d) {
+              return color(d.data.type);
+            });
+            return g.append('text').attr('transform', function(d) {
+              return 'translate(' + arc.centroid(d) + ')';
+            }).attr('dy', '.35em').style('text-anchor', 'middle').text(function(d) {
+              return d.data.type;
+            });
+          }
         };
+      }
+    };
+  }
+]);
+
+angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
+  $scope.items = ['item1', 'item2', 'item3'];
+  $scope.animationsEnabled = true;
+  $scope.open = function(size) {
+    var modalInstance;
+    modalInstance = $modal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function() {
+          return $scope.items;
+        }
+      }
+    });
+    return modalInstance.result.then((function(selectedItem) {
+      return $scope.selected = selectedItem;
+    }), function() {
+      return $log.info('Modal dismissed at: ' + new Date);
+    });
+  };
+  return $scope.toggleAnimation = function() {
+    return $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+});
+
+angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+  $scope.ok = $modalInstance.close($scope.selected.item);
+  return $scope.cancel = function() {
+    return $modalInstance.dismiss('cancel');
+  };
+});
+
+angular.module('ritoplzmyapitems').factory('championItemService', [
+  '$http', function($http) {
+    return {
+      getDataFor: function(term) {
+        return $http.get('data/' + term + '.json');
       }
     };
   }
@@ -223,31 +235,42 @@ angular.module('ritoplzmyapitems').controller('MainCtrl', [
   }
 ]);
 
+var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
 angular.module('ritoplzmyapitems').controller('ScatterCtrl', [
   '$scope', 'championItemService', function($scope, championItemService) {
     $scope.d3OnClick = function(item) {
       return alert(item.name);
     };
     $scope.apItems = [];
+    $scope.allAPItems = ['1026', '1052', '1058', '3001', '3003', '3023', '3025', '3027', '3041', '3057', '3060', '3078', '3089', '3100', '3108', '3113', '3115', '3116', '3124', '3135', '3136', '3145', '3146', '3151', '3152', '3157', '3165', '3174', '3191', '3285', '3504'];
     $scope.filterRadio = 'winner';
-    $scope.$watch('championSelected', (function(newVals, oldVals) {
-      if (typeof newVals === 'object') {
-        return championItemService.getDataFor(newVals.id).success(function(res) {
-          if (res.error) {
-            throw new Error(res.message);
-          } else {
-            return $scope.apItems = res;
-          }
-        });
-      }
-    }));
-    return championItemService.getDataFor('items').success(function(res) {
+    championItemService.getDataFor('items').success(function(res) {
       if (res.error) {
         throw new Error(res.message);
       } else {
         return $scope.apItems = res;
       }
     });
+    return $scope.$watch('championSelected', (function(newVals, oldVals) {
+      if (typeof newVals === 'object') {
+        return championItemService.getDataFor(newVals.id).success(function(res) {
+          var apItems, k, v;
+          if (res.error) {
+            throw new Error(res.message);
+          } else {
+            apItems = [];
+            for (k in res) {
+              v = res[k];
+              if (__indexOf.call($scope.allAPItems, k) >= 0) {
+                apItems.push(v);
+              }
+            }
+            return $scope.apItems = apItems;
+          }
+        });
+      }
+    }));
   }
 ]);
 
@@ -261,8 +284,20 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
         onClick: '&'
       },
       link: function(scope, element) {
-        var svg;
-        svg = d3.select(element[0]).append('svg').attr('width', '100%');
+        var height, margin, svg, width, x, xAxis, y, yAxis;
+        margin = {
+          top: 10,
+          right: 10,
+          bottom: 10,
+          left: 50
+        };
+        width = element[0].parentElement.clientWidth - margin.left - margin.right;
+        height = 300 - margin.top - margin.bottom;
+        x = d3.scale.ordinal().rangeRoundBands([0, width], .2);
+        y = d3.scale.linear().range([height, 0]);
+        xAxis = d3.svg.axis().scale(x);
+        yAxis = d3.svg.axis().scale(y).orient('left');
+        svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
         window.onresize = function() {
           return scope.$apply();
         };
@@ -277,57 +312,46 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
         scope.$watch('filter', (function(newVals, oldVals) {
           return scope.render(scope.data, newVals);
         }), true);
-        return scope.render = function(data, filter) {
-          var height, tooltip, width, xAxis, xMap, xScale, xValue, yAxis, yMap, yScale, yValue;
-          svg.selectAll('*').remove();
-          width = d3.select(element[0])[0][0].offsetWidth - 20;
-          height = 300;
-          svg.attr('height', height);
-          xScale = d3.scale.linear().range([0, width]);
-          xValue = function(d) {
-            return d['5.11'][filter] * 100;
-          };
-          xScale.domain([d3.min(data, xValue) - 1, d3.max(data, xValue) + 1]);
-          xMap = function(d) {
-            return xScale(xValue(d));
-          };
-          xAxis = d3.svg.axis().scale(xScale).orient('bottom');
-          svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis).append('text').attr('class', 'label').attr('x', width).attr('y', -6).style('text-anchor', 'end').text('Pre-AP Item Changes');
-          yScale = d3.scale.linear().range([height, 0]);
-          yValue = function(d) {
-            return d['5.14'][filter] * 100;
-          };
-          yScale.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
-          yMap = function(d) {
-            return yScale(yValue(d));
-          };
-          yAxis = d3.svg.axis().scale(yScale).orient('left');
-          svg.append('g').attr('class', 'y axis').call(yAxis).append('text').attr('class', 'label').attr('transform', 'rotate(-90)').attr('y', 6).attr('dy', '.71em').style('text-anchor', 'end').text('Post-AP Item Changes');
-          svg.append('line').attr('x1', 0).attr('x2', 100).attr('y1', 0).attr('y2', 100).attr('color', 'black');
-          tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0);
-          return svg.selectAll('.dot').data(data).enter().append('image').attr('xlink:href', function(d) {
-            return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
-          }).attr("x", xMap).attr("y", yMap).attr("width", 16).attr("height", 16).on('mouseover', function(d) {
-            tooltip.transition().duration(200).style('opacity', .9);
-            if (filter === 'timestamp') {
-              return tooltip.html(d['name'] + '<br/> (' + xValue(d) / 60000 + ', ' + yValue(d) / 60000 + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
-            } else {
-              return tooltip.html(d['name'] + '<br/> (' + xValue(d) + ', ' + yValue(d) + ')').style('left', d3.event.pageX + 5 + 'px').style('top', d3.event.pageY - 28 + 'px');
-            }
-          }).on('mouseout', function(d) {
-            return tooltip.transition().duration(500).style('opacity', 0);
-          });
+        return scope.render = function(data, feature) {
+          var iconWidth;
+          if (data.length) {
+            svg.selectAll('*').remove();
+            x.domain(data.map(function(d) {
+              return d['id'];
+            }));
+            y.domain(d3.extent(data, function(d) {
+              return d['5.14'][feature] - d['5.11'][feature];
+            }));
+            svg.selectAll('.bar').data(data).enter().append('rect').attr('class', function(d) {
+              if ((d['5.14'][feature] - d['5.11'][feature]) < 0) {
+                return 'bar negative';
+              } else {
+                return 'bar positive';
+              }
+            }).attr('x', function(d) {
+              return x(d['id']);
+            }).attr('y', function(d) {
+              return y(Math.max(0, d['5.14'][feature] - d['5.11'][feature]));
+            }).attr('height', function(d) {
+              return Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0));
+            }).attr('width', x.rangeBand());
+            svg.append('g').attr('class', 'yAxis').call(yAxis);
+            svg.select('.yAxis').selectAll('text').text(function(d) {
+              console.log(d);
+              if (feature === 'timestamp') {
+                return (d / 1000).toFixed(2);
+              } else {
+                return Math.round(d * 100);
+              }
+            });
+            svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + y(0) + ")").call(xAxis);
+            svg.select('.xAxis').selectAll('text').remove();
+            iconWidth = (width - 50) / data.length;
+            return svg.select('.xAxis').selectAll('.tick').data(data).append('svg:image').attr('xlink:href', function(d) {
+              return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
+            }).attr('width', iconWidth).attr('height', iconWidth).attr('x', -iconWidth / 2).attr('y', -iconWidth / 2);
+          }
         };
-      }
-    };
-  }
-]);
-
-angular.module('ritoplzmyapitems').factory('championItemService', [
-  '$http', function($http) {
-    return {
-      getDataFor: function(term) {
-        return $http.get('data/' + term + '.json');
       }
     };
   }
