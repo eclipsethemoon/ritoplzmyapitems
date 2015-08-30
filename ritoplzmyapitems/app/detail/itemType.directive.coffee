@@ -41,12 +41,13 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
 
       # define render function
       scope.render = (data) ->
-        svg.selectAll('*').remove()  # remove all previous items before render
+        if data
+          svg.selectAll('*').remove()  # remove all previous items before render
 
-        # Draw donut
-        tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0)
-        g = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc')
-        g.append('path').attr('d', arc).style('fill', (d) -> color d.data.type)
-        g.append('text').attr('transform', (d) -> 'translate(' + arc.centroid(d) + ')')
-          .attr('dy', '.35em').style('text-anchor', 'middle').text((d) -> d.data.type)
+          # Draw donut
+          tooltip = d3.select('body').append('div').attr('class', 'tooltip').style('opacity', 0)
+          g = svg.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc')
+          g.append('path').attr('d', arc).style('fill', (d) -> color d.data.type)
+          g.append('text').attr('transform', (d) -> 'translate(' + arc.centroid(d) + ')')
+            .attr('dy', '.35em').style('text-anchor', 'middle').text((d) -> d.data.type)
 ]
