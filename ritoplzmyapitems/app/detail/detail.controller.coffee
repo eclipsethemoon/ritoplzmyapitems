@@ -49,14 +49,17 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
           # SMW: This is callback hell, but only two layers and not enough time to fix.
           championItemService.getDataFor('champions_recommended_items').success (res) ->
             recommended_items = res[newVal.id]['items']
+            most_common = $scope.most_common[..3].map((a) -> a.item)
+            most_winner= $scope.most_winner[..3].map((a) -> a.item)
             $scope.recommended = []
             for item_id in recommended_items
-              $scope.recommended.push
-                item: item_id
-                pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0
-                pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0
-                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0
-                winDiff: Math.round((champion_json[item_id]['5.14']['winner'] - champion_json[item_id]['5.11']['winner']) * 10000) / 100.0
+              if (item_id not in most_common) and (item_id not in most_winner)
+                $scope.recommended.push
+                  item: item_id
+                  pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0
+                  pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0
+                  winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0
+                  winDiff: Math.round((champion_json[item_id]['5.14']['winner'] - champion_json[item_id]['5.11']['winner']) * 10000) / 100.0
     ), true
 
 ]

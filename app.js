@@ -19,6 +19,44 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.boo
   });
 });
 
+angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
+  $scope.items = ['item1', 'item2', 'item3'];
+  $scope.animationsEnabled = true;
+  $scope.open = function(size) {
+    var modalInstance;
+    modalInstance = $modal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function() {
+          return $scope.items;
+        }
+      }
+    });
+    return modalInstance.result.then((function(selectedItem) {
+      return $scope.selected = selectedItem;
+    }), function() {
+      return $log.info('Modal dismissed at: ' + new Date);
+    });
+  };
+  return $scope.toggleAnimation = function() {
+    return $scope.animationsEnabled = !$scope.animationsEnabled;
+  };
+});
+
+angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+  $scope.ok = $modalInstance.close($scope.selected.item);
+  return $scope.cancel = function() {
+    return $modalInstance.dismiss('cancel');
+  };
+});
+
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 angular.module('ritoplzmyapitems').controller('DetailCtrl', [
@@ -82,19 +120,29 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
           recommended_items = [];
           champion_json = res;
           return championItemService.getDataFor('champions_recommended_items').success(function(res) {
-            var _k, _len2, _results;
+            var most_common, most_winner, _k, _len2, _results;
             recommended_items = res[newVal.id]['items'];
+            most_common = $scope.most_common.slice(0, 4).map(function(a) {
+              return a.item;
+            });
+            most_winner = $scope.most_winner.slice(0, 4).map(function(a) {
+              return a.item;
+            });
             $scope.recommended = [];
             _results = [];
             for (_k = 0, _len2 = recommended_items.length; _k < _len2; _k++) {
               item_id = recommended_items[_k];
-              _results.push($scope.recommended.push({
-                item: item_id,
-                pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-                pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0,
-                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0,
-                winDiff: Math.round((champion_json[item_id]['5.14']['winner'] - champion_json[item_id]['5.11']['winner']) * 10000) / 100.0
-              }));
+              if ((__indexOf.call(most_common, item_id) < 0) && (__indexOf.call(most_winner, item_id) < 0)) {
+                _results.push($scope.recommended.push({
+                  item: item_id,
+                  pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+                  pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0,
+                  winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0,
+                  winDiff: Math.round((champion_json[item_id]['5.14']['winner'] - champion_json[item_id]['5.11']['winner']) * 10000) / 100.0
+                }));
+              } else {
+                _results.push(void 0);
+              }
             }
             return _results;
           });
@@ -154,44 +202,6 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
     };
   }
 ]);
-
-angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
-  $scope.items = ['item1', 'item2', 'item3'];
-  $scope.animationsEnabled = true;
-  $scope.open = function(size) {
-    var modalInstance;
-    modalInstance = $modal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function() {
-          return $scope.items;
-        }
-      }
-    });
-    return modalInstance.result.then((function(selectedItem) {
-      return $scope.selected = selectedItem;
-    }), function() {
-      return $log.info('Modal dismissed at: ' + new Date);
-    });
-  };
-  return $scope.toggleAnimation = function() {
-    return $scope.animationsEnabled = !$scope.animationsEnabled;
-  };
-});
-
-angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-  $scope.ok = $modalInstance.close($scope.selected.item);
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
-  };
-});
 
 angular.module('ritoplzmyapitems').controller('MainCtrl', [
   '$scope', '$http', 'championItemService', function($scope, $http, championItemService) {
