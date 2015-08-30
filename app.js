@@ -19,8 +19,11 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'templates', 'ui.boo
   });
 });
 
+var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
 angular.module('ritoplzmyapitems').controller('DetailCtrl', [
   '$scope', 'championItemService', function($scope, championItemService) {
+    $scope.intermediates = ['1026', '1052', '1058', '3057', '3108', '3113', '3136', '3145', '3191'];
     return $scope.$watch('championSelected', (function(newVal, oldVal) {
       if (typeof newVal === 'object') {
         return championItemService.getDataFor(newVal.id).success(function(res) {
@@ -52,21 +55,29 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
           _ref = newVal['5.14']['most_common_items'];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             item_id = _ref[_i];
-            $scope.most_common.push({
-              item: item_id,
-              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
-            });
+            if (__indexOf.call($scope.intermediates, item_id) < 0) {
+              $scope.most_common.push({
+                item: item_id,
+                pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+                pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
+                winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0,
+                winDiff: Math.round((res[item_id]['5.14']['winner'] - res[item_id]['5.11']['winner']) * 10000) / 100.0
+              });
+            }
           }
           $scope.most_winner = [];
           _ref1 = newVal['5.14']['most_winner_items'];
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             item_id = _ref1[_j];
-            $scope.most_winner.push({
-              item: item_id,
-              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
-            });
+            if (__indexOf.call($scope.intermediates, item_id) < 0) {
+              $scope.most_winner.push({
+                item: item_id,
+                pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+                pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
+                winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0,
+                winDiff: Math.round((res[item_id]['5.14']['winner'] - res[item_id]['5.11']['winner']) * 10000) / 100.0
+              });
+            }
           }
           recommended_items = [];
           champion_json = res;
@@ -80,7 +91,9 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
               _results.push($scope.recommended.push({
                 item: item_id,
                 pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0
+                pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
+                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0,
+                winDiff: Math.round((res[item_id]['5.14']['winner'] - res[item_id]['5.11']['winner']) * 10000) / 100.0
               }));
             }
             return _results;
@@ -310,4 +323,74 @@ angular.module('ritoplzmyapitems').factory('championItemService', [
   }
 ]);
 
-
+angular.module('ritoplzmyapitems').controller('ShowcaseCtrl', [
+  '$scope', 'championItemService', function($scope, championItemService) {
+    return $scope.$watch('championSelected', (function(newVal, oldVal) {
+      if (typeof newVal === 'object') {
+        return championItemService.getDataFor(newVal.id).success(function(res) {
+          var champion_json, item_id, item_types, k, other_value, recommended_items, total_items, v, _i, _j, _len, _len1, _ref, _ref1;
+          item_types = res.item_types['5.14'];
+          $scope.item_types = [];
+          total_items = 0;
+          for (k in item_types) {
+            v = item_types[k];
+            total_items += v;
+          }
+          other_value = 0;
+          for (k in item_types) {
+            v = item_types[k];
+            if (v > total_items * 0.05) {
+              $scope.item_types.push({
+                type: k,
+                count: v
+              });
+            } else {
+              other_value += v;
+            }
+          }
+          $scope.item_types.push({
+            type: 'Other',
+            count: other_value
+          });
+          $scope.most_common = [];
+          _ref = newVal['5.14']['most_common_items'];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            item_id = _ref[_i];
+            $scope.most_common.push({
+              item: item_id,
+              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
+            });
+          }
+          $scope.most_winner = [];
+          _ref1 = newVal['5.14']['most_winner_items'];
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            item_id = _ref1[_j];
+            $scope.most_winner.push({
+              item: item_id,
+              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
+            });
+          }
+          recommended_items = [];
+          champion_json = res;
+          return championItemService.getDataFor('champions_recommended_items').success(function(res) {
+            var _k, _len2, _results;
+            recommended_items = res[newVal.id]['items'];
+            $scope.recommended = [];
+            _results = [];
+            for (_k = 0, _len2 = recommended_items.length; _k < _len2; _k++) {
+              item_id = recommended_items[_k];
+              _results.push($scope.recommended.push({
+                item: item_id,
+                pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
+                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0
+              }));
+            }
+            return _results;
+          });
+        });
+      }
+    }), true);
+  }
+]);

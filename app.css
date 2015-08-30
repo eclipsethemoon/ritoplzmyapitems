@@ -5,11 +5,28 @@ h4 {
   padding: 0px;
   margin: 0px;
 }
-.champTitle.img {
-  display: inline-block;
+.champ-icon img {
+  width: 80px;
+  height: 80px;
 }
-.imgLabel {
+.donut {
+  width: 60%;
+  height: 60%;
+}
+.list-item {
   display: inline-block;
+  position: relative;
+  margin: 5px 4px;
+}
+.list-item img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 3px;
+  display: block;
+}
+.list-item-count {
+  font-size: 13px;
+  text-align: center;
 }
 
 .background-image {
@@ -62,3 +79,8 @@ text {
   stroke: #000;
 }
 
+.list-group-item img {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+}
