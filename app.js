@@ -2,18 +2,6 @@ angular.module('ritoplzmyapitems', ['ngAnimate', 'ngRoute', 'pageslide-directive
   return $routeProvider.when('/', {
     templateUrl: 'main/main.html',
     controller: 'MainCtrl'
-  }).when('/card', {
-    templateUrl: 'card/card.html',
-    controller: 'CardCtrl'
-  }).when('/detail', {
-    templateUrl: 'detail/detail.html',
-    controller: 'DetailCtrl'
-  }).when('/scatter', {
-    templateUrl: 'scatter/scatter.html',
-    controller: 'ScatterCtrl'
-  }).when('/info', {
-    templateUrl: 'info/info.htm',
-    controller: 'InfoCtrl'
   }).otherwise({
     redirectTo: '/'
   });
@@ -260,21 +248,28 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
 
 angular.module('ritoplzmyapitems').controller('ScatterCtrl', [
   '$scope', 'championItemService', function($scope, championItemService) {
-    $scope.d3OnClick = function(item) {
-      return alert(item.name);
-    };
     $scope.apItems = [];
-    $scope.allAPItems = ['1026', '1052', '1058', '3001', '3003', '3023', '3025', '3027', '3041', '3057', '3060', '3078', '3089', '3100', '3108', '3113', '3115', '3116', '3124', '3135', '3136', '3145', '3146', '3151', '3152', '3157', '3165', '3174', '3191', '3285', '3504'];
+    $scope.allAPItems = ['3001', '3003', '3023', '3025', '3027', '3041', '3060', '3078', '3089', '3100', '3115', '3116', '3124', '3135', '3146', '3151', '3152', '3157', '3165', '3174', '3285', '3504'];
     $scope.filterRadio = 'winner';
-    championItemService.getDataFor('items').success(function(res) {
+    $scope.champFocus = 'items';
+    championItemService.getDataFor($scope.champFocus).success(function(res) {
+      var apItems, item, _i, _len, _ref;
       if (res.error) {
         throw new Error(res.message);
       } else {
-        return $scope.apItems = res;
+        apItems = [];
+        for (_i = 0, _len = res.length; _i < _len; _i++) {
+          item = res[_i];
+          if (_ref = item.id, __indexOf.call($scope.allAPItems, _ref) >= 0) {
+            apItems.push(item);
+          }
+        }
+        return $scope.apItems = apItems;
       }
     });
     return $scope.$watch('championSelected', (function(newVals, oldVals) {
       if (typeof newVals === 'object') {
+        $scope.champFocus = newVals.id;
         return championItemService.getDataFor(newVals.id).success(function(res) {
           var apItems, k, v;
           if (res.error) {
@@ -291,11 +286,20 @@ angular.module('ritoplzmyapitems').controller('ScatterCtrl', [
           }
         });
       } else {
+        $scope.champFocus = 'items';
         return championItemService.getDataFor('items').success(function(res) {
+          var apItems, item, _i, _len, _ref;
           if (res.error) {
             throw new Error(res.message);
           } else {
-            return $scope.apItems = res;
+            apItems = [];
+            for (_i = 0, _len = res.length; _i < _len; _i++) {
+              item = res[_i];
+              if (_ref = item.id, __indexOf.call($scope.allAPItems, _ref) >= 0) {
+                apItems.push(item);
+              }
+            }
+            return $scope.apItems = apItems;
           }
         });
       }
@@ -310,19 +314,19 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
       scope: {
         data: '=',
         filter: '=',
-        onClick: '&'
+        pushed: '='
       },
       link: function(scope, element) {
         var height, margin, svg, width, x, xAxis, y, yAxis;
         margin = {
           top: 10,
-          right: 0,
+          right: 10,
           bottom: 10,
           left: 50
         };
         width = element[0].parentElement.clientWidth - margin.left - margin.right;
-        height = 300 - margin.top - margin.bottom;
-        x = d3.scale.ordinal().rangeRoundBands([0, width], .3);
+        height = 400 - margin.top - margin.bottom;
+        x = d3.scale.ordinal().rangeRoundBands([0, width - 30], .3);
         y = d3.scale.linear().range([height, 0]);
         xAxis = d3.svg.axis().scale(x);
         yAxis = d3.svg.axis().scale(y).orient('left');
@@ -342,8 +346,13 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           return scope.render(scope.data, newVals);
         }), true);
         return scope.render = function(data, feature) {
-          var iconWidth;
+          var iconWidth, tip, tipOffset;
           if (data.length) {
+            tipOffset = scope.pushed === 'items' ? 0 : -350;
+            tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html(function(d) {
+              return '<strong>' + d['name'] + '</strong>';
+            });
+            svg.call(tip);
             svg.selectAll('*').remove();
             x.domain(data.map(function(d) {
               return d['id'];
@@ -363,7 +372,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
               return y(Math.max(0, d['5.14'][feature] - d['5.11'][feature]));
             }).attr('height', function(d) {
               return Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0));
-            }).attr('width', x.rangeBand());
+            }).attr('width', x.rangeBand()).on('mouseover', tip.show).on('mouseout', tip.hide);
             svg.append('g').attr('class', 'yAxis').call(yAxis);
             svg.select('.yAxis').selectAll('text').text(function(d) {
               if (feature === 'timestamp') {
@@ -372,12 +381,12 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
                 return Math.round(d * 100);
               }
             });
-            svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + y(0) + ")").call(xAxis);
-            svg.select('.xAxis').selectAll('text').remove();
             iconWidth = x.rangeBand();
+            svg.append('g').attr('class', 'xAxis').attr("transform", "translate(0," + Math.max(iconWidth / 2, Math.min(y(0), height - (iconWidth / 2))) + ")").call(xAxis);
+            svg.select('.xAxis').selectAll('text').remove();
             return svg.select('.xAxis').selectAll('.tick').data(data).append('svg:image').attr('xlink:href', function(d) {
               return 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + d['id'] + '.png';
-            }).attr('width', iconWidth).attr('height', iconWidth).attr('x', -iconWidth / 2).attr('y', -iconWidth / 2);
+            }).attr('width', iconWidth).attr('height', iconWidth).attr('x', -iconWidth / 2).attr('y', -iconWidth / 2).on('mouseover', tip.show).on('mouseout', tip.hide);
           }
         };
       }
