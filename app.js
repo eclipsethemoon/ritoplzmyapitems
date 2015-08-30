@@ -69,7 +69,7 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
           _ref1 = newVal['5.14']['most_winner_items'];
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             item_id = _ref1[_j];
-            if (__indexOf.call($scope.intermediates, item_id) < 0) {
+            if ((__indexOf.call($scope.intermediates, item_id) < 0) && (res[item_id]['5.14']['pickRate'] >= 0.005)) {
               $scope.most_winner.push({
                 item: item_id,
                 pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
@@ -91,9 +91,9 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
               _results.push($scope.recommended.push({
                 item: item_id,
                 pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-                pickDiff: Math.round((res[item_id]['5.14']['pickRate'] - res[item_id]['5.11']['pickRate']) * 10000) / 100.0,
+                pickDiff: Math.round((champion_json[item_id]['5.14']['pickRate'] - champion_json[item_id]['5.11']['pickRate']) * 10000) / 100.0,
                 winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0,
-                winDiff: Math.round((res[item_id]['5.14']['winner'] - res[item_id]['5.11']['winner']) * 10000) / 100.0
+                winDiff: Math.round((champion_json[item_id]['5.14']['winner'] - champion_json[item_id]['5.11']['winner']) * 10000) / 100.0
               }));
             }
             return _results;
@@ -325,71 +325,101 @@ angular.module('ritoplzmyapitems').factory('championItemService', [
 
 angular.module('ritoplzmyapitems').controller('ShowcaseCtrl', [
   '$scope', 'championItemService', function($scope, championItemService) {
+    championItemService.getDataFor('showcase').success(function(res) {
+      $scope.showcase = res;
+      $scope.nashor = {
+        pickRate: Math.round(res['summary']['5.14']['nashor_pickRate'] * 10000) / 100.0,
+        pickDiff: Math.round((res['summary']['5.14']['nashor_pickRate'] - res['summary']['5.11']['nashor_pickRate']) * 10000) / 100.0,
+        winner: Math.round(res['summary']['5.14']['nashor_winner'] * 10000) / 100.0,
+        winDiff: Math.round((res['summary']['5.14']['nashor_winner'] - res['summary']['5.11']['nashor_winner']) * 10000) / 100.0,
+        champs: res['summary']['5.14']['nashor_champs'],
+        oldChamps: res['summary']['5.11']['nashor_champs']
+      };
+      $scope.wota = {
+        pickRate: Math.round(res['summary']['5.14']['wota_pickRate'] * 10000) / 100.0,
+        pickDiff: Math.round((res['summary']['5.14']['wota_pickRate'] - res['summary']['5.11']['wota_pickRate']) * 10000) / 100.0,
+        winner: Math.round(res['summary']['5.14']['wota_winner'] * 10000) / 100.0,
+        winDiff: Math.round((res['summary']['5.14']['wota_winner'] - res['summary']['5.11']['wota_winner']) * 10000) / 100.0,
+        heal: Math.round(res['summary']['5.14']['wota_totalHeal']),
+        healDiff: Math.round((res['summary']['5.14']['wota_totalHeal'] - res['summary']['5.11']['wota_totalHeal']) * 10000 / res['summary']['5.11']['wota_totalHeal']) / 100.0,
+        champs: res['summary']['5.14']['wota_champs'],
+        oldChamps: res['summary']['5.11']['wota_champs']
+      };
+      $scope.rylaiLiandry = {
+        pickRate: Math.round(res['summary']['5.14']['rylaiLiandry_pickRate'] * 10000) / 100.0,
+        pickDiff: Math.round((res['summary']['5.14']['rylaiLiandry_pickRate'] - res['summary']['5.11']['rylaiLiandry_pickRate']) * 10000) / 100.0,
+        winner: Math.round(res['summary']['5.14']['rylaiLiandry_winner'] * 10000) / 100.0,
+        winDiff: Math.round((res['summary']['5.14']['rylaiLiandry_winner'] - res['summary']['5.11']['rylaiLiandry_winner']) * 10000) / 100.0,
+        magicDmg: Math.round(res['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions']),
+        magicDmgDiff: Math.round((res['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions'] - res['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) * 10000 / res['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) / 100.0,
+        crowdControl: Math.round(res['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt']),
+        crowdControlDiff: Math.round((res['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt'] - res['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) * 10000 / res['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) / 100.0,
+        champs: res['summary']['5.14']['rylaiLiandry_champs'],
+        oldChamps: res['summary']['5.11']['rylaiLiandry_champs']
+      };
+      $scope.nlr = {
+        pickRate: Math.round(res['summary']['5.14']['nlr_pickRate'] * 10000) / 100.0,
+        pickDiff: Math.round((res['summary']['5.14']['nlr_pickRate'] - res['summary']['5.11']['nlr_pickRate']) * 10000) / 100.0,
+        winner: Math.round(res['summary']['5.14']['nlr_winner'] * 10000) / 100.0,
+        winDiff: Math.round((res['summary']['5.14']['nlr_winner'] - res['summary']['5.11']['nlr_winner']) * 10000) / 100.0,
+        timestamp: Math.round(res['summary']['5.14']['nlr_timestamp']),
+        timestampDiff: Math.round((res['summary']['5.14']['nlr_timestamp'] - res['summary']['5.11']['nlr_timestamp']) * 10000 / res['summary']['5.11']['nlr_timestamp']) / 100.0,
+        champs: res['summary']['5.14']['nlr_champs'],
+        oldChamps: res['summary']['5.11']['nlr_champs']
+      };
+      return $scope.fiendish = {
+        pickRate: Math.round(res['summary']['5.14']['fiendish_pickRate'] * 10000) / 100.0,
+        pickDiff: Math.round((res['summary']['5.14']['fiendish_pickRate'] - res['summary']['5.11']['fiendish_pickRate']) * 10000) / 100.0,
+        winner: Math.round(res['summary']['5.14']['fiendish_winner'] * 10000) / 100.0,
+        winDiff: Math.round((res['summary']['5.14']['fiendish_winner'] - res['summary']['5.11']['fiendish_winner']) * 10000) / 100.0,
+        timestamp: Math.round(res['summary']['5.14']['fiendish_timestamp']),
+        timestampDiff: Math.round((res['summary']['5.14']['fiendish_timestamp'] - res['summary']['5.11']['fiendish_timestamp']) * 10000 / res['summary']['5.11']['fiendish_timestamp']) / 100.0,
+        champs: res['summary']['5.14']['fiendish_champs'],
+        oldChamps: res['summary']['5.11']['fiendish_champs']
+      };
+    });
     return $scope.$watch('championSelected', (function(newVal, oldVal) {
       if (typeof newVal === 'object') {
-        return championItemService.getDataFor(newVal.id).success(function(res) {
-          var champion_json, item_id, item_types, k, other_value, recommended_items, total_items, v, _i, _j, _len, _len1, _ref, _ref1;
-          item_types = res.item_types['5.14'];
-          $scope.item_types = [];
-          total_items = 0;
-          for (k in item_types) {
-            v = item_types[k];
-            total_items += v;
-          }
-          other_value = 0;
-          for (k in item_types) {
-            v = item_types[k];
-            if (v > total_items * 0.05) {
-              $scope.item_types.push({
-                type: k,
-                count: v
-              });
-            } else {
-              other_value += v;
-            }
-          }
-          $scope.item_types.push({
-            type: 'Other',
-            count: other_value
-          });
-          $scope.most_common = [];
-          _ref = newVal['5.14']['most_common_items'];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            item_id = _ref[_i];
-            $scope.most_common.push({
-              item: item_id,
-              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
-            });
-          }
-          $scope.most_winner = [];
-          _ref1 = newVal['5.14']['most_winner_items'];
-          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-            item_id = _ref1[_j];
-            $scope.most_winner.push({
-              item: item_id,
-              pickRate: Math.round(res[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-              winner: Math.round(res[item_id]['5.14']['winner'] * 10000) / 100.0
-            });
-          }
-          recommended_items = [];
-          champion_json = res;
-          return championItemService.getDataFor('champions_recommended_items').success(function(res) {
-            var _k, _len2, _results;
-            recommended_items = res[newVal.id]['items'];
-            $scope.recommended = [];
-            _results = [];
-            for (_k = 0, _len2 = recommended_items.length; _k < _len2; _k++) {
-              item_id = recommended_items[_k];
-              _results.push($scope.recommended.push({
-                item: item_id,
-                pickRate: Math.round(champion_json[item_id]['5.14']['pickRate'] * 10000) / 100.0,
-                winner: Math.round(champion_json[item_id]['5.14']['winner'] * 10000) / 100.0
-              }));
-            }
-            return _results;
-          });
-        });
+        $scope.nashor = {
+          pickRate: Math.round($scope.showcase[newVal.id]['5.14']['nashor_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase[newVal.id]['5.14']['nashor_pickRate'] - $scope.showcase[newVal.id]['5.11']['nashor_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase[newVal.id]['5.14']['nashor_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['nashor_winner'] - $scope.showcase[newVal.id]['5.11']['nashor_winner']) * 10000) / 100.0
+        };
+        $scope.wota = {
+          pickRate: Math.round($scope.showcase[newVal.id]['5.14']['wota_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase[newVal.id]['5.14']['wota_pickRate'] - $scope.showcase[newVal.id]['5.11']['wota_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase[newVal.id]['5.14']['wota_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['wota_winner'] - $scope.showcase[newVal.id]['5.11']['wota_winner']) * 10000) / 100.0,
+          heal: Math.round($scope.showcase[newVal.id]['5.14']['wota_totalHeal']),
+          healDiff: Math.round(($scope.showcase[newVal.id]['5.14']['wota_totalHeal'] - $scope.showcase[newVal.id]['5.11']['wota_totalHeal']) * 10000 / $scope.showcase[newVal.id]['5.11']['wota_totalHeal']) / 100.0
+        };
+        $scope.rylaiLiandry = {
+          pickRate: Math.round($scope.showcase[newVal.id]['5.14']['rylaiLiandry_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase[newVal.id]['5.14']['rylaiLiandry_pickRate'] - $scope.showcase[newVal.id]['5.11']['rylaiLiandry_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase[newVal.id]['5.14']['rylaiLiandry_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['rylaiLiandry_winner'] - $scope.showcase[newVal.id]['5.11']['rylaiLiandry_winner']) * 10000) / 100.0,
+          magicDmg: Math.round($scope.showcase[newVal.id]['5.14']['rylaiLiandry_magicDamageDealtToChampions']),
+          magicDmgDiff: Math.round(($scope.showcase[newVal.id]['5.14']['rylaiLiandry_magicDamageDealtToChampions'] - $scope.showcase[newVal.id]['5.11']['rylaiLiandry_magicDamageDealtToChampions']) * 10000 / $scope.showcase[newVal.id]['5.11']['rylaiLiandry_magicDamageDealtToChampions']) / 100.0,
+          crowdControl: Math.round($scope.showcase[newVal.id]['5.14']['rylaiLiandry_totalTimeCrowdControlDealt']),
+          crowdControlDiff: Math.round(($scope.showcase[newVal.id]['5.14']['rylaiLiandry_totalTimeCrowdControlDealt'] - $scope.showcase[newVal.id]['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) * 10000 / $scope.showcase[newVal.id]['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) / 100.0
+        };
+        $scope.nlr = {
+          pickRate: Math.round($scope.showcase[newVal.id]['5.14']['nlr_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase[newVal.id]['5.14']['nlr_pickRate'] - $scope.showcase[newVal.id]['5.11']['nlr_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase[newVal.id]['5.14']['nlr_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['nlr_winner'] - $scope.showcase[newVal.id]['5.11']['nlr_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase[newVal.id]['5.14']['nlr_timestamp']),
+          timestampDiff: Math.round(($scope.showcase[newVal.id]['5.14']['nlr_timestamp'] - $scope.showcase[newVal.id]['5.11']['nlr_timestamp']) * 10000 / $scope.showcase[newVal.id]['5.11']['nlr_timestamp']) / 100.0
+        };
+        return $scope.fiendish = {
+          pickRate: Math.round($scope.showcase[newVal.id]['5.14']['fiendish_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_pickRate'] - $scope.showcase[newVal.id]['5.11']['fiendish_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase[newVal.id]['5.14']['fiendish_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_winner'] - $scope.showcase[newVal.id]['5.11']['fiendish_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase[newVal.id]['5.14']['fiendish_timestamp']),
+          timestampDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_timestamp'] - $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) * 10000 / $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) / 100.0
+        };
       }
     }), true);
   }

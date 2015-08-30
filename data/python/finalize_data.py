@@ -82,11 +82,11 @@ if __name__ == "__main__":
             champ_items[ap_item]['tags'] = league_items[ap_item]['tags']
             for patch in patches:
                 champ_items[ap_item][patch] = dict()
-                with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
+                with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:
                     item_stats = json.load(f)
-                    champ_items[ap_item][patch] = item_stats[champ]
+                    champ_items[ap_item][patch] = item_stats[ap_item]
                     for tag in champ_items[ap_item]['tags']:
-                        champ_items['item_types'][patch][tag] += item_stats[champ]['count']
+                        champ_items['item_types'][patch][tag] += item_stats[ap_item]['count']
         with open('../' + champ + '.json', 'w') as f:
             json.dump(champ_items, f)
 
@@ -126,8 +126,8 @@ if __name__ == "__main__":
             item_champs[champ]['tags'] = league_champs[champ]['tags']
             for patch in patches:
                 item_champs[champ][patch] = dict()
-                with open('json/production/' + '_'.join([champ, patch]) + '.json', 'r') as f:
+                with open('json/production/' + '_'.join([ap_item, patch]) + '.json', 'r') as f:
                     champ_stats = json.load(f)
-                    item_champs[champ][patch] = champ_stats[ap_item]
+                    item_champs[champ][patch] = champ_stats[champ]
         with open('../' + ap_item + '.json', 'w') as f:
             json.dump(item_champs, f)
