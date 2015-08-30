@@ -173,12 +173,15 @@ body {
   text-align: center;
   width: 100%;
   margin: 0;
-  padding: 20px 10px 15px 10px;
+  padding: 10px 10px 10px 10px;
 }
 .categoryItem {
   display: inline-block;
   vertical-align: middle;
   width: 30%;
+}
+.categoryItem img {
+  width: 48px;
 }
 .categoryItem span {
   display: block;
@@ -194,6 +197,10 @@ body {
 .championContent span {
   display: block;
   text-align: center;
+}
+.championContent [data-mydirect] {
+  width: 350px;
+  height: 350px;
 }
 
 .background-image {

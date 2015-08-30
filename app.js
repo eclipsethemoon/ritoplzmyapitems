@@ -37,19 +37,19 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
       $scope.checked = false;
       if (typeof newVal === 'object') {
         return championItemService.getDataFor(newVal.id).success(function(res) {
-          var champion_json, item_id, item_types, k, other_value, recommended_items, total_items, v, _i, _j, _len, _len1, _ref, _ref1;
+          var champion_json, item_id, item_types, k, other_value, recommended_items, v, _i, _j, _len, _len1, _ref, _ref1;
           $scope.checked = true;
           item_types = res.item_types['5.14'];
           $scope.item_types = [];
-          total_items = 0;
+          $scope.total_item_types = 0;
           for (k in item_types) {
             v = item_types[k];
-            total_items += v;
+            $scope.total_item_types += v;
           }
           other_value = 0;
           for (k in item_types) {
             v = item_types[k];
-            if (v > total_items * 0.05) {
+            if (v > $scope.total_item_types * 0.05) {
               $scope.item_types.push({
                 type: k,
                 count: v
@@ -139,16 +139,16 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
       },
       link: function(scope, element) {
         var arc, color, height, pie, radius, svg, width;
-        width = element.parent()[0].offsetWidth - 20;
+        width = 350;
         height = width;
         radius = width / 2;
-        arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 70);
+        arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 50);
         pie = d3.layout.pie().sort(null).value(function(d) {
           return d.count;
         });
         svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
         svg.attr('height', height);
-        color = d3.scale.ordinal().range(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']);
+        color = d3.scale.ordinal().range(d3.scale.category10().range());
         window.onresize = function() {
           return scope.$apply();
         };
@@ -169,10 +169,17 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
             g.append('path').attr('d', arc).style('fill', function(d) {
               return color(d.data.type);
             });
-            return g.append('text').attr('transform', function(d) {
-              return 'translate(' + arc.centroid(d) + ')';
-            }).attr('dy', '.35em').style('text-anchor', 'middle').text(function(d) {
-              return d.data.type;
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 - radius / 15).attr("class", "text-type-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 + radius / 15).attr("class", "text-percent-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            g.on('mouseover', function(d) {
+              var circle_text;
+              circle_text = Math.round(Math.abs(d.startAngle - d.endAngle) * 100 / (2 * Math.PI));
+              svg.select('text.text-type-tooltip').attr('fill', color(d.data.type)).text(d.data.type);
+              return svg.select('text.text-percent-tooltip').attr('fill', color(d.data.type)).text(circle_text + '%');
+            });
+            return g.on('mouseout', function(d) {
+              svg.select('text.text-type-tooltip').text('');
+              return svg.select('text.text-percent-tooltip').text('');
             });
           }
         };
