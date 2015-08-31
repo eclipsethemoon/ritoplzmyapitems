@@ -1,6 +1,4 @@
-html
-  body
-    .spotlightSection
+.spotlightSection
       .spotlightWrapper
         .content
           .cell
@@ -84,6 +82,15 @@ html
             p
               | Rylai's: the new permaslow.
               | The synergy is real here... or is it only for Kog'maw?
+            br
+            blockquote
+              p
+                | With just the Liandry's under a champion's belt, any damage-over-time effects deal their normal damage plus 2% of a target's current health per second. But when that target is under a movement-impairing effect, that damage is doubled. Can you guess what grants all area of effect spells the ability to impair movement? That's right, Rylai's Crystal Scepter.
+              p
+                | The combination of the two is downright brutal on just about any mage with big AOE spells that happen to apply a DoT.
+              cite
+                | Taylor "Riot RoboTayCo" Cocke in 
+                a(href='http://na.lolesports.com/articles/magical-ap-item-changes-unicorns-love') The Magical AP Item Changes with the Unicorns of Love
           .cell
             center
               img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3116.png')
@@ -122,12 +129,18 @@ html
                   i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['crowdControlDiff'] < 0}")
                   | )
       .spotlightWrapper.hideMe
-        .content
-          .cell
+        .content(style='z-index: 700')
+          .cell(style='padding-right: 0px')
             .title NLR vs. Fiendish Codex
             p
               | 5.13 reduced the cost and effectiveness of the Needlessly Large Rod (NLR). Now, a set of the Codex + Book are comparable to the NLR.
-          .cell
+            br
+            blockquote(style='position: relative; left: -20px')
+              | Super high level challenge: right now, AP mages bring a mix of damage and utility in their kits, but standard item builds have pretty much centered on more damage instead of getting more utility or reacting to the situation... Ultimately we want to offer more choices for more mages throughout the game, and we're doing this by bringing a little parity to the ability power board.
+              cite
+                | Riot in 
+                a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
+          .cell(style='padding-left:20px')
             table
               th
               th
