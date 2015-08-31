@@ -1,0 +1,917 @@
+<html lang="en" class="no-js">
+	<title>League of Legends: Item Analysis</title>
+	<head>
+
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="SlidePushMenus/css/default.css" />
+		<link rel="stylesheet" type="text/css" href="SlidePushMenus/css/component.css" />
+
+		<link rel="stylesheet" type="text/css" href="pushMenu.css"/>
+		<link rel="stylesheet" type="text/css" href="mainContent.css"/>
+		<link rel="stylesheet" type="text/css" href="general.css"/>
+		<link rel="stylesheet" type="text/css" href="hexagonImageGallery.css"/>
+		<link rel="shortcut icon" type="text/css" href="images/favicon.ico"/>
+		
+		<script src="SlidePushMenus/js/modernizr.custom.js"></script>
+		<script src="SlidePushMenus/js/classie.js"></script>
+	</head>
+	
+	
+	<body class="cbp-spmenu-push">
+		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left championDetails" id="cbp-spmenu-s1">
+			<div id="navWrapper">
+				<div id="searchButtonWrapper">
+					<i id="searchButton" class="glyphicon glyphicon-search"></i> 
+					<input id="championSearchInput" type="text" ng-model="championSelected" placeholder="Champions" typeahead="champion as champion.name for champion in champions | filter:{name:$viewValue}" typeahead-template-url="championTemplate.html" class="form-control ng-pristine ng-valid ng-touched" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-3-8990" style="width: 200px">
+				</div>
+				<i id="panelRightButton" class="glyphicon glyphicon-chevron-right"></i>
+				<i id="panelLeftButton" class="glyphicon glyphicon-chevron-left hide"></i>
+			</div>
+
+			<div class="championHeader">
+				<div class="icon"><img src="images/Ahri.png"></div>
+				<div class="content">
+					<span class="name">Ahri</span>
+					<span class="title">the Nine-Tailed fox</span>
+				</div>
+				<div class="classes">
+					<img src="images/champTypeIcons/mage.jpg" height=30 width=30 data-toggle="tooltip" data-placement="top" title="Mage">
+					<img src="images/champTypeIcons/assassin.jpg" height=30 width=30 data-toggle="tooltip" data-placement="top" title="Assassin">
+				</div>
+					
+			</div>
+
+			<div class="championContentWrapper scroller">
+				<div class="championContent">
+					<h3>Most Common Items</h3>
+
+					<div class="categoryWrapper">
+						<div class="categoryItem">
+							<img src="images/items/1058.png" data-toggle="tooltip" data-placement="top" title="Needlessly Large Rod">
+							<span>4.56</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/1052.png" data-toggle="tooltip" data-placement="top" title="Amplifying Tome">
+							<span>3.35</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/3285.png" data-toggle="tooltip" data-placement="top" title="Luden's Echo">
+							<span>8.78</span>
+						</div>
+
+						<span>(By Purchase Rate)</span>
+					</div>
+
+
+
+				<div class="championContent">
+					<h3>Most Successful Items</h3>
+
+					<div class="categoryWrapper">
+						<div class="categoryItem">
+							<img src="images/items/3060.png" data-toggle="tooltip" data-placement="top" title="Needlessly Large Rod">
+							<span>80</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/3041.png" data-toggle="tooltip" data-placement="top" title="Amplifying Tome">
+							<span>69.73</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/3504.png" data-toggle="tooltip" data-placement="top" title="Luden's Echo">
+							<span>66.67</span>
+						</div>
+						
+						<span>(By Win Rate)</span>
+					</div>
+				</div>
+
+
+
+				<div class="championContent">
+					<h3>Recommended Items</h3>
+
+					<div class="categoryWrapper">
+						<div class="categoryItem">
+							<img src="images/items/3174.png" data-toggle="tooltip" data-placement="top" title="Needlessly Large Rod">
+							<span>53.92</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/3285.png" data-toggle="tooltip" data-placement="top" title="Amplifying Tome">
+							<span>58.51</span>
+						</div>
+
+						<div class="categoryItem">
+							<img src="images/items/3135.png" data-toggle="tooltip" data-placement="top" title="Luden's Echo">
+							<span>61.32</span>
+						</div>
+						
+						<span>(By Win Rate)</span>
+					</div>
+				</div>		
+
+			</div>
+		</nav>
+		
+		<div id="contentWrapper">
+			<div id="header">
+				
+				<section>
+<div class="hex_row_odd"> 
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Aatrox.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="aatrox">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ahri.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ahri">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Akali.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="akali">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+</div><!--/hex_row_even-->
+
+<div class="hex_row_even"> 
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+ 
+
+</div><!--/hex_row_even--> 
+  
+<div class="hex_row_odd"> 
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ashe.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ashe">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Azir.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="azir">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Bard.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="Bard">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Aatrox.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="aatrox">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ahri.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ahri">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Akali.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="akali">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ashe.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ashe">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Azir.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="azir">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+
+</div><!--/hex_row_odd-->  
+
+<div class="hex_row_even"> 
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ashe.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ashe">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Azir.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="azir">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Bard.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="Bard">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Aatrox.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="aatrox">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ahri.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ahri">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Akali.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="akali">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+    <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Alistar.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="alistar">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Amumu.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="amumu">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Anivia.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="anivia">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+<div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Annie.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="annie">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Ashe.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="ashe">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center-->
+  
+  <div class="center">
+    <div class="hexagon">
+      <div class="hex1">
+        <div class="hex2" style="background: url('http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/Azir.png') center no-repeat; background-size: 70px 70px;">
+          <div class="desc inactive" championName="azir">
+          </div>  
+        </div><!--/hex2--> 
+      </div><!--/hex1-->
+    </div><!--/hexagon--> 
+  </div><!--/center--> 
+  
+</div><!--/hex_row_even--> 
+  
+</section>  
+
+			</div>
+
+			<div id="mainContent">
+				<div class="fillWidth">
+					<img src="images/tempChart.png">
+				</div>
+
+				<!-- code for graph buttons -->
+
+				<div id="chartBtnWrapper" class="btn-group ng-scope fillCenter floatright">
+					<label ng-model="filterRadio" btn-radio="'winner'" class="btn btn-primary ng-pristine ng-untouched ng-valid active">Win Rate</label>
+					<label ng-model="filterRadio" btn-radio="'pickRate'" class="btn btn-primary ng-pristine ng-untouched ng-valid">Pick Rate</label><!--Hide this one once we can determine if champ or item is selected-->
+					<label ng-model="filterRadio" btn-radio="'timestamp'" class="btn btn-primary ng-pristine ng-untouched ng-valid">Time Completed</label>
+				</div>
+
+
+				<div class="spotlightSection">
+					<h3>Item Spotlights</h3>
+					<div class="spotlightWrapper">
+						<div class="content">
+							<div class="cell">
+								<div class="title">Nashor's Tooth</div>
+								<p>
+									Before the AP item change patch (5.13), there was a limited number of viable carriers for Nashor's Tooth. 
+									Is this still the case or have the changes to the item opened up more variety? Has this
+									item found its own niche?
+								</p>
+								<br>
+								<blockquote>
+								[W]hile it's always been a great pickup for auto-attacking mages, that attack speed to ability power ratio meant you had to be pretty invested in your on-hit procs to even consider the Tooth. We're hoping this change will make it a little more enticing as a niche pickup for people not... Kayle.
+								<cite>Riot in <a href="http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes">Patch 5.13 Notes</a></cite>
+								</blockquote>
+							</div>
+							<div class="cell">
+								<center><img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3115.png"></center>
+								<table class="table table-condensed">
+								  <tr>
+								  	<td>Pick Rate</td>
+								  	<td>{{ nashor['pickRate'] }}% (<span ng-if="nashor['pickDiff'] > 0">+</span>{{ nashor['pickDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': nashor['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['pickDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Win Rate </td>
+								  	<td>{{ nashor['winner'] }}% (<span ng-if="nashor['winDiff'] > 0">+</span>{{ nashor['winDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': nashor['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['winDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="spotlightWrapper hideMe">
+						<div class="content">
+							<div class="cell">
+								<div class="title">Will of the Ancients</div>
+								<p>
+									Will of the Ancients was changed so it no longer has spell vamp, but you heal for 15% of the damage dealt, 
+									calculated before your opponent's resistances. While this is a minor nerf to killing minions, it is a buff
+									against champions with ~50 MR. How do these changes balance out? Is it worth purchasing?
+								</p>
+								<br>
+								<blockquote>
+								This means you'll be spell vamping for less, but you won't need as much (high base damage, resistance penetration, etc) to get your heal ball rolling.
+								<cite>Riot in <a href="http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes">Patch 5.13 Notes</a></cite>
+								</blockquote>
+							</div>
+							<div class="cell">
+								<center><img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3152.png"></center>
+								<table class="table table-condensed">
+								  <tr>
+								  	<td>Pick Rate</td>
+								  	<td>{{ wota['pickRate'] }}% (<span ng-if="wota['pickDiff'] > 0">+</span>{{ wota['pickDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': wota['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['pickDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Win Rate </td>
+								  	<td>{{ wota['winner'] }}% (<span ng-if="wota['winDiff'] > 0">+</span>{{ wota['winDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': wota['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['winDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Change in Heals </td>
+								  	<td>{{ wota['heal'] }}% (<span ng-if="wota['healDiff'] > 0">+</span>{{ wota['healDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': wota['healDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['healDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+						  
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="spotlightWrapper hideMe">
+						<div class="content">
+							<div class="cell">
+								<div class="title">Rylai's and Liandry's</div>
+								<p>
+									Rylai's: the new permaslow.
+									The synergy is real here... or is it only for Kog'maw?
+								</p>
+								<br>
+								<blockquote>
+								<p>With just the Liandry's under a champion's belt, any damage-over-time effects deal their normal damage plus 2% of a target's current health per second. But when that target is under a movement-impairing effect, that damage is doubled. Can you guess what grants all area of effect spells the ability to impair movement? That's right, Rylai's Crystal Scepter.</p>
+
+								<p>The combination of the two is downright brutal on just about any mage with big AOE spells that happen to apply a DoT.</p>
+								<cite>Taylor "Riot RoboTayCo" Cocke in <a href="http://na.lolesports.com/articles/magical-ap-item-changes-unicorns-love">The Magical AP Item Changes with the Unicorns of Love</a></cite>
+								</blockquote>
+
+							</div>
+							<div class="cell">
+								<center><img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3116.png">
+								<img src="http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3151.png"></center>
+
+								<table class="table table-condensed">
+								  <tr>
+								  	<td>Pick Rate</td>
+								  	<td>{{ rylaiLiandry['pickRate'] }}% (<span ng-if="rylaiLiandry['pickDiff'] > 0">+</span>{{ rylaiLiandry['pickDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': rylaiLiandry['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['pickDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Win Rate </td>
+								  	<td>{{ rylaiLiandry['winner'] }}% (<span ng-if="rylaiLiandry['winDiff'] > 0">+</span>{{ rylaiLiandry['winDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': rylaiLiandry['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['winDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Change in Damage </td>
+								  	<td>{{ rylaiLiandry['magicDmg'] }}% (<span ng-if="rylaiLiandry['magicDmgDiff'] > 0">+</span>{{ rylaiLiandry['magicDmgDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': rylaiLiandry['magicDmgDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['magicDmgDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td>Change in Crowd Control </td>
+								  	<td>{{ rylaiLiandry['crowdControl'] }}% (<span ng-if="rylaiLiandry['crowdControlDiff'] > 0">+</span>{{ rylaiLiandry['crowdControlDiff'] }}% 
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': rylaiLiandry['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['crowdControlDiff'] < 0}"></i>)
+								  	</td>
+								  </tr>								  
+						  
+								</table>
+
+							</div>		
+						</div>
+					</div>
+
+
+
+
+					<div class="spotlightWrapper hideMe">
+						<div class="content" style="z-index: 700">
+							<div class="cell">
+								<div class="title">NLR vs. Fiendish Codex</div>
+								<p>
+									5.13 reduced the cost and effectiveness of the Needlessly Large Rod (NLR). Now, a set of the Codex + Book are comparable to the NLR.
+								</p>
+								<br>
+								<blockquote>
+								Super high level challenge: right now, AP mages bring a mix of damage and utility in their kits, but standard item builds have pretty much centered on more damage instead of getting more utility or reacting to the situation... Ultimately we want to offer more choices for more mages throughout the game, and we're doing this by bringing a little parity to the ability power board.
+								<cite>Riot in <a href="http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes">Patch 5.13 Notes</a></cite>
+								</blockquote>
+							</div>
+							<div class="cell">
+								<table>
+
+								  <th></th>
+								  <th><img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1058.png"></th>
+								  <th><img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3108.png"> + <img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1052.png"></th>
+
+								  <tr>
+								  	<td><b>Cost</b></td>
+								  	<td>1250</td>
+								  	<td>1255 (820 + 435)</td>
+								  </tr>
+
+								  <tr>
+								  	<td><b>Stats</b></td>
+								  	<td>+60 ability power</td>
+								  	<td>+50 ability power<br>+10% cooldown reduction</td>
+								  </tr>
+
+								  <tr>
+								  	<td><b>Pick Rate</b></td>
+								  	<td>{{ nlr['pickRate'] }}% ({{ nlr['pickDiff'] }}%
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': nlr['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['pickDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  	<td>{{ fiendish['pickRate'] }}% (<span ng-if="fiendish['pickDiff'] > 0">+</span>{{ fiendish['pickDiff'] }}%
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': fiendish['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['pickDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td><b>Wins</b></td>
+								  	<td>{{ nlr['winner'] }}% (<span ng-if="fiendish['winDiff'] > 0">+</span>{{ nlr['winDiff'] }}%
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': nlr['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['winDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  	<td>{{ fiendish['winner'] }}% ({{ fiendish['winDiff'] }}%
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': fiendish['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['winDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td><b>Acquisition Time</b></td>
+								  	<td>{{ nlr['timestamp'] }} ({{ nlr['timestampDiff'] }}
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': nlr['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['timestampDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  	<td>{{ fiendish['timestamp'] }} ({{ fiendish['timestampDiff'] }}
+								  		<i class="glyphicon" ng-class="{'glyphicon-menu-up green': fiendish['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['timestampDiff'] < 0}"></i>
+								  		)
+								  	</td>
+								  </tr>
+
+								  <tr>
+								  	<td><b>Builds Into</b></td>
+								  	<td>
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3003.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Archangel's Staff">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3089.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Rabadon's Deathcap">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3116.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Rylai's Crystal Scepter">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3157.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Zhonya's Hourglass">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3285.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Luden's Echo">
+								  	</td>
+								  	<td>
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3174.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Athene's Unholy Grail">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3165.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Morellonomicon">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3023.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Twin Shadows">
+								  		<img src="http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3152.png" height=40 width=40 data-toggle="tooltip" data-placement="top" title="Will of the Ancients">
+								  	</td>
+								  </tr>
+						  
+								</table>
+								</center>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<img id="bottomCornerPicture" src="images/trianglecorner.png">
+
+			<div id="footer">
+				<div>
+					RitoPlzMyAPItems isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+
+					<div class="smalltext padding10">whee; text usually looks better when there is a variety of color</div>
+				</div>
+			</div>
+
+
+		</div>
+	</body>
+	
+	<script src="giantJavascriptFile.js"></script>
+
+</html>

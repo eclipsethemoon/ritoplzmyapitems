@@ -1,3 +1,7 @@
+body {
+  position: absolute;
+  color: #555;
+}
 .green {
   color: #22C617;
 }
@@ -70,31 +74,34 @@
   background: #fff;
   color: #000;
 }
-.header {
-  padding: 20px;
-  text-align: right;
-  h1 {
-    color: #000;
-    font-size: 45px;
-    margin: 0;
-  }
-  h3 {
-    color: #000;
-    font-size: 16px;
-    display: inline-block;
-  }
-}
-
-.championSelect {
-  width: 960px;
-  height: 280px;
-  background: #fff;
-  padding: 5px 5px 5px 5px;
-  .img:hover {
-    box-shadow: 0 0 10px #ccc;
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #000;
+  color: #00c6ff;
+  margin-top: 200px;
+  margin-bottom: 0px;
+  padding: 50px;
+  & > div {
+    max-width: 900px;
+    width: 50%;
+    margin: 0 auto;
+    color: #00c6ff;
   }
 }
-
+#contentWrapper {
+  border-top: solid black 5px;
+  position: relative;
+  background: url("images/trianglebanner.jpg") left top no-repeat, url("images/trianglecorner.jpg") right bottom 200px no-repeat;
+  background-repeat: no-repeat;
+}
+#header {
+  height: 0px;
+  padding-left: 950px;
+  padding-top: 50px;
+  margin: auto;
+}
 .wrap {
   position: relative;
   overflow: hidden;
@@ -151,6 +158,38 @@ h1 {
 .modal {
   display: block;
 }
+
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+  margin: 0.25em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+  border-left: none;
+}
+blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote cite:before {
+content: "\2014 \2009";
+}
 a {
   color: #0d77b6;
   cursor: pointer;
@@ -165,3 +204,19 @@ table tr { border-top: 1px solid #ccc; }
 table tr:first-child { border-top: none; }
 table th { text-align: center; border-left: 1px solid #ccc;}
 table th:first-child { border-left: none }
+
+
+#bottomCornerPicture {
+  position: absolute; 
+  bottom: 201px; 
+  right: 0;
+  z-index: 600;
+  transition: all 2s ease 0s;
+}
+
+@media only screen and (max-width: 1800px) {
+  #bottomCornerPicture {
+    z-index: -100;
+    opacity: 0.2;
+  }
+}

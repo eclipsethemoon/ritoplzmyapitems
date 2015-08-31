@@ -9,7 +9,7 @@
         p If you select a champion, we'll tell you how each AP item relates to you now. We also give you some recommendations based on similar champions along with items that you'll most likely find on your champion or items that win you games.
         accordion(close-others='false')
             accordion-group(heading='How did you calculate these numbers? These numbers seem strange...')
-                img(src='http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Diana_0.jpg', align='left', style='margin: 10px')
+                img(src='https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Diana_0.jpg', align='left')
                 p To get our data, we downloaded the list of match ids in the second category of the Riot API Challenge (<a>https://developer.riotgames.com/discussion/announcements/show/2lxEyIcE</a>). We made REST calls on each match id to get information for 375,740 matches. Although this is less than the expected 400k matches, this is a large enough dataset to do our analysis.
                 p After getting the raw data, we did a whole of mapping and averaged between the groups to get the data. The terms you see are usually the average, but we should clarify the pick rate and win rate. Note that 'item' is only the first instance of the 'item' (e.g. Only one Deathcap is counted if player has bought two Deathcaps in a game).
                 ul
@@ -19,28 +19,13 @@
                   li Win rate(champion) = || item on champion in a winning game || / || item on champion ||
                 p The code to perform these calculations are located in <a>https://github.com/issenec/ritoplzmyapitems/tree/gh-pages/data/python</a>. We're pretty confident in our calculations, but if you're certain about a mistake, feel free to open a ticket in Github (<a>https://github.com/issenec/ritoplzmyapitems</a>) and we'll take a look!
             accordion-group(heading='How did you come up with the Recommended Items? Machine learning?')
+                img(src='https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/loading/RekSai_0.jpg', align='right')
                 p We took motivation from last year's Riot API Challenge winner: <a>http://urf.microtony.com/</a>. They did a fantastic study of how the role of each champion changed in URF mode. Shout-outs to their great work!
                 p Looking at the AP item changes, there should have been one question on every player's mind: What new items can I try? We can say 'It makes sense for Azir to get Nashor's Tooth', but it doesn't mean much if we can't back it up with data. We can take a look at what items were the most common or were involved in the most winning matches, but that doesn't help in trying new items that are not in meta. Thus, we decided to use machine learning to get other items to recommend for each champion.
-                p There were several clustering models that we considered: K-means, Gaussian Mixture Models (GMM), or a deep restricted Boltzmann machine (RBM). RBMs would have been great to use: start with the champion picked in a match, throw in all data for each champion in each match with all the features, let it run through several layers, and connect it to a final layer comprised of items picked. Then, once the model is trained, you would get recommended items for every champion. However, my computer is not currently set up for GPU processing (Looking at you and your drivers for Fedora, Nvidia!) and RBMs would take too long to train.
-                p As a result, we had to choose between K-means and GMMs. We were more familiar with K-means so we chose that model to group champions together and use the items used in that group of champions as recommended items. The features used to group the champions included the champion base and growth stats, tags (e.g. is the champion an assassin?), and some AP item stats (winrate, pickrate, and lane) related to the champion. The data generated can be seen in lines 30-43 at <a>https://github.com/issenec/ritoplzmyapitems/blob/gh-pages/data/python/calculate_kmeans_items.py</a>.
-                p The modeling package we used was scikit-learn. We chose this since it's a prevalent library used in the Python machine learning community. We considered PySpark, but scikit-learn has more visualization and niche functions and we weren't using a cluster to process the data (where Spark really shines). After generating the data, we fitted a KMeans model on it and ended up with 4 groups of champions as this number of groups resulted in the lowest silhouette score (<a>http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html</a>). As a sanity check, we also threw the data into T-SNE (<a>http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html</a>), a manifold visualization tool which groups data. The resulting T-SNE plot is shown below:
-                img(src='images/tsne.png', width='90%')
-                p From looking at the plot, it seems 4 clusters is possible since you could see between 3-6 clusters, depending on how tightly you couple the data points. Now that we have our groups of champions, for each group, we gather the items and sort them by the number of times the item was used in a winning match. This results in the following recommended items for each group:
-                table
-                    thead
-                        tr
-                            th(style='width: 50%') Champions
-                            th(style='width: 50%') Recommended Items (Most -> Least)
-                    tbody
-                        tr(ng-repeat='item in items')
-                            td.champions-group
-                                img(ng-repeat="champ in item['champs']", ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/champion/' + champIds[champ] + '.png' }}", height='30', width='30')
-                            td.recommended-items
-                                img(ng-repeat="i in item['items']", ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + i + '.png' }}", height='30', width='30')
-                p Looking at this, for the most part, the main items of Rabadon's Deathcap and Zhonya's Hourglass still hold true. However, for the last group of champions, it seems Rod of Ages and Will of the Ancients may be something worth experimenting with.
-                p Sidenote: The statement about Azir and Nashor's Tooth: It turns out that although the pick rate increased, the winrate did not.
+                p There were several clustering models that we considered: K-means, Gaussian Mixture Models, or a deep restricted Boltzmann machine (RBM). RBMs would have been great to use: start with the champion picked in a match, throw in all data for each champion in each match with all the features, let it run through several layers, and connect it to a final layer comprised of items picked. Then, once the model is trained, you would get recommended items for every champion.
+                p By the way, the statement about Azir and Nashor's Tooth: It turns out that although the pick rate increased, the winrate did not.
             accordion-group(heading="Why is there a section specifically for Nashor's tooth, etc.?")
-                img(src='http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Azir_0.jpg', align='right', style='margin: 10px')
+                img(src='https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Bard_0.jpg', align='left')
                 p When the AP items patch (5.13) came out, there seemed to be more utility to each AP items, but it was all theoretical. A lot of questions came up in the patch notes and in the forums, but four questions really stood out:
                 ul
                     li Early Nashor's tooth's attack speed to ability power ratio meant the item only made sense on certain champions: only Kayle. Does the new Nashor's tooth just as niche?
@@ -49,16 +34,13 @@
                     li To quote Pwyff and Scarizard: "[...] Picking up a Codex + Book on your first back can be about comparable to going for that 1200 gold NLR. ARE THESE CHOICES MEANINGFUL? You tell us."
                 p These questions were very interesting and would vary for each champion. So we decided to give them their own section.
             accordion-group(heading='Why do we see non-AP champs (e.g. Jinx)?')
-                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left', style='margin: 10px')
-                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left', style='margin: 10px')
-                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left', style='margin: 10px')
-                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left', style='margin: 10px')
-                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left', style='margin: 10px')
+                img(src='http://ddragon.leagueoflegends.com/cdn/5.15.1/img/passive/Jinx_Passive.png', align='left')
+                // TODO: Consider putting a row of non-AP champion icons here
                 p We don't judge your choice of champions. Personally, you're a little too spicy for us, but if you want to do an AP Jinx, go for it! Don't let your dreams be dreams!
             accordion-group(heading="Where is Seraph's Embrace? What about other AP items?")
+                // TODO: Consider putting a picture of Seraph's Embrace here
                 p Seraph's Embrace is special because you automatically get this item once you cast your spells after a certain amount. As a result, we can look at the statistics for Seraph's Embrace by looking at its base item: Archangel's Staff. In the future, we will want to look at the statistics when Seraph's Embrace is completed versus when it is not. However, we chose to ignore Seraph's Embrace since the only change was +20 ability power, but the path to get there was the same after you got Archangel's Staff.
             accordion-group(heading='Any improvements you plan on making?')
-                img(src='http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Bard_0.jpg', align='right', style='margin: 10px')
                 p There's definitely tons of things we can do. As mentioned in the previous section, one potential addition would be statistics for Seraph's Embrace.
                 p Another useful addition would be statistics for item combinations. We chose to ignore this because item purchase order would add some data complexity. This wouldn't be impossible: we have access to computers that can handle the data. However, due to the time constraints of this API challenge, we opted to do this analysis in the future.
                 p In terms of the current data, we could and probably should have filtered based on leagues or the number of games recorded for a champion-item combo. There were games where the combination was "spicy" (looking at you AP Jinx players). However, it's a little interesting to see picks for non-AP champions so we did not do this filtering despite the possibility that our app would be more useful without the "spicy" games.

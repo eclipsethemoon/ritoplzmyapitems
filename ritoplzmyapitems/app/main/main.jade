@@ -1,13 +1,31 @@
+script(type='text/ng-template', id='itemTemplate.html').
+    <a>
+    <img ng-src="http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/{{match.model.id}}.png" width="16">
+    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+script(type='text/ng-template', id='championTemplate.html').
+    <a>
+    <img ng-src="http://ddragon.leagueoflegends.com/cdn/5.16.1/img/champion/{{match.model.key}}.png" width="16">
+    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    </a>
+
+
+
+header
+    h1 RitoPlz! My AP Items for
+    input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='championTemplate.html')
+    ul.nav.navbar-nav.navbar-right
+        button.btn(ng-click='open()', ng-controller="InfoCtrl") Open me!
+        //li(ng-include=" 'info/info.html' ", ng-controller="InfoCtrl")
 .container-fluid
-    .row
-        .col-sm-6.col-md-6.col-lg-6
-        .col-sm-6.col-md-6.col-lg-6.header
-            h1 <b>RitoPlz! My AP Items!</b>
-            h3 Select your favorite champion:&nbsp&nbsp
-            input.form-control(type='text', ng-model='championSelected', placeholder='All champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='main/championTemplate.html')
-            br
     .row
         .col-sm-3.col-md-3.col-lg-3.sidebar
             .sidePane(ng-include=" 'detail/detail.html' ", ng-controller="DetailCtrl")
         .row(ng-include=" 'scatter/scatter.html' ", ng-controller="ScatterCtrl")
         .row(ng-include=" 'showcase/showcase.html' ", ng-controller="ShowcaseCtrl")
+
+img(src='images/trianglecorner.png', style='position: absolute; bottom: 201px; right: 0; z-index: 600')
+
+
+footer
+    | RitoPlzMyAPItems isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
