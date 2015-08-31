@@ -127,7 +127,7 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
       },
       link: function(scope, element) {
         var arc, color, height, pie, radius, svg, width;
-        width = 350;
+        width = 330;
         height = width;
         radius = width / 2;
         arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 50);
@@ -248,6 +248,19 @@ angular.module('ritoplzmyapitems').factory('championItemService', [
 angular.module('ritoplzmyapitems').controller('MainCtrl', [
   '$scope', '$http', 'championItemService', function($scope, $http, championItemService) {
     $scope.championSelected = '';
+    $scope.championNames = [];
+    championItemService.getDataFor('champions').success(function(res) {
+      var champ, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = res.length; _i < _len; _i++) {
+        champ = res[_i];
+        _results.push($scope.championNames.push({
+          key: champ.key,
+          name: champ.name
+        }));
+      }
+      return _results;
+    });
     championItemService.getDataFor('items').success(function(res) {
       if (res.error) {
         throw new Error(res.message);
@@ -370,7 +383,6 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           var changeIcon, changeTimeIcon, iconWidth, tip, tipOffset;
           if (data.length) {
             changeIcon = function(v) {
-              console.log(v);
               if (v > 0) {
                 return '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
               } else {

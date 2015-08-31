@@ -6,7 +6,7 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
       filter: '='
       onClick: '&'
     link: (scope, element) ->
-      width = 350  # Set to the same size as pageslide
+      width = 330  # Set to the same size as pageslide
       height = width;
       radius = width / 2;
 

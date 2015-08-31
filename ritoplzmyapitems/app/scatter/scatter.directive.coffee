@@ -38,7 +38,6 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       scope.render = (data, feature) ->
         if data.length
           changeIcon = (v) ->
-            console.log v
             if v > 0
               '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
             else

@@ -38170,7 +38170,8 @@ angular.module("pageslide-directive", [])
                 psSqueeze: "@",
                 psCloak: "@",
                 psPush: "@",
-                psContainer: "@"
+                psContainer: "@",
+                psKeyListener: "@"
             },
             //template: '<div class="pageslide-content" ng-transclude></div>',
             link: function ($scope, el, attrs) {
@@ -38190,7 +38191,8 @@ angular.module("pageslide-directive", [])
                 param.cloak = $scope.psCloak && $scope.psCloak.toLowerCase() == 'false' ? false : true;
                 param.squeeze = Boolean($scope.psSqueeze) || false;
                 param.push = Boolean($scope.psPush) || false;
-                param.container = $scope.psContainer || false; 
+                param.container = $scope.psContainer || false;
+                param.keyListener = Boolean($scope.psKeyListener) || false;
 
                 // Apply Class
                 el.addClass(param.className);
@@ -38300,6 +38302,10 @@ angular.module("pageslide-directive", [])
                         }
                     }
                     $scope.psOpen = false;
+
+                    if (param.keyListener) {
+                        $document.off('keydown', keyListener);
+                    }
                 }
 
                 /* Open */
@@ -38318,8 +38324,9 @@ angular.module("pageslide-directive", [])
                                 slider.style.width = param.size;
                                 if (param.squeeze) body.style.left = param.size;
                                 if (param.push) {
-                                    body.style.left = param.size;
-                                    body.style.right = "-" + param.size;
+                                    slide_amount = parseInt(param.size) / 2 + param.size.match(/(%|px)$/)[0]
+                                    body.style.left = slide_amount;
+                                    body.style.right = "-" + slide_amount;
                                 }
                                 break;
                             case 'top':
@@ -38343,12 +38350,26 @@ angular.module("pageslide-directive", [])
                             if (param.cloak) content.css('display', 'block');
                         }, (param.speed * 1000));
 
+                        if (param.keyListener) {
+                            $document.on('keydown', keyListener);
+                        }
                     }
                 }
 
                 function isFunction(functionToCheck) {
                     var getType = {};
                     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+                }
+
+                /**
+                 * close the sidebar if the 'esc' key is pressed
+                 */
+                function keyListener(e) {
+                    var ESC_KEY = 27;
+                    var key = e.keyCode || e.which;
+                    if (key === ESC_KEY) {
+                        psClose(slider, param);
+                    }
                 }
 
                 /*

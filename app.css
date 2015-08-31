@@ -1,11 +1,12 @@
 body {
   width: 100%;
   position: absolute;
+  transition-duration: 0.5s;
+  transition-property: top, bottom, left, right;
   color: #555;
 }
 #contentWrapper {
   height: 100%;
-  width: 100%;
   border-top: solid black 5px;
   position: relative;
   background: url("images/trianglebanner.jpg") left top no-repeat;
@@ -97,6 +98,12 @@ footer > div {
   height: 350px;
 }
 
+.green {
+  color: #22C617;
+}
+.red {
+  color: #FF0000;
+}
 .fillWidth {
   width: 100%;
   text-align: center;
@@ -167,7 +174,15 @@ header {
   padding-left: 950px;
   padding-top: 50px;
   margin: auto;
-  display: block;
+}
+.championSelect {
+  width: 960px;
+  height: 280px;
+  background: #fff;
+  padding: 5px 5px 5px 5px;
+}
+.championSelect .img:hover {
+  box-shadow: 0 0 10px #ccc;
 }
 .wrap {
   position: relative;
@@ -353,11 +368,6 @@ table th:first-child {
   color: green;
 }
 
-.list-group-item img {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
-}
 blockquote {
   font-family: Georgia, serif;
   font-size: 18px;
