@@ -273,6 +273,8 @@ h1 {
 .form-control {
   width: 200px;
   display: inline-block;
+  background-color: #3E3838;
+  color: white;
 }
 .modal {
   display: block;
