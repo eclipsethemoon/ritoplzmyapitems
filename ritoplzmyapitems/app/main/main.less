@@ -2,6 +2,12 @@ body {
   position: absolute;
   color: #555;
 }
+.green {
+  color: #22C617;
+}
+.red {
+  color: #FF0000;
+}
 .fillWidth {
   width: 100%;
   text-align: center;
@@ -87,7 +93,7 @@ footer {
 #contentWrapper {
   border-top: solid black 5px;
   position: relative;
-  //  background-image:url("images/trianglebanner.jpg");
+  //  background-image:url("http://i.imgur.com/ik4Q3wS.jpg");
   background-repeat: no-repeat;
 }
 #header {
@@ -153,6 +159,41 @@ h1 {
   display: block;
 }
 
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+  margin: 0.25em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+  border-left: none;
+}
+blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote cite:before {
+content: "\2014 \2009";
+}
 a {
+  color: #0d77b6;
   cursor: pointer;
+}
+a:hover {
+  color: #00c6ff;
 }
