@@ -6,6 +6,11 @@ angular.module('ritoplzmyapitems').controller 'MainCtrl', [
 
     $scope.championSelected = ''
 
+    $scope.championNames = []
+    championItemService.getDataFor('champions').success (res) ->
+      for champ in res
+        $scope.championNames.push {key: champ.key, name: champ.name}
+
     championItemService.getDataFor('items').success (res) ->
       if res.error
         throw new Error(res.message)
