@@ -12,11 +12,9 @@ body {
   overflow-x: hidden;
 }
 #contentWrapper {
-  height: 100%;
   border-top: solid black 5px;
   position: relative;
   background: url("images/trianglebanner.jpg") left top no-repeat;
-  background-repeat: no-repeat;
 }
 .btn-lg {
   top: 10px;
@@ -39,6 +37,19 @@ footer > div {
   width: 50%;
   margin: 0 auto;
   color: #00c6ff;
+}
+#bottomCornerPicture {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  z-index: 600;
+  transition: all 2s ease 0s;
+}
+@media only screen and (max-width: 1800px) {
+  #bottomCornerPicture {
+    z-index: -100;
+    opacity: 0.2;
+  }
 }
 
 .championHeader {
@@ -85,7 +96,7 @@ footer > div {
   width: 100%;
   margin: 0;
   padding: 10px 10px 10px 10px;
-  background-color: #ffffff;
+  background-color: #eee;
 }
 .categoryItem {
   display: inline-block;
@@ -190,11 +201,19 @@ footer > div {
   background: #fff;
   color: #000;
 }
-header {
-  height: 20px;
-  top: 0;
-  right: 0;
-  position: absolute;
+.header {
+  padding: 20px;
+  text-align: right;
+}
+.header h1 {
+  color: #000;
+  font-size: 45px;
+  margin: 0;
+}
+.header h3 {
+  color: #000;
+  font-size: 16px;
+  display: inline-block;
 }
 .championSelect {
   width: 960px;
