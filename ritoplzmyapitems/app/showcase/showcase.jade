@@ -7,8 +7,8 @@
                 p.list-group-item-text In the past, this was how you considered this item: Are you playing Kayle? Is this still the case?
             .list-group-item
                 img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3115.png' }}")
-                .list-item-count {{ nashor['pickRate'] }}
-                .list-item-count {{ nashor['winner'] }}
+                .list-item-count Pick rate: {{ nashor['pickRate'] }}%
+                .list-item-count Win rate: {{ nashor['winner'] }}%
 .col-lg-3
     .panel.panel-default
         .panel-heading.clearfix
@@ -18,9 +18,9 @@
                 p.list-group-item-text Minor nerf to killing minions, but buffed against champions with ~50 MR: Is spell vamp wurf?
             .list-group-item
                 img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3152.png' }}")
-                .list-item-count {{ wota['pickRate'] }}
-                .list-item-count {{ wota['winner'] }}
-                .list-item-count {{ wota['heal'] }}
+                .list-item-count Pick rate: {{ wota['pickRate'] }}%
+                .list-item-count Win rate: {{ wota['winner'] }}%
+                .list-item-count Avg heal amount: {{ wota['heal'] }}
 .col-lg-3
     .panel.panel-default
         .panel-heading.clearfix
@@ -32,10 +32,10 @@
                 img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3116.png' }}")
                 img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3151.png' }}")
             .list-group-item
-                .list-item-count {{ rylaiLiandry['pickRate'] }}
-                .list-item-count {{ rylaiLiandry['winner'] }}
-                .list-item-count {{ rylaiLiandry['magicDmg'] }}
-                .list-item-count {{ rylaiLiandry['crowdControl'] }}
+                .list-item-count Pick rate: {{ rylaiLiandry['pickRate'] }}%
+                .list-item-count Win rate: {{ rylaiLiandry['winner'] }}%
+                .list-item-count Avg magic damage to champions: {{ rylaiLiandry['magicDmg'] }}
+                .list-item-count Avg crowd control applied:{{ rylaiLiandry['crowdControl'] }}
 .col-lg-3
     .panel.panel-default
         .panel-heading.clearfix
@@ -46,12 +46,12 @@
             .list-group-item
                 p.col-lg-6
                     img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/1058.png' }}")
-                    .list-item-count {{ nlr['pickRate'] }}
-                    .list-item-count {{ nlr['winner'] }}
-                    .list-item-count {{ nlr['timestamp'] }}
+                    .list-item-count Pick rate: {{ nlr['pickRate'] }}%
+                    .list-item-count Win rate: {{ nlr['winner'] }}%
+                    .list-item-count Avg time to complete: {{ (nlr['timestamp'] / 60000).toFixed(1) }}s
                 p.col-lg-6
                     img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3108.png' }}")
                     img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/1052.png' }}")
-                    .list-item-count {{ fiendish['pickRate'] }}
-                    .list-item-count {{ fiendish['winner'] }}
-                    .list-item-count {{ fiendish['timestamp'] }}
+                    .list-item-count Pick rate: {{ fiendish['pickRate'] }}%
+                    .list-item-count Win rate: {{ fiendish['winner'] }}%
+                    .list-item-count Avg time to complete: {{ fiendish['timestamp'] }}s

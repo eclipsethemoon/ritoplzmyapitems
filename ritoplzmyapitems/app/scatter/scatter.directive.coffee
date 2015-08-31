@@ -37,9 +37,30 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       # define render function
       scope.render = (data, feature) ->
         if data.length
+          changeIcon = (v) ->
+            if v < 0
+              '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
+            else
+              '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
+
+          changeTimeIcon = (v) ->
+            if v > 0
+              '<span class="glyphicon glyphicon-triangle-top timestamp" aria-hidden="true"></span>'
+            else
+              '<span class="glyphicon glyphicon-triangle-bottom timestamp" aria-hidden="true"></span>'
+
           tipOffset = if scope.pushed == 'items' then 0 else -350
           tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html((d) ->
-            '<strong>' + d['name'] + '</strong>'
+            '<center><strong>' + d['name'] + '</strong></center><br/>' +
+              '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' +
+              changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) +
+              (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' +
+              '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '%' +
+              changeIcon(d['5.14']['winner'] - d['5.11']['winner']) +
+              (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' +
+              '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min' +
+              changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) +
+              (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min'
           )
           svg.call tip
 
