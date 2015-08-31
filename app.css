@@ -1,16 +1,23 @@
+body {
+  width: 100%;
+  position: absolute;
+  color: #555;
+}
 #contentWrapper {
+  height: 100%;
+  width: 100%;
   border-top: solid black 5px;
   position: relative;
-  background-image: url("images/trianglebanner.jpg");
+  background: url("images/trianglebanner.jpg") left top no-repeat;
   background-repeat: no-repeat;
 }
 footer {
   position: relative;
   bottom: 0;
   width: 100%;
+  height: 100%;
   background-color: #000;
   color: #00c6ff;
-  margin-top: 200px;
   margin-bottom: 0px;
   padding: 50px;
 }
@@ -57,6 +64,7 @@ footer > div {
   width: 100%;
   margin: 0;
   padding: 10px 10px 10px 10px;
+  background-color: #ffffff;
 }
 .categoryItem {
   display: inline-block;
@@ -68,6 +76,9 @@ footer > div {
 }
 .categoryItem span {
   display: block;
+}
+.championContent {
+  background-color: #ffffff;
 }
 .championContent h3 {
   color: #afdefa;
@@ -86,10 +97,6 @@ footer > div {
   height: 350px;
 }
 
-body {
-  position: absolute;
-  color: #555;
-}
 .fillWidth {
   width: 100%;
   text-align: center;
@@ -155,11 +162,12 @@ body {
   background: #fff;
   color: #000;
 }
-#header {
+header {
   height: 0px;
   padding-left: 950px;
   padding-top: 50px;
   margin: auto;
+  display: block;
 }
 .wrap {
   position: relative;
@@ -215,7 +223,36 @@ h1 {
   display: block;
 }
 a {
+  color: #0d77b6;
   cursor: pointer;
+}
+a:hover {
+  color: #00c6ff;
+}
+table {
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+}
+table td {
+  border-left: 1px solid #ccc;
+  padding: 15px;
+}
+table td:first-child {
+  border-left: none;
+}
+table tr {
+  border-top: 1px solid #ccc;
+}
+table tr:first-child {
+  border-top: none;
+}
+table th {
+  text-align: center;
+  border-left: 1px solid #ccc;
+}
+table th:first-child {
+  border-left: none;
 }
 
 .bar.positive {
@@ -229,6 +266,36 @@ a {
 }
 .bar.negative:hover {
   fill: orange;
+}
+.chartTitle {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  color: #000000;
+}
+.chartContainer {
+  width: 960px;
+  height: 520px;
+  position: relative;
+}
+.chartBackground {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #000;
+  background-color: lightgray;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.chartArea {
+  width: 100%;
+  height: 89%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 .xAxis text {
   font: 10px sans-serif;
@@ -255,6 +322,7 @@ a {
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+  z-index: 20;
 }
 .d3-tip:after {
   box-sizing: border-box;
@@ -327,6 +395,9 @@ a {
 a:hover {
   color: #00c6ff;
 }
+h2 {
+  color: #000000;
+}
 .spotlightWrapper .content .cell {
   display: table-cell;
   width: 40%;
@@ -345,10 +416,7 @@ a:hover {
   border-left: dotted #ccc 2px;
 }
 .spotlightWrapper {
-  padding: 100px;
-}
-.spotlightWrapper:first-child {
-  margin-top: 100px;
+  padding: 50px;
 }
 .spotlightWrapper .title {
   font-size: 1.5em;
@@ -356,6 +424,7 @@ a:hover {
 }
 .spotlightWrapper .content {
   width: 100%;
+  z-index: 10;
 }
 .spotlightWrapper .row {
   display: table;

@@ -341,14 +341,14 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
         var height, margin, svg, width, x, xAxis, y, yAxis;
         margin = {
           top: 10,
-          right: 10,
+          right: 0,
           bottom: 10,
           left: 50
         };
-        width = element[0].parentElement.clientWidth - margin.left - margin.right;
+        width = 960 - margin.left - margin.right;
         height = 400 - margin.top - margin.bottom;
         x = d3.scale.ordinal().rangeRoundBands([0, width - 30], .3);
-        y = d3.scale.linear().range([height, 0]);
+        y = d3.scale.linear().range([0, height]);
         xAxis = d3.svg.axis().scale(x);
         yAxis = d3.svg.axis().scale(y).orient('left');
         svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -370,7 +370,8 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           var changeIcon, changeTimeIcon, iconWidth, tip, tipOffset;
           if (data.length) {
             changeIcon = function(v) {
-              if (v < 0) {
+              console.log(v);
+              if (v > 0) {
                 return '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
               } else {
                 return '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>';
@@ -383,7 +384,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
                 return '<span class="glyphicon glyphicon-triangle-bottom timestamp" aria-hidden="true"></span>';
               }
             };
-            tipOffset = scope.pushed === 'items' ? 0 : -350;
+            tipOffset = scope.pushed === 'items' ? 0 : -175;
             tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html(function(d) {
               return '<center><strong>' + d['name'] + '</strong></center><br/>' + '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min' + changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min';
             });
@@ -393,25 +394,33 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
               return d['id'];
             }));
             y.domain(d3.extent(data, function(d) {
-              return d['5.14'][feature] - d['5.11'][feature];
+              return d['5.11'][feature] - d['5.14'][feature];
             }));
             svg.selectAll('.bar').data(data).enter().append('rect').attr('class', function(d) {
-              if ((d['5.14'][feature] - d['5.11'][feature]) < 0) {
-                return 'bar negative';
+              if (feature === 'timestamp') {
+                if ((d['5.14'][feature] - d['5.11'][feature]) > 0) {
+                  return 'bar negative';
+                } else {
+                  return 'bar positive';
+                }
               } else {
-                return 'bar positive';
+                if ((d['5.14'][feature] - d['5.11'][feature]) < 0) {
+                  return 'bar negative';
+                } else {
+                  return 'bar positive';
+                }
               }
             }).attr('x', function(d) {
               return x(d['id']);
             }).attr('y', function(d) {
-              return y(Math.max(0, d['5.14'][feature] - d['5.11'][feature]));
+              return y(Math.min(0, d['5.11'][feature] - d['5.14'][feature]));
             }).attr('height', function(d) {
               return Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0));
             }).attr('width', x.rangeBand()).on('mouseover', tip.show).on('mouseout', tip.hide);
             svg.append('g').attr('class', 'yAxis').call(yAxis);
             svg.select('.yAxis').selectAll('text').text(function(d) {
               if (feature === 'timestamp') {
-                return (d / 1000).toFixed(2);
+                return (d / 60000).toFixed(1);
               } else {
                 return Math.round(d * 100);
               }
