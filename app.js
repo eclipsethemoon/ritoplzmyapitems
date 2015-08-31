@@ -176,40 +176,64 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
   }
 ]);
 
-angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
-  $scope.items = ['item1', 'item2', 'item3'];
-  return $scope.open = function() {
-    var modalInstance;
-    modalInstance = $modal.open({
-      templateUrl: 'info/info.html',
-      controller: 'ModalInstanceCtrl',
-      size: 'lg',
-      resolve: {
-        items: function() {
-          return $scope.items;
-        }
+angular.module('ritoplzmyapitems').controller('InfoCtrl', [
+  '$scope', '$modal', 'championItemService', function($scope, $modal, championItemService) {
+    $scope.items = [];
+    $scope.champIds = {};
+    championItemService.getDataFor('champions').success(function(res) {
+      var champ, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = res.length; _i < _len; _i++) {
+        champ = res[_i];
+        _results.push($scope.champIds[champ.id] = champ.key);
       }
+      return _results;
     });
-    return modalInstance.result.then((function(selectedItem) {
-      return $scope.selected = selectedItem;
-    }), function() {
-      return $log.info('Modal dismissed at: ' + new Date);
+    championItemService.getDataFor('champions_recommended_items').success(function(res) {
+      $scope.items.push({
+        champs: res['1']['champs'],
+        items: res['1']['items']
+      });
+      $scope.items.push({
+        champs: res['2']['champs'],
+        items: res['2']['items']
+      });
+      $scope.items.push({
+        champs: res['4']['champs'],
+        items: res['4']['items']
+      });
+      return $scope.items.push({
+        champs: res['8']['champs'],
+        items: res['8']['items']
+      });
     });
-  };
-});
+    return $scope.open = function() {
+      return $modal.open({
+        templateUrl: 'info/info.html',
+        controller: 'ModalInstanceCtrl',
+        size: 'lg',
+        resolve: {
+          items: function() {
+            return $scope.items;
+          },
+          champions: function() {
+            return $scope.champIds;
+          }
+        }
+      });
+    };
+  }
+]);
 
-angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-  $scope.ok = function() {
-    return $modalInstance.close($scope.selected.item);
-  };
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
-  };
-});
+angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', [
+  '$scope', '$modalInstance', 'items', 'champions', function($scope, $modalInstance, items, champions) {
+    $scope.items = items;
+    $scope.champIds = champions;
+    return $scope.cancel = function() {
+      return $modalInstance.dismiss('cancel');
+    };
+  }
+]);
 
 angular.module('ritoplzmyapitems').factory('championItemService', [
   '$http', function($http) {
