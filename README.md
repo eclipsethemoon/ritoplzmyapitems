@@ -1,5 +1,4 @@
-Riot Games API Challenge 2
-Rito Plz! My AP Items!
+Riot Games API Challenge 2: Rito Plz! My AP Items!
 ==============
 
 By: Christine Lu (NA: chaibiscuit) and Stephen Won (NA: Randomodnar)
