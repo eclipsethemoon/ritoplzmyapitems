@@ -6,7 +6,7 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
       filter: '='
       onClick: '&'
     link: (scope, element) ->
-      width = 330  # Set to the same size as pageslide
+      width = 250  # Set to the same size as pageslide
       height = width;
       radius = width / 2;
 
@@ -42,9 +42,9 @@ angular.module('ritoplzmyapitems').directive 'd3Donut', [
           g.append('path').attr('d', arc).style('fill', (d) -> color d.data.type)
 
           svg.append("text").datum(data).attr("x", 0 ).attr("y", 0 - radius/15 ).attr("class", "text-type-tooltip")
-            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
           svg.append("text").datum(data).attr("x", 0 ).attr("y", 0 + radius/15 ).attr("class", "text-percent-tooltip")
-            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            .style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
           g.on 'mouseover', (d) ->
             circle_text = Math.round(Math.abs(d.startAngle - d.endAngle) * 100 / (2 * Math.PI))
             svg.select('text.text-type-tooltip').attr('fill', color d.data.type).text(d.data.type)

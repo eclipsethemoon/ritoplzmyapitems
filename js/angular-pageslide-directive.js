@@ -151,10 +151,6 @@ angular.module("pageslide-directive", [])
                         }
                     }
                     $scope.psOpen = false;
-
-                    if (param.keyListener) {
-                        $document.off('keydown', keyListener);
-                    }
                 }
 
                 /* Open */
@@ -199,9 +195,6 @@ angular.module("pageslide-directive", [])
                             if (param.cloak) content.css('display', 'block');
                         }, (param.speed * 1000));
 
-                        if (param.keyListener) {
-                            $document.on('keydown', keyListener);
-                        }
                     }
                 }
 

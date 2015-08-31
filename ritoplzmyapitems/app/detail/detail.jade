@@ -9,6 +9,8 @@ pageslide(ps-side='left' ps-cloak='false' ps-push='true' ps-open='checked', ps-k
             .classes
                 .tagsWrapper(ng-repeat='tag in championSelected.tags')
                     img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/profileicon/' + championTags[tag] + '.png' }}", height='30', width='30', data-toggle='tooltip', data-placement='top', title='{{tag}}')
+            .closer
+                a.button(ng-click='toggle()') ×
         .championContentWrapper.scroller
             .championContent
                 h3 Most Common Items
@@ -33,4 +35,5 @@ pageslide(ps-side='left' ps-cloak='false' ps-push='true' ps-open='checked', ps-k
                     span (By Win Rate)
             .championContent
                 h3 Item Composition
-                d3-donut(data='item_types')
+                .categoryWrapper
+                    d3-donut(data='item_types')
