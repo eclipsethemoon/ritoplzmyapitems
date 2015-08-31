@@ -56,6 +56,14 @@ for n_clusters in range_n_clusters:
         n_cluster = n_clusters
         best_silhouette_score = silhouette_avg
 
+# Create T-SNE plot as sanity check for K-Means
+tsne = TSNE(n_components = 2, perplexity = 5, early_exaggeration = 1.0, learning_rate = 100, n_iter = 100000)
+Y = tsne.fit_transform(data)
+plt.scatter(Y[:, 0], Y[:, 1])
+plt.title("t-SNE sanity check for 4 clusters of champions")
+plt.axis('tight')
+plt.show()
+
 # Run k-means with best number of clusters
 kmeans_model = KMeans(init='k-means++', n_clusters=n_cluster, n_init=100, n_jobs=-1, max_iter=1000)
 cluster_labels = kmeans_model.fit_predict(data)
