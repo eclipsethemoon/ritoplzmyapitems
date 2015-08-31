@@ -13,7 +13,7 @@
                 blockquote
                     | [W]hile it's always been a great pickup for auto-attacking mages, that attack speed to ability power ratio meant you had to be pretty invested in your on-hit procs to even consider the Tooth. We're hoping this change will make it a little more enticing as a niche pickup for people not... Kayle.
                     cite
-                        | Riot in
+                        | Riot in&nbsp;
                         a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
             .cell
                 center
@@ -47,7 +47,7 @@
                 blockquote
                     | This means you'll be spell vamping for less, but you won't need as much (high base damage, resistance penetration, etc) to get your heal ball rolling.
                     cite
-                        | Riot in
+                        | Riot in&nbsp;
                         a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
             .cell
                 center
@@ -72,7 +72,7 @@
                     tr
                         td Change in Heals
                         td
-                            | {{ wota['heal'] }}% (
+                            | {{ wota['heal'] }} (
                             span(ng-if="wota['healDiff'] > 0") +
                             | {{ wota['healDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['healDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['healDiff'] < 0}")
@@ -91,11 +91,12 @@
                     p
                         | The combination of the two is downright brutal on just about any mage with big AOE spells that happen to apply a DoT.
                     cite
-                        | Taylor "Riot RoboTayCo" Cocke in
+                        | Taylor "Riot RoboTayCo" Cocke in&nbsp;
                         a(href='http://na.lolesports.com/articles/magical-ap-item-changes-unicorns-love') The Magical AP Item Changes with the Unicorns of Love
             .cell
                 center
                     img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3116.png')
+                    |  +&nbsp;
                     img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3151.png')
                 table.table.table-condensed
                     tr
@@ -117,7 +118,7 @@
                     tr
                         td Change in Damage
                         td
-                            | {{ rylaiLiandry['magicDmg'] }}% (
+                            | {{ rylaiLiandry['magicDmg'] }} (
                             span(ng-if="rylaiLiandry['magicDmgDiff'] > 0") +
                             | {{ rylaiLiandry['magicDmgDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['magicDmgDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['magicDmgDiff'] < 0}")
@@ -125,14 +126,14 @@
                     tr
                         td Change in Crowd Control
                         td
-                            | {{ rylaiLiandry['crowdControl'] }}% (
+                            | {{ rylaiLiandry['crowdControl'] }} ms (
                             span(ng-if="rylaiLiandry['crowdControlDiff'] > 0") +
                             | {{ rylaiLiandry['crowdControlDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['crowdControlDiff'] < 0}")
                             | )
     .spotlightWrapper.hideMe
         .content(style='z-index: 700')
-            .cell(style='padding-right: 0px')
+            .cell
                 .title NLR vs. Fiendish Codex
                 p
                     | 5.13 reduced the cost and effectiveness of the Needlessly Large Rod (NLR). Now, a set of the Codex + Book are comparable to the NLR.
@@ -140,17 +141,17 @@
                 blockquote(style='position: relative; left: -20px')
                     | Super high level challenge: right now, AP mages bring a mix of damage and utility in their kits, but standard item builds have pretty much centered on more damage instead of getting more utility or reacting to the situation... Ultimately we want to offer more choices for more mages throughout the game, and we're doing this by bringing a little parity to the ability power board.
                     cite
-                        | Riot in
+                        | Riot in&nbsp;
                         a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
             .cell(style='padding-left:20px')
                 table
                     th
                     th
-                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1058.png')
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1058.png', width='48px')
                     th
-                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3108.png')
-                        |  +
-                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1052.png')
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3108.png', width='48px')
+                        |  +&nbsp;
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1052.png', width='48px')
                     tr
                         td
                             b Cost
@@ -163,16 +164,16 @@
                         td
                             | +50 ability power
                             br
-                            | +10% cooldown reduction
+                            | +10% cooldown<br/>reduction
                     tr
                         td
                             b Pick Rate
                         td
-                            | {{ nlr['pickRate'] }}% ({{ nlr['pickDiff'] }}%
+                            | {{ nlr['pickRate'] }}% <br/>({{ nlr['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['pickDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['pickRate'] }}% (
+                            | {{ fiendish['pickRate'] }}% <br/>(
                             span(ng-if="fiendish['pickDiff'] > 0") +
                             | {{ fiendish['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['pickDiff'] < 0}")
@@ -181,24 +182,24 @@
                         td
                             b Wins
                         td
-                            | {{ nlr['winner'] }}% (
+                            | {{ nlr['winner'] }}% <br/>(
                             span(ng-if="fiendish['winDiff'] > 0") +
                             | {{ nlr['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['winDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['winner'] }}% ({{ fiendish['winDiff'] }}%
+                            | {{ fiendish['winner'] }}% <br/>({{ fiendish['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['winDiff'] < 0}")
                             |                                         )
                     tr
                         td
-                            b Acquisition Time
+                            b Acquisition<br/>Time
                         td
-                            | {{ nlr['timestamp'] }} ({{ nlr['timestampDiff'] }}
+                            | {{ nlr['timestamp'] }} ms <br/>({{ nlr['timestampDiff'] }}
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['timestampDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['timestamp'] }} ({{ fiendish['timestampDiff'] }}
+                            | {{ fiendish['timestamp'] }} ms <br/>({{ fiendish['timestampDiff'] }}
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['timestampDiff'] < 0}")
                             |                                         )
                     tr
@@ -207,11 +208,14 @@
                         td
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3003.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Archangel's Staff")
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3089.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Rabadon's Deathcap")
+                            br
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3116.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Rylai's Crystal Scepter")
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3157.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Zhonya's Hourglass")
+                            br
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3285.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Luden's Echo")
                         td
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3174.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Athene's Unholy Grail")
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3165.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Morellonomicon')
+                            br
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3023.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Twin Shadows')
                             img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3152.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Will of the Ancients')

@@ -52,14 +52,14 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           tipOffset = if scope.pushed == 'items' then 0 else -175
           tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html((d) ->
             '<center><strong>' + d['name'] + '</strong></center><br/>' +
-              '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' +
-              changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) +
+              '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '% ' +
+              changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + ' from ' +
               (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' +
-              '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '%' +
-              changeIcon(d['5.14']['winner'] - d['5.11']['winner']) +
+              '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '% ' +
+              changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + ' from ' +
               (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' +
-              '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min' +
-              changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) +
+              '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min ' +
+              changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + ' from ' +
               (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min'
           )
           svg.call tip
@@ -89,6 +89,12 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
               (d / 60000).toFixed(1)
             else
               Math.round(d * 100)
+          svg.append('text').attr('transform', 'rotate(-90)').attr('y', 0 - (margin.left)).attr('x', 0 - (height / 2))
+            .attr('dy', '1em').style('text-anchor', 'middle').text (d) ->
+              if feature == 'timestamp'
+                'Average difference in minutes'
+              else
+                'Percent change'
 
           # Create the x-axis
           iconWidth = x.rangeBand()

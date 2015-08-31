@@ -1,11 +1,6 @@
 header
     h1 RitoPlz! My AP Items for
     input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='main/championTemplate.html')
-    ul.nav.navbar-nav.navbar-right
-        button.btn(ng-click='open()', ng-controller='InfoCtrl')
-            span.glyphicon.glyphicon-circle-info
-            |  Info
-
 .container-fluid
     .row
         .col-sm-3.col-md-3.col-lg-3.sidebar

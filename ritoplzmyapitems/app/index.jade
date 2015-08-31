@@ -10,6 +10,9 @@ html(lang="en")
 
   body(ng-app="ritoplzmyapitems")
     #contentWrapper
+        a.btn.btn-info.btn-lg(ng-click='open()', ng-controller='InfoCtrl')
+            span.glyphicon.glyphicon-circle-info
+            |  Info
         div(class="container" ng-view="")
     footer
       div

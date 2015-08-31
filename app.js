@@ -388,7 +388,7 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
             };
             tipOffset = scope.pushed === 'items' ? 0 : -175;
             tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html(function(d) {
-              return '<center><strong>' + d['name'] + '</strong></center><br/>' + '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min' + changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min';
+              return '<center><strong>' + d['name'] + '</strong></center><br/>' + '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '% ' + changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + ' from ' + (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '% ' + changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + ' from ' + (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min ' + changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + ' from ' + (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min';
             });
             svg.call(tip);
             svg.selectAll('*').remove();
@@ -425,6 +425,13 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
                 return (d / 60000).toFixed(1);
               } else {
                 return Math.round(d * 100);
+              }
+            });
+            svg.append('text').attr('transform', 'rotate(-90)').attr('y', 0 - margin.left).attr('x', 0 - (height / 2)).attr('dy', '1em').style('text-anchor', 'middle').text(function(d) {
+              if (feature === 'timestamp') {
+                return 'Average difference in minutes';
+              } else {
+                return 'Percent change';
               }
             });
             iconWidth = x.rangeBand();
@@ -536,6 +543,57 @@ angular.module('ritoplzmyapitems').controller('ShowcaseCtrl', [
           winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_winner'] - $scope.showcase[newVal.id]['5.11']['fiendish_winner']) * 10000) / 100.0,
           timestamp: Math.round($scope.showcase[newVal.id]['5.14']['fiendish_timestamp']),
           timestampDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_timestamp'] - $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) * 10000 / $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) / 100.0
+        };
+      } else {
+        $scope.nashor = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['nashor_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['nashor_pickRate'] - $scope.showcase['summary']['5.11']['nashor_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['nashor_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['nashor_winner'] - $scope.showcase['summary']['5.11']['nashor_winner']) * 10000) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['nashor_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['nashor_champs']
+        };
+        $scope.wota = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['wota_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['wota_pickRate'] - $scope.showcase['summary']['5.11']['wota_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['wota_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['wota_winner'] - $scope.showcase['summary']['5.11']['wota_winner']) * 10000) / 100.0,
+          heal: Math.round($scope.showcase['summary']['5.14']['wota_totalHeal']),
+          healDiff: Math.round(($scope.showcase['summary']['5.14']['wota_totalHeal'] - $scope.showcase['summary']['5.11']['wota_totalHeal']) * 10000 / $scope.showcase['summary']['5.11']['wota_totalHeal']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['wota_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['wota_champs']
+        };
+        $scope.rylaiLiandry = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_pickRate'] - $scope.showcase['summary']['5.11']['rylaiLiandry_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_winner'] - $scope.showcase['summary']['5.11']['rylaiLiandry_winner']) * 10000) / 100.0,
+          magicDmg: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions']),
+          magicDmgDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions'] - $scope.showcase['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) * 10000 / $scope.showcase['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) / 100.0,
+          crowdControl: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt']),
+          crowdControlDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt'] - $scope.showcase['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) * 10000 / $scope.showcase['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['rylaiLiandry_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['rylaiLiandry_champs']
+        };
+        $scope.nlr = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['nlr_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_pickRate'] - $scope.showcase['summary']['5.11']['nlr_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['nlr_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_winner'] - $scope.showcase['summary']['5.11']['nlr_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase['summary']['5.14']['nlr_timestamp']),
+          timestampDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_timestamp'] - $scope.showcase['summary']['5.11']['nlr_timestamp']) * 10000 / $scope.showcase['summary']['5.11']['nlr_timestamp']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['nlr_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['nlr_champs']
+        };
+        return $scope.fiendish = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['fiendish_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_pickRate'] - $scope.showcase['summary']['5.11']['fiendish_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['fiendish_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_winner'] - $scope.showcase['summary']['5.11']['fiendish_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase['summary']['5.14']['fiendish_timestamp']),
+          timestampDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_timestamp'] - $scope.showcase['summary']['5.11']['fiendish_timestamp']) * 10000 / $scope.showcase['summary']['5.11']['fiendish_timestamp']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['fiendish_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['fiendish_champs']
         };
       }
     }), true);
