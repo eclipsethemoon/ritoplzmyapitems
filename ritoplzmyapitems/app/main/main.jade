@@ -1,19 +1,6 @@
-script(type='text/ng-template', id='itemTemplate.html').
-    <a>
-    <img ng-src="http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/{{match.model.id}}.png" width="16">
-    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-    </a>
-script(type='text/ng-template', id='championTemplate.html').
-    <a>
-    <img ng-src="http://ddragon.leagueoflegends.com/cdn/5.16.1/img/champion/{{match.model.key}}.png" width="16">
-    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
-    </a>
-
-
-
 header
     h1 RitoPlz! My AP Items for
-    input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='championTemplate.html')
+    input.form-control(type='text', ng-model='championSelected', placeholder='Champions', typeahead='champion as champion.name for champion in champions | filter:{name:$viewValue}', typeahead-template-url='main/championTemplate.html')
     ul.nav.navbar-nav.navbar-right
         //button.btn(ng-click='open()', ng-controller="InfoCtrl") INFO
         button.btn(ng-click='open()', ng-controller='InfoCtrl')
