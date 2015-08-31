@@ -367,11 +367,25 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           return scope.render(scope.data, newVals);
         }), true);
         return scope.render = function(data, feature) {
-          var iconWidth, tip, tipOffset;
+          var changeIcon, changeTimeIcon, iconWidth, tip, tipOffset;
           if (data.length) {
+            changeIcon = function(v) {
+              if (v < 0) {
+                return '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
+              } else {
+                return '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>';
+              }
+            };
+            changeTimeIcon = function(v) {
+              if (v > 0) {
+                return '<span class="glyphicon glyphicon-triangle-top timestamp" aria-hidden="true"></span>';
+              } else {
+                return '<span class="glyphicon glyphicon-triangle-bottom timestamp" aria-hidden="true"></span>';
+              }
+            };
             tipOffset = scope.pushed === 'items' ? 0 : -350;
             tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html(function(d) {
-              return '<strong>' + d['name'] + '</strong>';
+              return '<center><strong>' + d['name'] + '</strong></center><br/>' + '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '%' + changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min' + changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min';
             });
             svg.call(tip);
             svg.selectAll('*').remove();

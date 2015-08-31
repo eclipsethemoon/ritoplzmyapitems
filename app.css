@@ -271,6 +271,18 @@ a {
   top: 100%;
   left: 0;
 }
+.glyphicon-triangle-top {
+  color: green;
+}
+.glyphicon-triangle-bottom {
+  color: red;
+}
+.glyphicon-triangle-top.timestamp {
+  color: red;
+}
+.glyphicon-triangle-bottom.timestamp {
+  color: green;
+}
 
 .list-group-item img {
   width: 48px;
