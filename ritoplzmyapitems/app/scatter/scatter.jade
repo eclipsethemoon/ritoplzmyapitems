@@ -1,6 +1,11 @@
-div
-    d3-scatter(data='apItems', filter='filterRadio', pushed='champFocus')
-    #chartBtnWrapper.btn-group.ng-scope.fillCenter.floatright
-        label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid.active(ng-model='filterRadio', btn-radio="'winner'") Win Rate %
-        label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid(ng-model='filterRadio', btn-radio="'pickRate'") Pick Rate %
-        label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid(ng-model='filterRadio', btn-radio="'timestamp'") Time Completed (s)
+.chartContainer
+    .chartBackground
+    .chartArea
+        .chartTitle
+            h2
+                b Changes in statistics after the AP item patch
+        d3-scatter(data='apItems', filter='filterRadio', pushed='champFocus')
+        .btn-group.ng-scope.fillCenter.floatright
+            label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid.active(ng-model='filterRadio', btn-radio="'winner'") Win Rate %
+            label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid(ng-model='filterRadio', btn-radio="'pickRate'") Pick Rate %
+            label.btn.btn-primary.ng-pristine.ng-untouched.ng-valid(ng-model='filterRadio', btn-radio="'timestamp'") Time Completed (min)

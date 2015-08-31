@@ -1,5 +1,7 @@
 .spotlightSection
     .spotlightWrapper
+        h1
+            b Showcase Items
         .content
             .cell
                 .title Nashor's Tooth
@@ -7,6 +9,7 @@
                     | Before the AP item change patch (5.13), there was a limited number of viable carriers for Nashor's Tooth.
                     | Is this still the case or have the changes to the item opened up more variety? Has this
                     | item found its own niche?
+                br
                 blockquote
                     | [W]hile it's always been a great pickup for auto-attacking mages, that attack speed to ability power ratio meant you had to be pretty invested in your on-hit procs to even consider the Tooth. We're hoping this change will make it a little more enticing as a niche pickup for people not... Kayle.
                     cite
@@ -19,19 +22,33 @@
                     tr
                         td Pick Rate
                         td
-                            | {{ nashor['pickDiff'] }}
+                            | {{ nashor['pickRate'] }}% (
+                            span(ng-if="nashor['pickDiff'] > 0") +
+                            | {{ nashor['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nashor['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['pickDiff'] < 0}")
-                        td from
-                        td {{ nashor['pickRate'] }}
+                            | )
                     tr
-                        td Number of wins
+                        td Win Rate
                         td
-                            | {{ nashor['winDiff'] }}
+                            | {{ nashor['winner'] }}% (
+                            span(ng-if="nashor['winDiff'] > 0") +
+                            | {{ nashor['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nashor['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['winDiff'] < 0}")
-                        td from
-                        td {{ nashor['winner'] }}
+                            | )
     .spotlightWrapper.hideMe
         .content
+            .cell
+                .title Will of the Ancients
+                p
+                    | Will of the Ancients was changed so it no longer has spell vamp, but you heal for 15% of the damage dealt,
+                    | calculated before your opponent's resistances. While this is a minor nerf to killing minions, it is a buff
+                    | against champions with ~50 MR. How do these changes balance out? Is it worth purchasing?
+                br
+                blockquote
+                    | This means you'll be spell vamping for less, but you won't need as much (high base damage, resistance penetration, etc) to get your heal ball rolling.
+                    cite
+                        | Riot in
+                        a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
             .cell
                 center
                     img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3152.png')
@@ -39,35 +56,27 @@
                     tr
                         td Pick Rate
                         td
-                            | {{ wota['pickDiff'] }}
+                            | {{ wota['pickRate'] }}% (
+                            span(ng-if="wota['pickDiff'] > 0") +
+                            | {{ wota['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['pickDiff'] < 0}")
-                        td from
-                        td {{ wota['pickRate'] }}
+                            | )
                     tr
-                        td Number of wins
+                        td Win Rate
                         td
-                            | {{ wota['winDiff'] }}
+                            | {{ wota['winner'] }}% (
+                            span(ng-if="wota['winDiff'] > 0") +
+                            | {{ wota['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['winDiff'] < 0}")
-                        td from
-                        td {{ wota['winner'] }}
+                            | )
                     tr
                         td Change in Heals
                         td
-                            | {{ wota['healDiff'] }}
+                            | {{ wota['heal'] }}% (
+                            span(ng-if="wota['healDiff'] > 0") +
+                            | {{ wota['healDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['healDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['healDiff'] < 0}")
-                        td from
-                        td {{ wota['heal'] }}
-            .cell
-                .title Will of the Ancients
-                p
-                    | Will of the Ancients was changed so it no longer has spell vamp, but you heal for 15% of the damage dealt,
-                    | calculated before your opponent's resistances. While this is a minor nerf to killing minions, it is a buff
-                    | against champions with ~50 MR. How do these changes balance out? Is it worth purchasing?
-                blockquote
-                    | This means you'll be spell vamping for less, but you won't need as much (high base damage, resistance penetration, etc) to get your heal ball rolling.
-                    cite
-                        | Riot in
-                        a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
+                            | )
     .spotlightWrapper.hideMe
         .content
             .cell
@@ -75,6 +84,15 @@
                 p
                     | Rylai's: the new permaslow.
                     | The synergy is real here... or is it only for Kog'maw?
+                br
+                blockquote
+                    p
+                        | With just the Liandry's under a champion's belt, any damage-over-time effects deal their normal damage plus 2% of a target's current health per second. But when that target is under a movement-impairing effect, that damage is doubled. Can you guess what grants all area of effect spells the ability to impair movement? That's right, Rylai's Crystal Scepter.
+                    p
+                        | The combination of the two is downright brutal on just about any mage with big AOE spells that happen to apply a DoT.
+                    cite
+                        | Taylor "Riot RoboTayCo" Cocke in
+                        a(href='http://na.lolesports.com/articles/magical-ap-item-changes-unicorns-love') The Magical AP Item Changes with the Unicorns of Love
             .cell
                 center
                     img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3116.png')
@@ -83,39 +101,49 @@
                     tr
                         td Pick Rate
                         td
-                            | {{ wota['pickDiff'] }}
-                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['pickDiff'] < 0}")
-                        td from
-                        td {{ wota['pickRate'] }}
+                            | {{ rylaiLiandry['pickRate'] }}% (
+                            span(ng-if="rylaiLiandry['pickDiff'] > 0") +
+                            | {{ rylaiLiandry['pickDiff'] }}%
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['pickDiff'] < 0}")
+                            | )
                     tr
-                        td Number of wins
+                        td Win Rate
                         td
-                            | {{ wota['winDiff'] }}
-                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['winDiff'] < 0}")
-                        td from
-                        td {{ wota['winner'] }}
+                            | {{ rylaiLiandry['winner'] }}% (
+                            span(ng-if="rylaiLiandry['winDiff'] > 0") +
+                            | {{ rylaiLiandry['winDiff'] }}%
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['winDiff'] < 0}")
+                            | )
                     tr
                         td Change in Damage
                         td
-                            | {{ wota['magicDmgDiff'] }}
-                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['magicDmgDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['magicDmgDiff'] < 0}")
-                        td from
-                        td {{ wota['magicDmg'] }}
+                            | {{ rylaiLiandry['magicDmg'] }}% (
+                            span(ng-if="rylaiLiandry['magicDmgDiff'] > 0") +
+                            | {{ rylaiLiandry['magicDmgDiff'] }}%
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['magicDmgDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['magicDmgDiff'] < 0}")
+                            | )
                     tr
                         td Change in Crowd Control
                         td
-                            | {{ wota['crowdControlDiff'] }}
-                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['crowdControlDiff'] < 0}")
-                        td from
-                        td {{ wota['crowdControl'] }}
+                            | {{ rylaiLiandry['crowdControl'] }}% (
+                            span(ng-if="rylaiLiandry['crowdControlDiff'] > 0") +
+                            | {{ rylaiLiandry['crowdControlDiff'] }}%
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': rylaiLiandry['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': rylaiLiandry['crowdControlDiff'] < 0}")
+                            | )
     .spotlightWrapper.hideMe
-        .content
-            .cell
+        .content(style='z-index: 700')
+            .cell(style='padding-right: 0px')
                 .title NLR vs. Fiendish Codex
                 p
                     | 5.13 reduced the cost and effectiveness of the Needlessly Large Rod (NLR). Now, a set of the Codex + Book are comparable to the NLR.
-            .cell
-                table.table.table-bordered
+                br
+                blockquote(style='position: relative; left: -20px')
+                    | Super high level challenge: right now, AP mages bring a mix of damage and utility in their kits, but standard item builds have pretty much centered on more damage instead of getting more utility or reacting to the situation... Ultimately we want to offer more choices for more mages throughout the game, and we're doing this by bringing a little parity to the ability power board.
+                    cite
+                        | Riot in
+                        a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
+            .cell(style='padding-left:20px')
+                table
                     th
                     th
                         img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1058.png')
@@ -140,22 +168,26 @@
                         td
                             b Pick Rate
                         td
-                            | {{ nlr['pickRate'] }} ({{ nlr['pickDiff'] }}
+                            | {{ nlr['pickRate'] }}% ({{ nlr['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['pickDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['pickRate'] }} ({{ fiendish['pickDiff'] }}
+                            | {{ fiendish['pickRate'] }}% (
+                            span(ng-if="fiendish['pickDiff'] > 0") +
+                            | {{ fiendish['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['pickDiff'] < 0}")
                             |                                         )
                     tr
                         td
                             b Wins
                         td
-                            | {{ nlr['winner'] }} ({{ nlr['winDiff'] }}
+                            | {{ nlr['winner'] }}% (
+                            span(ng-if="fiendish['winDiff'] > 0") +
+                            | {{ nlr['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['winDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['winner'] }} ({{ fiendish['winDiff'] }}
+                            | {{ fiendish['winner'] }}% ({{ fiendish['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['winDiff'] < 0}")
                             |                                         )
                     tr

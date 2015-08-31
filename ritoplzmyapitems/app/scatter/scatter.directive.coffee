@@ -6,12 +6,12 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       filter: '='
       pushed: '='
     link: (scope, element) ->
-      margin = {top: 10, right: 10, bottom: 10, left: 50}
-      width = element[0].parentElement.clientWidth - margin.left - margin.right
+      margin = {top: 10, right: 0, bottom: 10, left: 50}
+      width = 960 - margin.left - margin.right
       height = 400 - margin.top - margin.bottom
 
       x = d3.scale.ordinal().rangeRoundBands([0, width - 30], .3)
-      y = d3.scale.linear().range([height, 0])
+      y = d3.scale.linear().range([0, height])
       xAxis = d3.svg.axis().scale(x)
       yAxis = d3.svg.axis().scale(y).orient('left')
 
@@ -38,7 +38,8 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
       scope.render = (data, feature) ->
         if data.length
           changeIcon = (v) ->
-            if v < 0
+            console.log v
+            if v > 0
               '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>'
             else
               '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>'
@@ -49,7 +50,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
             else
               '<span class="glyphicon glyphicon-triangle-bottom timestamp" aria-hidden="true"></span>'
 
-          tipOffset = if scope.pushed == 'items' then 0 else -350
+          tipOffset = if scope.pushed == 'items' then 0 else -175
           tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html((d) ->
             '<center><strong>' + d['name'] + '</strong></center><br/>' +
               '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '%' +
@@ -66,15 +67,18 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
 
           svg.selectAll('*').remove()  # remove all previous items before render
           x.domain data.map((d) -> d['id'])
-          y.domain(d3.extent(data, (d) -> d['5.14'][feature] - d['5.11'][feature]))
+          y.domain(d3.extent(data, (d) -> d['5.11'][feature] - d['5.14'][feature]))
 
           # Create the bars
           svg.selectAll('.bar').data(data).enter().append('rect').attr('class', (d) ->
-            if (d['5.14'][feature] - d['5.11'][feature]) < 0 then 'bar negative' else 'bar positive'
+            if feature == 'timestamp'
+              if (d['5.14'][feature] - d['5.11'][feature]) > 0 then 'bar negative' else 'bar positive'
+            else
+              if (d['5.14'][feature] - d['5.11'][feature]) < 0 then 'bar negative' else 'bar positive'
           ).attr('x', (d) ->
             x d['id']
           ).attr('y', (d) ->
-            y Math.max(0, (d['5.14'][feature] - d['5.11'][feature]))
+            y Math.min(0, (d['5.11'][feature] - d['5.14'][feature]))
           ).attr('height', (d) ->
             Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0))
           ).attr('width', x.rangeBand()).on('mouseover', tip.show).on('mouseout', tip.hide)
@@ -83,7 +87,7 @@ angular.module('ritoplzmyapitems').directive 'd3Scatter', [
           svg.append('g').attr('class', 'yAxis').call yAxis
           svg.select('.yAxis').selectAll('text').text (d) ->
             if feature == 'timestamp'
-              (d / 1000).toFixed(2)
+              (d / 60000).toFixed(1)
             else
               Math.round(d * 100)
 
