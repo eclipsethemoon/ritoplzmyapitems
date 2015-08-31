@@ -204,3 +204,19 @@ table tr { border-top: 1px solid #ccc; }
 table tr:first-child { border-top: none; }
 table th { text-align: center; border-left: 1px solid #ccc;}
 table th:first-child { border-left: none }
+
+
+#bottomCornerPicture {
+  position: absolute; 
+  bottom: 201px; 
+  right: 0;
+  z-index: 600;
+  transition: all 2s ease 0s;
+}
+
+@media only screen and (max-width: 1800px) {
+  #bottomCornerPicture {
+    z-index: -100;
+    opacity: 0.2;
+  }
+}
