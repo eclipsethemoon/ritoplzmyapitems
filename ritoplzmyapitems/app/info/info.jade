@@ -25,7 +25,18 @@
                 p The modeling package we used was scikit-learn. We chose this since it's a prevalent library used in the Python machine learning community. We considered PySpark, but scikit-learn has more visualization and niche functions and we weren't using a cluster to process the data (where Spark really shines). After generating the data, we fitted a KMeans model on it and ended up with 4 groups of champions as this number of groups resulted in the lowest silhouette score (<a>http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html</a>). As a sanity check, we also threw the data into T-SNE (<a>http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html</a>), a manifold visualization tool which groups data. The resulting T-SNE plot is shown below:
                 img(src='images/tsne.png', width='90%')
                 p From looking at the plot, it seems 4 clusters is possible since you could see between 3-6 clusters, depending on how tightly you couple the data points. Now that we have our groups of champions, for each group, we gather the items and sort them by the number of times the item was used in a winning match. This results in the following recommended items for each group:
-                img(src='images/tsne.png', width='90%')
+                table
+                    thead
+                        tr
+                            th(style='width: 50%') Champions
+                            th(style='width: 50%') Recommended Items (Most -> Least)
+                    tbody
+                        tr(ng-repeat='item in items')
+                            td.champions-group
+                                img(ng-repeat="champ in item['champs']", ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/champion/' + champIds[champ] + '.png' }}", height='30', width='30')
+                            td.recommended-items
+                                img(ng-repeat="i in item['items']", ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/' + i + '.png' }}", height='30', width='30')
+                p Looking at this, for the most part, the main items of Rabadon's Deathcap and Zhonya's Hourglass still hold true. However, for the last group of champions, it seems Rod of Ages and Will of the Ancients may be something worth experimenting with.
                 p Sidenote: The statement about Azir and Nashor's Tooth: It turns out that although the pick rate increased, the winrate did not.
             accordion-group(heading="Why is there a section specifically for Nashor's tooth, etc.?")
                 p When the AP items patch (5.13) came out, there seemed to be more utility to each AP items, but it was all theoretical. A lot of questions came up in the patch notes and in the forums, but four questions really stood out:
