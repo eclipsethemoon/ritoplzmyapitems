@@ -21,6 +21,9 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
       'Support': '661',
       'Tank': '662'
     };
+    $scope.toggle = function() {
+      return $scope.checked = !$scope.checked;
+    };
     return $scope.$watch('championSelected', (function(newVal, oldVal) {
       $scope.checked = false;
       if (typeof newVal === 'object') {
@@ -127,7 +130,7 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
       },
       link: function(scope, element) {
         var arc, color, height, pie, radius, svg, width;
-        width = 330;
+        width = 250;
         height = width;
         radius = width / 2;
         arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 50);
@@ -157,8 +160,8 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
             g.append('path').attr('d', arc).style('fill', function(d) {
               return color(d.data.type);
             });
-            svg.append("text").datum(data).attr("x", 0).attr("y", 0 - radius / 15).attr("class", "text-type-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
-            svg.append("text").datum(data).attr("x", 0).attr("y", 0 + radius / 15).attr("class", "text-percent-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 - radius / 15).attr("class", "text-type-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 + radius / 15).attr("class", "text-percent-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
             g.on('mouseover', function(d) {
               var circle_text;
               circle_text = Math.round(Math.abs(d.startAngle - d.endAngle) * 100 / (2 * Math.PI));
@@ -248,19 +251,6 @@ angular.module('ritoplzmyapitems').factory('championItemService', [
 angular.module('ritoplzmyapitems').controller('MainCtrl', [
   '$scope', '$http', 'championItemService', function($scope, $http, championItemService) {
     $scope.championSelected = '';
-    $scope.championNames = [];
-    championItemService.getDataFor('champions').success(function(res) {
-      var champ, _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = res.length; _i < _len; _i++) {
-        champ = res[_i];
-        _results.push($scope.championNames.push({
-          key: champ.key,
-          name: champ.name
-        }));
-      }
-      return _results;
-    });
     championItemService.getDataFor('items').success(function(res) {
       if (res.error) {
         throw new Error(res.message);

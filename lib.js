@@ -38295,17 +38295,13 @@ angular.module("pageslide-directive", [])
                                 slider.style.height = '0px';
                                 if (param.squeeze) body.style.bottom = '0px';
                                 if (param.push) {
-                                    body.style.bottom = '0px'; 
-                                    body.style.top = '0px'; 
+                                    body.style.bottom = '0px';
+                                    body.style.top = '0px';
                                 }
                                 break;
                         }
                     }
                     $scope.psOpen = false;
-
-                    if (param.keyListener) {
-                        $document.off('keydown', keyListener);
-                    }
                 }
 
                 /* Open */
@@ -38350,9 +38346,6 @@ angular.module("pageslide-directive", [])
                             if (param.cloak) content.css('display', 'block');
                         }, (param.speed * 1000));
 
-                        if (param.keyListener) {
-                            $document.on('keydown', keyListener);
-                        }
                     }
                 }
 
@@ -38408,7 +38401,6 @@ angular.module("pageslide-directive", [])
         };
     }
 ]);
-
 
 /**
  * @license AngularJS v1.2.28
