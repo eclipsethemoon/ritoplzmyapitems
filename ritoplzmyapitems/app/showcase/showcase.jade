@@ -1,57 +1,185 @@
-.col-lg-3
-    .panel.panel-default
-        .panel-heading.clearfix
-            h3.panel-title.pull-left Nashor's Tooth
-        .list-group
-            .list-group-item
-                p.list-group-item-text In the past, this was how you considered this item: Are you playing Kayle? Is this still the case?
-            .list-group-item
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3115.png' }}")
-                .list-item-count Pick rate: {{ nashor['pickRate'] }}%
-                .list-item-count Win rate: {{ nashor['winner'] }}%
-.col-lg-3
-    .panel.panel-default
-        .panel-heading.clearfix
-            h3.panel-title.pull-left Will of the Ancients
-        .list-group
-            .list-group-item
-                p.list-group-item-text Minor nerf to killing minions, but buffed against champions with ~50 MR: Is spell vamp wurf?
-            .list-group-item
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3152.png' }}")
-                .list-item-count Pick rate: {{ wota['pickRate'] }}%
-                .list-item-count Win rate: {{ wota['winner'] }}%
-                .list-item-count Avg heal amount: {{ wota['heal'] }}
-.col-lg-3
-    .panel.panel-default
-        .panel-heading.clearfix
-            h3.panel-title.pull-left Rylai's and Liandry's
-        .list-group
-            .list-group-item
-                p.list-group-item-text Rylai's: the new permaslow. The synergy is real here... or is it only for Kog'maw?
-            .list-group-item
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3116.png' }}")
-                img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3151.png' }}")
-            .list-group-item
-                .list-item-count Pick rate: {{ rylaiLiandry['pickRate'] }}%
-                .list-item-count Win rate: {{ rylaiLiandry['winner'] }}%
-                .list-item-count Avg magic damage to champions: {{ rylaiLiandry['magicDmg'] }}
-                .list-item-count Avg crowd control applied:{{ (rylaiLiandry['crowdControl'] / 1000).toFixed(1) }}s
-.col-lg-3
-    .panel.panel-default
-        .panel-heading.clearfix
-            h3.panel-title.pull-left NLR vs. Fiendish Codex
-        .list-group
-            .list-group-item
-                p.list-group-item-text Codex + Book is now comparable to NLR at 1200 gold. ARE THESE CHOICES MEANINGFUL?
-            .list-group-item
-                p.col-lg-6
-                    img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/1058.png' }}")
-                    .list-item-count Pick rate: {{ nlr['pickRate'] }}%
-                    .list-item-count Win rate: {{ nlr['winner'] }}%
-                    .list-item-count Avg time to complete: {{ (nlr['timestamp'] / 60000).toFixed(1) }}m
-                p.col-lg-6
-                    img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/3108.png' }}")
-                    img(ng-src="{{ 'http://ddragon.leagueoflegends.com/cdn/5.16.1/img/item/1052.png' }}")
-                    .list-item-count Pick rate: {{ fiendish['pickRate'] }}%
-                    .list-item-count Win rate: {{ fiendish['winner'] }}%
-                    .list-item-count Avg time to complete: {{ (fiendish['timestamp'] / 60000).toFixed(1) }}m
+.spotlightSection
+    .spotlightWrapper
+        .content
+            .cell
+                .title Nashor's Tooth
+                p
+                    | Before the AP item change patch (5.13), there was a limited number of viable carriers for Nashor's Tooth.
+                    | Is this still the case or have the changes to the item opened up more variety? Has this
+                    | item found its own niche?
+                blockquote
+                    | [W]hile it's always been a great pickup for auto-attacking mages, that attack speed to ability power ratio meant you had to be pretty invested in your on-hit procs to even consider the Tooth. We're hoping this change will make it a little more enticing as a niche pickup for people not... Kayle.
+                    cite
+                        | Riot in
+                        a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
+            .cell
+                center
+                    img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3115.png')
+                table.table.table-condensed
+                    tr
+                        td Pick Rate
+                        td
+                            | {{ nashor['pickDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': nashor['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['pickDiff'] < 0}")
+                        td from
+                        td {{ nashor['pickRate'] }}
+                    tr
+                        td Number of wins
+                        td
+                            | {{ nashor['winDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': nashor['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nashor['winDiff'] < 0}")
+                        td from
+                        td {{ nashor['winner'] }}
+    .spotlightWrapper.hideMe
+        .content
+            .cell
+                center
+                    img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3152.png')
+                table.table.table-condensed
+                    tr
+                        td Pick Rate
+                        td
+                            | {{ wota['pickDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['pickDiff'] < 0}")
+                        td from
+                        td {{ wota['pickRate'] }}
+                    tr
+                        td Number of wins
+                        td
+                            | {{ wota['winDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['winDiff'] < 0}")
+                        td from
+                        td {{ wota['winner'] }}
+                    tr
+                        td Change in Heals
+                        td
+                            | {{ wota['healDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['healDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['healDiff'] < 0}")
+                        td from
+                        td {{ wota['heal'] }}
+            .cell
+                .title Will of the Ancients
+                p
+                    | Will of the Ancients was changed so it no longer has spell vamp, but you heal for 15% of the damage dealt,
+                    | calculated before your opponent's resistances. While this is a minor nerf to killing minions, it is a buff
+                    | against champions with ~50 MR. How do these changes balance out? Is it worth purchasing?
+                blockquote
+                    | This means you'll be spell vamping for less, but you won't need as much (high base damage, resistance penetration, etc) to get your heal ball rolling.
+                    cite
+                        | Riot in
+                        a(href='http://na.leagueoflegends.com/en/news/game-updates/patch/patch-513-notes') Patch 5.13 Notes
+    .spotlightWrapper.hideMe
+        .content
+            .cell
+                .title Rylai's and Liandry's
+                p
+                    | Rylai's: the new permaslow.
+                    | The synergy is real here... or is it only for Kog'maw?
+            .cell
+                center
+                    img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3116.png')
+                    img(src='http://ddragon.leagueoflegends.com/cdn/5.2.1/img/item/3151.png')
+                table.table.table-condensed
+                    tr
+                        td Pick Rate
+                        td
+                            | {{ wota['pickDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['pickDiff'] < 0}")
+                        td from
+                        td {{ wota['pickRate'] }}
+                    tr
+                        td Number of wins
+                        td
+                            | {{ wota['winDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['winDiff'] < 0}")
+                        td from
+                        td {{ wota['winner'] }}
+                    tr
+                        td Change in Damage
+                        td
+                            | {{ wota['magicDmgDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['magicDmgDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['magicDmgDiff'] < 0}")
+                        td from
+                        td {{ wota['magicDmg'] }}
+                    tr
+                        td Change in Crowd Control
+                        td
+                            | {{ wota['crowdControlDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': wota['crowdControlDiff'] > 0, 'glyphicon glyphicon-menu-down red': wota['crowdControlDiff'] < 0}")
+                        td from
+                        td {{ wota['crowdControl'] }}
+    .spotlightWrapper.hideMe
+        .content
+            .cell
+                .title NLR vs. Fiendish Codex
+                p
+                    | 5.13 reduced the cost and effectiveness of the Needlessly Large Rod (NLR). Now, a set of the Codex + Book are comparable to the NLR.
+            .cell
+                table.table.table-bordered
+                    th
+                    th
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1058.png')
+                    th
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3108.png')
+                        |  +
+                        img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/1052.png')
+                    tr
+                        td
+                            b Cost
+                        td 1250
+                        td 1255 (820 + 435)
+                    tr
+                        td
+                            b Stats
+                        td +60 ability power
+                        td
+                            | +50 ability power
+                            br
+                            | +10% cooldown reduction
+                    tr
+                        td
+                            b Pick Rate
+                        td
+                            | {{ nlr['pickRate'] }} ({{ nlr['pickDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['pickDiff'] < 0}")
+                            |                                         )
+                        td
+                            | {{ fiendish['pickRate'] }} ({{ fiendish['pickDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['pickDiff'] < 0}")
+                            |                                         )
+                    tr
+                        td
+                            b Wins
+                        td
+                            | {{ nlr['winner'] }} ({{ nlr['winDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['winDiff'] < 0}")
+                            |                                         )
+                        td
+                            | {{ fiendish['winner'] }} ({{ fiendish['winDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['winDiff'] < 0}")
+                            |                                         )
+                    tr
+                        td
+                            b Acquisition Time
+                        td
+                            | {{ nlr['timestamp'] }} ({{ nlr['timestampDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['timestampDiff'] < 0}")
+                            |                                         )
+                        td
+                            | {{ fiendish['timestamp'] }} ({{ fiendish['timestampDiff'] }}
+                            i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['timestampDiff'] < 0}")
+                            |                                         )
+                    tr
+                        td
+                            b Builds Into
+                        td
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3003.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Archangel's Staff")
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3089.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Rabadon's Deathcap")
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3116.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Rylai's Crystal Scepter")
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3157.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Zhonya's Hourglass")
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3285.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Luden's Echo")
+                        td
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3174.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title="Athene's Unholy Grail")
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3165.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Morellonomicon')
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3023.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Twin Shadows')
+                            img(src='http://ddragon.leagueoflegends.com/cdn/5.7.1/img/item/3152.png', height='40', width='40', data-toggle='tooltip', data-placement='top', title='Will of the Ancients')
