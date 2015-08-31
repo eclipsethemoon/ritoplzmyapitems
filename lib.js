@@ -38223,7 +38223,6 @@ angular.module("pageslide-directive", [])
                 slider.style.position = param.container !== false ? 'absolute' : 'fixed';
                 slider.style.width = 0;
                 slider.style.height = 0;
-                slider.style.overflow = 'hidden';
                 slider.style.transitionDuration = param.speed + 's';
                 slider.style.webkitTransitionDuration = param.speed + 's';
                 slider.style.transitionProperty = 'width, height';

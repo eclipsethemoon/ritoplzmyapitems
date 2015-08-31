@@ -169,7 +169,9 @@
                         td
                             b Pick Rate
                         td
-                            | {{ nlr['pickRate'] }}% <br/>({{ nlr['pickDiff'] }}%
+                            | {{ nlr['pickRate'] }}% <br/>(
+                            span(ng-if="nlr['pickRate'] > 0") +
+                            | {{ nlr['pickDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['pickDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['pickDiff'] < 0}")
                             |                                         )
                         td
@@ -183,23 +185,29 @@
                             b Wins
                         td
                             | {{ nlr['winner'] }}% <br/>(
-                            span(ng-if="fiendish['winDiff'] > 0") +
+                            span(ng-if="nlr['winDiff'] > 0") +
                             | {{ nlr['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['winDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['winner'] }}% <br/>({{ fiendish['winDiff'] }}%
+                            | {{ fiendish['winner'] }}% <br/>(
+                            span(ng-if="fiendish['winDiff'] > 0") +
+                            | {{ fiendish['winDiff'] }}%
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['winDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['winDiff'] < 0}")
                             |                                         )
                     tr
                         td
                             b Acquisition<br/>Time
                         td
-                            | {{ nlr['timestamp'] }} ms <br/>({{ nlr['timestampDiff'] }}
+                            | {{ nlr['timestamp'] }} ms <br/>(
+                            span(ng-if="nlr['timestampDiff'] > 0") +
+                            | {{ nlr['timestampDiff'] }}
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': nlr['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': nlr['timestampDiff'] < 0}")
                             |                                         )
                         td
-                            | {{ fiendish['timestamp'] }} ms <br/>({{ fiendish['timestampDiff'] }}
+                            | {{ fiendish['timestamp'] }} ms <br/>(
+                            span(ng-if="fiendish['timestampDiff'] > 0") +
+                            | {{ fiendish['timestampDiff'] }}
                             i.glyphicon(ng-class="{'glyphicon-menu-up green': fiendish['timestampDiff'] > 0, 'glyphicon glyphicon-menu-down red': fiendish['timestampDiff'] < 0}")
                             |                                         )
                     tr
