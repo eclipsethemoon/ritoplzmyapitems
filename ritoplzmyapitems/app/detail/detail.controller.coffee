@@ -12,6 +12,9 @@ angular.module('ritoplzmyapitems').controller 'DetailCtrl', [
       'Support': '661'
       'Tank': '662'
 
+    $scope.toggle = () ->
+      $scope.checked = !$scope.checked
+
     $scope.$watch 'championSelected', ((newVal, oldVal) ->
       $scope.checked = false
       if(typeof newVal =='object')

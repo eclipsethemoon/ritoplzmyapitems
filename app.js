@@ -21,6 +21,9 @@ angular.module('ritoplzmyapitems').controller('DetailCtrl', [
       'Support': '661',
       'Tank': '662'
     };
+    $scope.toggle = function() {
+      return $scope.checked = !$scope.checked;
+    };
     return $scope.$watch('championSelected', (function(newVal, oldVal) {
       $scope.checked = false;
       if (typeof newVal === 'object') {
@@ -127,7 +130,7 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
       },
       link: function(scope, element) {
         var arc, color, height, pie, radius, svg, width;
-        width = 350;
+        width = 250;
         height = width;
         radius = width / 2;
         arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius - 50);
@@ -157,8 +160,8 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
             g.append('path').attr('d', arc).style('fill', function(d) {
               return color(d.data.type);
             });
-            svg.append("text").datum(data).attr("x", 0).attr("y", 0 - radius / 15).attr("class", "text-type-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
-            svg.append("text").datum(data).attr("x", 0).attr("y", 0 + radius / 15).attr("class", "text-percent-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "24px");
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 - radius / 15).attr("class", "text-type-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
+            svg.append("text").datum(data).attr("x", 0).attr("y", 0 + radius / 15).attr("class", "text-percent-tooltip").style("text-anchor", "middle").attr("font-weight", "bold").style("font-size", "16px");
             g.on('mouseover', function(d) {
               var circle_text;
               circle_text = Math.round(Math.abs(d.startAngle - d.endAngle) * 100 / (2 * Math.PI));
@@ -176,40 +179,64 @@ angular.module('ritoplzmyapitems').directive('d3Donut', [
   }
 ]);
 
-angular.module('ritoplzmyapitems').controller('InfoCtrl', function($scope, $modal, $log) {
-  $scope.items = ['item1', 'item2', 'item3'];
-  return $scope.open = function() {
-    var modalInstance;
-    modalInstance = $modal.open({
-      templateUrl: 'info/info.html',
-      controller: 'ModalInstanceCtrl',
-      size: 'lg',
-      resolve: {
-        items: function() {
-          return $scope.items;
-        }
+angular.module('ritoplzmyapitems').controller('InfoCtrl', [
+  '$scope', '$modal', 'championItemService', function($scope, $modal, championItemService) {
+    $scope.items = [];
+    $scope.champIds = {};
+    championItemService.getDataFor('champions').success(function(res) {
+      var champ, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = res.length; _i < _len; _i++) {
+        champ = res[_i];
+        _results.push($scope.champIds[champ.id] = champ.key);
       }
+      return _results;
     });
-    return modalInstance.result.then((function(selectedItem) {
-      return $scope.selected = selectedItem;
-    }), function() {
-      return $log.info('Modal dismissed at: ' + new Date);
+    championItemService.getDataFor('champions_recommended_items').success(function(res) {
+      $scope.items.push({
+        champs: res['1']['champs'],
+        items: res['1']['items']
+      });
+      $scope.items.push({
+        champs: res['2']['champs'],
+        items: res['2']['items']
+      });
+      $scope.items.push({
+        champs: res['4']['champs'],
+        items: res['4']['items']
+      });
+      return $scope.items.push({
+        champs: res['8']['champs'],
+        items: res['8']['items']
+      });
     });
-  };
-});
+    return $scope.open = function() {
+      return $modal.open({
+        templateUrl: 'info/info.html',
+        controller: 'ModalInstanceCtrl',
+        size: 'lg',
+        resolve: {
+          items: function() {
+            return $scope.items;
+          },
+          champions: function() {
+            return $scope.champIds;
+          }
+        }
+      });
+    };
+  }
+]);
 
-angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', function($scope, $modalInstance, items) {
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-  $scope.ok = function() {
-    return $modalInstance.close($scope.selected.item);
-  };
-  return $scope.cancel = function() {
-    return $modalInstance.dismiss('cancel');
-  };
-});
+angular.module('ritoplzmyapitems').controller('ModalInstanceCtrl', [
+  '$scope', '$modalInstance', 'items', 'champions', function($scope, $modalInstance, items, champions) {
+    $scope.items = items;
+    $scope.champIds = champions;
+    return $scope.cancel = function() {
+      return $modalInstance.dismiss('cancel');
+    };
+  }
+]);
 
 angular.module('ritoplzmyapitems').factory('championItemService', [
   '$http', function($http) {
@@ -317,14 +344,14 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
         var height, margin, svg, width, x, xAxis, y, yAxis;
         margin = {
           top: 10,
-          right: 10,
+          right: 0,
           bottom: 10,
           left: 50
         };
-        width = element[0].parentElement.clientWidth - margin.left - margin.right;
+        width = 960 - margin.left - margin.right;
         height = 400 - margin.top - margin.bottom;
         x = d3.scale.ordinal().rangeRoundBands([0, width - 30], .3);
-        y = d3.scale.linear().range([height, 0]);
+        y = d3.scale.linear().range([0, height]);
         xAxis = d3.svg.axis().scale(x);
         yAxis = d3.svg.axis().scale(y).orient('left');
         svg = d3.select(element[0]).append('svg').attr('width', width).attr('height', height).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -343,11 +370,25 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
           return scope.render(scope.data, newVals);
         }), true);
         return scope.render = function(data, feature) {
-          var iconWidth, tip, tipOffset;
+          var changeIcon, changeTimeIcon, iconWidth, tip, tipOffset;
           if (data.length) {
-            tipOffset = scope.pushed === 'items' ? 0 : -350;
+            changeIcon = function(v) {
+              if (v > 0) {
+                return '<span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>';
+              } else {
+                return '<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>';
+              }
+            };
+            changeTimeIcon = function(v) {
+              if (v > 0) {
+                return '<span class="glyphicon glyphicon-triangle-top timestamp" aria-hidden="true"></span>';
+              } else {
+                return '<span class="glyphicon glyphicon-triangle-bottom timestamp" aria-hidden="true"></span>';
+              }
+            };
+            tipOffset = scope.pushed === 'items' ? 0 : -175;
             tip = d3.tip().attr('class', 'd3-tip').offset([-10, tipOffset]).html(function(d) {
-              return '<strong>' + d['name'] + '</strong>';
+              return '<center><strong>' + d['name'] + '</strong></center><br/>' + '<strong>Pick rate: </strong>' + (d['5.14']['pickRate'] * 100).toFixed(1) + '% ' + changeIcon(d['5.14']['pickRate'] - d['5.11']['pickRate']) + ' from ' + (d['5.11']['pickRate'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Win rate: </strong>' + (d['5.14']['winner'] * 100).toFixed(1) + '% ' + changeIcon(d['5.14']['winner'] - d['5.11']['winner']) + ' from ' + (d['5.11']['winner'] * 100).toFixed(1) + '%' + '<br/>' + '<strong>Time to complete: </strong>' + (d['5.14']['timestamp'] / 60000).toFixed(1) + 'min ' + changeTimeIcon(d['5.14']['timestamp'] - d['5.11']['timestamp']) + ' from ' + (d['5.11']['timestamp'] / 60000).toFixed(1) + 'min';
             });
             svg.call(tip);
             svg.selectAll('*').remove();
@@ -355,27 +396,42 @@ angular.module('ritoplzmyapitems').directive('d3Scatter', [
               return d['id'];
             }));
             y.domain(d3.extent(data, function(d) {
-              return d['5.14'][feature] - d['5.11'][feature];
+              return d['5.11'][feature] - d['5.14'][feature];
             }));
             svg.selectAll('.bar').data(data).enter().append('rect').attr('class', function(d) {
-              if ((d['5.14'][feature] - d['5.11'][feature]) < 0) {
-                return 'bar negative';
+              if (feature === 'timestamp') {
+                if ((d['5.14'][feature] - d['5.11'][feature]) > 0) {
+                  return 'bar negative';
+                } else {
+                  return 'bar positive';
+                }
               } else {
-                return 'bar positive';
+                if ((d['5.14'][feature] - d['5.11'][feature]) < 0) {
+                  return 'bar negative';
+                } else {
+                  return 'bar positive';
+                }
               }
             }).attr('x', function(d) {
               return x(d['id']);
             }).attr('y', function(d) {
-              return y(Math.max(0, d['5.14'][feature] - d['5.11'][feature]));
+              return y(Math.min(0, d['5.11'][feature] - d['5.14'][feature]));
             }).attr('height', function(d) {
               return Math.abs(y(d['5.14'][feature] - d['5.11'][feature]) - y(0));
             }).attr('width', x.rangeBand()).on('mouseover', tip.show).on('mouseout', tip.hide);
             svg.append('g').attr('class', 'yAxis').call(yAxis);
             svg.select('.yAxis').selectAll('text').text(function(d) {
               if (feature === 'timestamp') {
-                return (d / 1000).toFixed(2);
+                return -(d / 60000).toFixed(1);
               } else {
-                return Math.round(d * 100);
+                return -Math.round(d * 100);
+              }
+            });
+            svg.append('text').attr('transform', 'rotate(-90)').attr('y', 0 - margin.left).attr('x', 0 - (height / 2)).attr('dy', '1em').style('text-anchor', 'middle').text(function(d) {
+              if (feature === 'timestamp') {
+                return 'Average difference in minutes';
+              } else {
+                return 'Percent change';
               }
             });
             iconWidth = x.rangeBand();
@@ -487,6 +543,57 @@ angular.module('ritoplzmyapitems').controller('ShowcaseCtrl', [
           winDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_winner'] - $scope.showcase[newVal.id]['5.11']['fiendish_winner']) * 10000) / 100.0,
           timestamp: Math.round($scope.showcase[newVal.id]['5.14']['fiendish_timestamp']),
           timestampDiff: Math.round(($scope.showcase[newVal.id]['5.14']['fiendish_timestamp'] - $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) * 10000 / $scope.showcase[newVal.id]['5.11']['fiendish_timestamp']) / 100.0
+        };
+      } else {
+        $scope.nashor = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['nashor_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['nashor_pickRate'] - $scope.showcase['summary']['5.11']['nashor_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['nashor_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['nashor_winner'] - $scope.showcase['summary']['5.11']['nashor_winner']) * 10000) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['nashor_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['nashor_champs']
+        };
+        $scope.wota = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['wota_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['wota_pickRate'] - $scope.showcase['summary']['5.11']['wota_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['wota_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['wota_winner'] - $scope.showcase['summary']['5.11']['wota_winner']) * 10000) / 100.0,
+          heal: Math.round($scope.showcase['summary']['5.14']['wota_totalHeal']),
+          healDiff: Math.round(($scope.showcase['summary']['5.14']['wota_totalHeal'] - $scope.showcase['summary']['5.11']['wota_totalHeal']) * 10000 / $scope.showcase['summary']['5.11']['wota_totalHeal']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['wota_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['wota_champs']
+        };
+        $scope.rylaiLiandry = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_pickRate'] - $scope.showcase['summary']['5.11']['rylaiLiandry_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_winner'] - $scope.showcase['summary']['5.11']['rylaiLiandry_winner']) * 10000) / 100.0,
+          magicDmg: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions']),
+          magicDmgDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_magicDamageDealtToChampions'] - $scope.showcase['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) * 10000 / $scope.showcase['summary']['5.11']['rylaiLiandry_magicDamageDealtToChampions']) / 100.0,
+          crowdControl: Math.round($scope.showcase['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt']),
+          crowdControlDiff: Math.round(($scope.showcase['summary']['5.14']['rylaiLiandry_totalTimeCrowdControlDealt'] - $scope.showcase['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) * 10000 / $scope.showcase['summary']['5.11']['rylaiLiandry_totalTimeCrowdControlDealt']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['rylaiLiandry_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['rylaiLiandry_champs']
+        };
+        $scope.nlr = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['nlr_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_pickRate'] - $scope.showcase['summary']['5.11']['nlr_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['nlr_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_winner'] - $scope.showcase['summary']['5.11']['nlr_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase['summary']['5.14']['nlr_timestamp']),
+          timestampDiff: Math.round(($scope.showcase['summary']['5.14']['nlr_timestamp'] - $scope.showcase['summary']['5.11']['nlr_timestamp']) * 10000 / $scope.showcase['summary']['5.11']['nlr_timestamp']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['nlr_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['nlr_champs']
+        };
+        return $scope.fiendish = {
+          pickRate: Math.round($scope.showcase['summary']['5.14']['fiendish_pickRate'] * 10000) / 100.0,
+          pickDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_pickRate'] - $scope.showcase['summary']['5.11']['fiendish_pickRate']) * 10000) / 100.0,
+          winner: Math.round($scope.showcase['summary']['5.14']['fiendish_winner'] * 10000) / 100.0,
+          winDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_winner'] - $scope.showcase['summary']['5.11']['fiendish_winner']) * 10000) / 100.0,
+          timestamp: Math.round($scope.showcase['summary']['5.14']['fiendish_timestamp']),
+          timestampDiff: Math.round(($scope.showcase['summary']['5.14']['fiendish_timestamp'] - $scope.showcase['summary']['5.11']['fiendish_timestamp']) * 10000 / $scope.showcase['summary']['5.11']['fiendish_timestamp']) / 100.0,
+          champs: $scope.showcase['summary']['5.14']['fiendish_champs'],
+          oldChamps: $scope.showcase['summary']['5.11']['fiendish_champs']
         };
       }
     }), true);

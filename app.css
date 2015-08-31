@@ -1,3 +1,56 @@
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url("fonts/glyphicons-halflings-regular.eot");
+  src: url("fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("fonts/glyphicons-halflings-regular.woff") format("woff"), url("fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
+body {
+  width: 100%;
+  position: absolute;
+  transition-duration: 0.5s;
+  transition-property: top, bottom, left, right;
+  color: #555;
+  overflow-x: hidden;
+}
+#contentWrapper {
+  border-top: solid black 5px;
+  position: relative;
+  background: url("images/trianglebanner.jpg") left top no-repeat;
+}
+.btn-lg {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  background-color: steelblue;
+}
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: #00c6ff;
+  margin-bottom: 0px;
+  padding: 50px;
+}
+footer > div {
+  max-width: 900px;
+  width: 50%;
+  margin: 0 auto;
+  color: #00c6ff;
+}
+#bottomCornerPicture {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  z-index: 600;
+  transition: all 2s ease 0s;
+}
+@media only screen and (max-width: 1800px) {
+  #bottomCornerPicture {
+    z-index: -100;
+    opacity: 0.2;
+  }
+}
 
 .championHeader {
   color: #ffffff;
@@ -25,6 +78,14 @@
 .championHeader .classes .tagsWrapper {
   display: inline-block;
 }
+.championHeader .closer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.championHeader .closer button {
+  color: white;
+}
 .championHeader .icon,
 .championHeader .content {
   vertical-align: middle;
@@ -35,6 +96,7 @@
   width: 100%;
   margin: 0;
   padding: 10px 10px 10px 10px;
+  background-color: #eee;
 }
 .categoryItem {
   display: inline-block;
@@ -46,6 +108,10 @@
 }
 .categoryItem span {
   display: block;
+}
+.championContent {
+  background-color: #ffffff;
+  overflow: auto;
 }
 .championContent h3 {
   color: #afdefa;
@@ -64,9 +130,11 @@
   height: 350px;
 }
 
-body {
-  position: absolute;
-  color: #555;
+.green {
+  color: #22C617;
+}
+.red {
+  color: #FF0000;
 }
 .fillWidth {
   width: 100%;
@@ -133,32 +201,28 @@ body {
   background: #fff;
   color: #000;
 }
-footer {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  background-color: #000;
-  color: #00c6ff;
-  margin-top: 200px;
-  margin-bottom: 0px;
-  padding: 50px;
+.header {
+  padding: 20px;
+  text-align: right;
 }
-footer > div {
-  max-width: 900px;
-  width: 50%;
-  margin: 0 auto;
-  color: #00c6ff;
+.header h1 {
+  color: #000;
+  font-size: 45px;
+  margin: 0;
 }
-#contentWrapper {
-  border-top: solid black 5px;
-  position: relative;
-  background-repeat: no-repeat;
+.header h3 {
+  color: #000;
+  font-size: 16px;
+  display: inline-block;
 }
-#header {
-  height: 0px;
-  padding-left: 950px;
-  padding-top: 50px;
-  margin: auto;
+.championSelect {
+  width: 960px;
+  height: 280px;
+  background: #fff;
+  padding: 5px 5px 5px 5px;
+}
+.championSelect .img:hover {
+  box-shadow: 0 0 10px #ccc;
 }
 .wrap {
   position: relative;
@@ -214,7 +278,36 @@ h1 {
   display: block;
 }
 a {
+  color: #0d77b6;
   cursor: pointer;
+}
+a:hover {
+  color: #00c6ff;
+}
+table {
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+}
+table td {
+  border-left: 1px solid #ccc;
+  padding: 15px;
+}
+table td:first-child {
+  border-left: none;
+}
+table tr {
+  border-top: 1px solid #ccc;
+}
+table tr:first-child {
+  border-top: none;
+}
+table th {
+  text-align: center;
+  border-left: 1px solid #ccc;
+}
+table th:first-child {
+  border-left: none;
 }
 
 .bar.positive {
@@ -228,6 +321,36 @@ a {
 }
 .bar.negative:hover {
   fill: orange;
+}
+.chartTitle {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  color: #000000;
+}
+.chartContainer {
+  width: 960px;
+  height: 520px;
+  position: relative;
+}
+.chartBackground {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #000;
+  background-color: lightgray;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.chartArea {
+  width: 100%;
+  height: 89%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 .xAxis text {
   font: 10px sans-serif;
@@ -254,6 +377,7 @@ a {
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+  z-index: 20;
 }
 .d3-tip:after {
   box-sizing: border-box;
@@ -271,9 +395,87 @@ a {
   top: 100%;
   left: 0;
 }
+.glyphicon-triangle-top {
+  color: green;
+}
+.glyphicon-triangle-bottom {
+  color: red;
+}
+.glyphicon-triangle-top.timestamp {
+  color: red;
+}
+.glyphicon-triangle-bottom.timestamp {
+  color: green;
+}
 
-.list-group-item img {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+  margin: 0.25em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+  border-left: none;
+}
+blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+blockquote cite:before {
+  content: "\2014 \2009";
+}
+a {
+  color: #0d77b6;
+  cursor: pointer;
+}
+a:hover {
+  color: #00c6ff;
+}
+h2 {
+  color: #000000;
+}
+.spotlightWrapper .content .cell {
+  display: table-cell;
+  width: 40%;
+  border-left: dotted #ccc 2px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.spotlightWrapper .content .cell:first-child {
+  border: none;
+  padding-left: 0px;
+}
+.spotlightWrapper .content img {
+  margin-bottom: 10px;
+}
+.spotlightSection {
+  border-left: dotted #ccc 2px;
+}
+.spotlightWrapper {
+  padding: 50px;
+}
+.spotlightWrapper .title {
+  font-size: 1.5em;
+  color: #00c6ff;
+}
+.spotlightWrapper .content {
+  width: 100%;
+  z-index: 10;
+}
+.spotlightWrapper .row {
+  display: table;
 }
